@@ -73,13 +73,49 @@ var static_TemplateHBS = function (templateName,container) {
 //    });
 //};
 
+
+var getPicture=function(){
+    navigator.camera.getPicture(function(){}, function(){});
+}
+
+var vibrate=function(ml){
+    navigator.notification.vibrate(ml);
+}
+
+var alert_moshavit=function(msg,title,btn){
+    navigator.notification.alert(
+        msg,
+        function(){},
+        title,
+        btn
+    );
+}
+
+
+var confirm_moshavit=function(msg,title,btns){
+    navigator.notification.confirm(
+        msg,
+        confirm_callback,
+        title,
+        btns
+    );
+}
+
+var confirm_callback=function(op){
+    alert('בחרת :' + op);
+    if (op == 1){
+        navigator.app.exitApp();
+    }
+}
+
+
 var post_api=function(api_route,data){
     var data={};
-    
+
 }
 var put_api=function(api_route,data){
     var data={};
-    
+
 }
 
 

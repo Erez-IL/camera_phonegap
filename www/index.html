@@ -1,65 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>moshavit</title>
-    <meta charset="utf-8">
-  <!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!-->
-    <link rel="stylesheet" href="css/app.css">
-    <script src="js/vendor/jquery.tablesorter.js"></script>
-    <script src="js/vendor/bootstrap-2.2.1.js"></script>
-    <script src="js/vendor/handlebars.js"></script>
-    <script src="js/vendor/jqBootstrapValidation.js"></script>
+    <head>
+        <title>moshavit</title>
+        <meta charset="utf-8">
+        <!--[if lt IE 7]>
+        <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+        <!--[if IE 7]>
+        <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+        <!--[if IE 8]>
+        <html class="no-js lt-ie9" lang="en"> <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/app.css">
+        <script src="js/vendor/jquery.tablesorter.js"></script>
+        <script src="js/vendor/bootstrap-2.2.1.js"></script>
+        <script src="js/vendor/handlebars.js"></script>
+        <script src="js/vendor/jqBootstrapValidation.js"></script>
+
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+    </head>
+    <body>
+
+    </body>
 
 
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-    <script type="text/javascript" charset="utf-8">
-
-    function getPicture(){
-        navigator.camera.getPicture(function(){}, function(){});
-    }
-    
-    function vibrate(ml){
-        navigator.notification.vibrate(ml);
-    }
-
-    function alert_moshavit(msg,title,btn){
-        navigator.notification.alert(
-          msg,
-          function(){},
-          title,
-          btn
-        );
-    }
-    
-  
-    function confirm_moshavit(msg,title,btns){
-        navigator.notification.confirm(
-          msg,
-          confirm_callback(),
-          title,
-          btns
-        );
-    }
-    
-    function confirm_callback(op){
-      if (op == 1){
-        navigator.app.exitApp();
-      }
-    }
-
-    </script>
-  </head>
-  <body>
-
-  </body>
-
-<script src="js/app.js"></script>
-</html>
 </html>
