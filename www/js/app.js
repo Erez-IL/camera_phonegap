@@ -118,7 +118,6 @@ var put_api=function(api_route,data){
 //start server on the webapp folder
 //python -m SimpleHTTPServer 8000
 $(document).ready(function () {
-    beep_it(5);
     if(CurrentSessionUser.IdUser===undefined)static_TemplateHBS("login",'body');
 
 });
