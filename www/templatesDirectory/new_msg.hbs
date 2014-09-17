@@ -1,0 +1,60 @@
+<div class="well ">
+    <!--subject-->
+    <div class="input-prepend">
+        <label for="Subject">נושא</label>
+        <input type="text" id="subject" value="" required="required" style="width: 100%;">
+    </div>
+    <!-- author.username -->
+    <div class="input-prepend">
+        <label for="email ">מחבר ההודעה</label>
+        <input type="text" id="email" value="" placeholder="email" style="width: 100%;">
+    </div>
+    <!--message-->
+    <div class="input-prepend">
+        <label for="messageText">הודעה</label>
+        <textarea type="text" name="message" id="message" placeholder="הכנס מודעה חדשה ..." required="required" style="width: 100%;"></textarea>
+    </div>
+
+    <button class="btn btn-success" onclick="set_msg(stringifyMsgJSON());">שמור</button>
+    <button class="btn btn-warning" onclick="clear_form();">נקה</button>
+</div>
+
+
+<script type="text/javascript">
+    $("#subject").focus();
+    var stringifyMsgJSON = function () {
+        return JSON.stringify({
+            CurrentSessionUser: CurrentSessionUser,
+						subject: $('#subject').val(),
+            message: $('#message').val()
+        })
+    };
+    var clear_form = function () {
+        $('#subject').val('');
+        $('#message').val('');
+        $("#subject").focus();
+    };
+
+    var set_msg = function (msg_details) {
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: set_msg_api,
+            data: msg_details,
+            success: function (data) {
+                // Do something....
+                console.log(login_details);
+                console.log(data);
+            },
+            error: function (xhr, errorType, thrownError) {
+                console.log(xhr);
+                switch (xhr.status) {
+                    case 404:
+                        alert("404");
+                    case 400:
+                        alert(xhr.responseText);
+                }
+            }
+        });
+    };
+</script>

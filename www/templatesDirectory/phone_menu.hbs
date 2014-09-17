@@ -1,0 +1,31 @@
+<div class="phone_menu">
+
+    <div class="row hidden-desktop">
+        <div class="span12">
+            <a href="#" onclick="clean_main_container();dynamic_TemplateHBS('user_profile',get_all_users+CurrentSessionUser.IdUser,'container');"><img src="img/ico/Android-userProfile-48.png"
+                                                             style="max-height: 100px; max-width: 100px;" width="90"></a>
+            <a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('users',get_all_users,'container');"> <img src="img/ico/Android-Users-48.png"
+                                                               style="max-height: 100px; max-width: 100px;"
+                                                               width="90"></a>
+            <a href="#messageBoard" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);"><img
+                    src="http://c.dryicons.com/images/icon_sets/grey_moonlight_icons/png/128x128/news.png"
+                    style="max-height: 100px; max-width: 100px;"
+                    width="90"></a>
+            <a href="#messagesBoard" onclick="clean_main_container();static_TemplateHBS('messages','container');"><img src="img/ico/Android-Messages-48.png"
+                                          style="max-height: 100px; max-width: 100px;"></a>
+            <a href="#settings">
+                <img src="http://c.dryicons.com/images/icon_sets/grey_moonlight_icons/png/128x128/settings.png"
+                     style="max-height: 100px; max-width: 100px;" width="90"></a>
+            <a href="#survey">
+                <img src="img/ico/Android-Survey-48.png" style="max-height: 100px; max-width: 100px;" width="90">
+            </a>
+            <a href="#calender">
+                <img src="img/ico/Android-Calendar-48.png" style="max-height: 100px; max-width: 100px;" width="90">
+            </a>
+            <a href="#login" class="btn login" onclick="clean_body();CurrentSessionUser={}; static_TemplateHBS('login','body');">Logout</a>
+            <a href="#newuser" class="btn newuser" onclick="clean_main_container();static_TemplateHBS('register','container');">New User</a>
+            <a href="#newmessageBoard" class="btn newMessage">NewMSG</a>
+
+        </div>
+    </div>
+</div>

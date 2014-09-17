@@ -1,0 +1,89 @@
+
+
+
+<br>
+<br>
+<br>
+
+<div class="well">
+	<a href="http://moshavit.2fh.co/" ><img src="img/logo.png" style="max-height: 150px; max-width: 150px;display: block;    margin-left: auto;    margin-right: auto;" ><br><br></a>
+    <div class="input-prepend">
+        <label for="email">דוא"ל</label>
+        <input id="email" type="email" class="email" value="" required="required" style="width: 100%;">
+    </div>
+    <div class="input-prepend">
+        <label for="password">סיסמה</label>
+        <input id="password" type="password" class="password" value="" required="required" style="width: 100%;">
+    </div>
+    <div style="text-align: center">
+        <button class="btn btn-success" onclick="login(stringifyUserJSON());">הכנס</button>
+        <button class="btn btn-warning" onclick="clear_form();">נקה</button>
+        <br><b id="invalidPassword"></b><br><br>
+
+        <button class="new_user btn btn-warning" onclick="clean_body();add_containers_to_body();static_TemplateHBS('register','container');">משתמש חדש ?</button>
+        <button class="forgetPasswordButton btn btn-warning" onclick="alert('יש לפנות למנהל המערכת לצורכי איפוס סיסמה\n בשלב עתידי יהיה טופס איפוס סיסמה');">שכחת סיסמה?</button>
+		<br>
+    </div>
+	<br>
+	<br>
+	<div style="margin-left: auto;margin-right: auto;">
+		<a href="http://moshavit.2fh.co/moshavit.apk" ><b>להורדת האפליקציה לחץ כאן</b></a>
+	</div>
+</div>
+    <h1>Camera</h1>
+    <button onclick="getPicture();">Foto</button>
+    <button onclick="vibrar();">Vibrar</button>
+    <button onclick="alertar();">Alerta</button>
+    <button onclick="confirmar();">Confirmação</button>
+<script type="text/javascript">
+    $("#email").focus();
+    var stringifyUserJSON = function () {
+        return JSON.stringify({
+            Email: $('#email').val(),
+            Password: $('#password').val()
+        })
+    };
+    var clear_form = function () {
+        $('#email').val('');
+        $('#password').val('');
+        $("#email").focus();
+    };
+
+    var login = function (login_details) {
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            url: login_api,
+            data: login_details,
+            success: function (data) {
+                // Do something....
+                if (Debug_mode) {
+                    console.log(login_details);
+                    console.log(data);
+                }
+                CurrentSessionUser = data;
+                clean_body();
+                add_containers_to_body();
+                static_TemplateHBS('desktop_menu', 'container-head');
+                static_TemplateHBS("phone_menu", 'container');
+                setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstName)},3000);
+            },
+            error: function (xhr, errorType, thrownError) {
+                if (Debug_mode) {console.log(xhr);}
+                switch (xhr.status) {
+                    case 404:
+                        alert("404");
+                        break;
+                    case 400:
+                        //                        alert(xhr.responseText);
+                        alert("שם משתמש או סיסמה לא נכונים");
+                        break;
+                }
+            }
+        });
+    };
+</script>
+
+
+

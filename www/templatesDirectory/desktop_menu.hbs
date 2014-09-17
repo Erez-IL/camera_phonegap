@@ -1,0 +1,38 @@
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div id="appNavBar" class="container">
+            <!--<a style="float: left" class="hidden-desktop" href="#" onclick="javascript:navigator.app.clearHistory();"><img-->
+            <a style="float: left" class="hidden-desktop" href="#" onclick="clean_main_container(); static_TemplateHBS('phone_menu','container');"><img
+                    src="img/logo.png"
+                    style="max-height: 48px; max-width: 48px;"></a>
+            <a style="cursor:pointer; float: right" class="hidden-desktop" onclick="javascript:navigator.app.exitApp(); "><img
+                    src="http://cdn1.iconfinder.com/data/icons/gis/quit.png" style="height: 48px; width: 48px;"></a>
+
+            <p style="text-align: center"><span id='sessionUsername'>שלום</span></p>
+
+            <div class="visible-desktop ">
+                <ul class="nav nav-tab" id="desktopMenu">
+                    <li class="active"><a href="#">ראשי</a></li>
+                    <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('user_profile',get_all_users+CurrentSessionUser.IdUser,'container');">פרופיל</a></li>
+                    <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('users',get_all_users,'container');">משתמשים</a></li>
+                    <li><a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);">הודעה חדשה</a></li>
+                    <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('messages',get_all_users,'container');">הודעות</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Survey</a></li>
+                    <li><a href="#">Calender</a></li>
+                    <li><a href="#"  onclick="clean_main_container();static_TemplateHBS('register','container');">משתמש חדש</a></li>
+                    <li><a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);">הודעה חדשה</a></li>
+                    <li><a href="#" onclick="clean_body();CurrentSessionUser={}; static_TemplateHBS('login','body');">יציאה</a></li>
+                </ul>
+                <script>
+                    $('#desktopMenu li').click(function () {
+                        $('#desktopMenu .active').removeClass('active');
+                        $(this).addClass('active');
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <br class="visible-desktop ">
+</div>
