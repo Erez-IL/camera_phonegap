@@ -29,28 +29,27 @@
         navigator.notification.vibrate(ml);
     }
 
-    function alert_moshavit(str){
+    function alert_moshavit(msg,title,btn){
         navigator.notification.alert(
-          str,
+          msg,
           function(){},
-          'כן',
-          'לא'
+          title,
+          btn
         );
     }
     
   
-    function confirm_moshavit(str){
+    function confirm_moshavit(msg,title,btns){
         navigator.notification.confirm(
-          str,
-          apos_confirmar,
-          'כן',
-          'לא'
+          msg,
+          confirm_callback(),
+          title,
+          btns
         );
     }
     
-    function apos_confirmar(botao){
-      alert('Você digitou:' + botao);
-      if (botao == 1){
+    function confirm_callback(op){
+      if (op == 1){
         navigator.app.exitApp();
       }
     }
