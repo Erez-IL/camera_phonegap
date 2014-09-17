@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-    <name>Moshavit</name>
+<widget id="com.phonegap.camera" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Camera</name>
     <description>
-        Moshavit V2014
+        Camera Example
     </description>
-    <author email="erez83@gmail.com" href="http://phonegap.com">
-        Moshavit V2014
+    <author email="support@phonegap.com" href="http://phonegap.com">
+        PhoneGap Team
     </author>
     <preference name="permissions" value="none" />
     <preference name="phonegap-version" value="3.5.0" />
