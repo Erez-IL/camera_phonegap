@@ -25,26 +25,26 @@
         navigator.camera.getPicture(function(){}, function(){});
     }
     
-    function vibrar(){
-        navigator.notification.vibrate(2000);
+    function vibrate(ml){
+        navigator.notification.vibrate(ml);
     }
 
-    function alertar(){
+    function alert_moshavit(str){
         navigator.notification.alert(
-          'Alerta',
+          str,
           function(){},
-          'Titulo',
-          'Botão'
+          'כן',
+          'לא'
         );
     }
     
   
-    function confirmar(){
+    function confirm_moshavit(str){
         navigator.notification.confirm(
-          'Você deseja realmente sair?',
+          str,
           apos_confirmar,
-          'Sair',
-          'Sim,Não'
+          'כן',
+          'לא'
         );
     }
     
