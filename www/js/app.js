@@ -81,6 +81,7 @@ var getPicture=function(){
 var vibrate=function(ml){
     navigator.notification.vibrate(ml);
 }
+var beep_it=function(times){navigator.notification.beep(times);}
 
 var alert_moshavit=function(msg,title,btn){
     navigator.notification.alert(
@@ -91,22 +92,8 @@ var alert_moshavit=function(msg,title,btn){
     );
 }
 
-
-var confirm_moshavit=function(msg,title,btns){
-    navigator.notification.confirm(
-        msg,
-        confirm_callback,
-        title,
-        btns
-    );
-}
-
-var confirm_callback=function(op){
-    alert('בחרת :' + op);
-    if (op == 1){
-        navigator.app.exitApp();
-    }
-}
+var confirm_moshavit_exit=function(msg,title,btns){navigator.notification.confirm(msg,confirm_moshavit_exit_callback,title,btns);}
+var confirm_moshavit_exit_callback=function(op){if (op == 1){navigator.app.exitApp();}}
 
 
 var post_api=function(api_route,data){
@@ -131,6 +118,7 @@ var put_api=function(api_route,data){
 //start server on the webapp folder
 //python -m SimpleHTTPServer 8000
 $(document).ready(function () {
+    beep_it(5);
     if(CurrentSessionUser.IdUser===undefined)static_TemplateHBS("login",'body');
 
 });
