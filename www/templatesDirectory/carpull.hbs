@@ -12,6 +12,7 @@
         <div class="span10">
             <span class="text-muted">{{Title}}</span></br>
             <span class="text-muted">{{Content}}</span></br>
+            <span class="text-muted">{{From}} -> {{To}}</span></br>
         </div>
         <div class="span1 dropdown-user" data-for=".{{IdMessage}}">
             <i class="icon-chevron-down text-muted"></i>
@@ -55,13 +56,21 @@
                                         <td>{{Content}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Description:</td>
-                                        <td>{{Description}}</td>
+                                        <td>To:</td>
+                                        <td>{{To}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Details:</td>
-                                        <td>{{Details}}</td>
+                                        <td>From:</td>
+                                        <td>{{From}}</td>
                                     </tr>
+                                    <tr>
+                                        <td>PickUp:</td>
+                                        <td>{{PickUp}}</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>ReturnTime:</td>
+                                        <td>{{ReturnTime}}</td>
+                                    </tr> 
                                 </tbody>
                             </table>
                         </div>
@@ -212,7 +221,7 @@
 <div class="well">
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
-            <th>No BulletinBoard found.</th>
+            <th>No CarPull found.</th>
         </thead>
         <tbody></tbody>
     </table>

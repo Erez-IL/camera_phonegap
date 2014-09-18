@@ -18,6 +18,8 @@
                     <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('users',get_all_users,'container');">משתמשים</a></li>
                     <li><a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);">הודעה חדשה</a></li>
                     <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('messages',get_all_users,'container');">הודעות</a></li>
+                    <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('babysiter',get_all_users,'container');">BabySiter</a></li>
+                    <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('carpull',get_all_users,'container');">CarPull</a></li>
                     <li><a href="#">Settings</a></li>
                     <li><a href="#">Survey</a></li>
                     <li><a href="#">Calender</a></li>
