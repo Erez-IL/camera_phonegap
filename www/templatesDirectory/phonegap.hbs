@@ -9,7 +9,7 @@
 	<input type="button" class="send-image" value="camera" />
 	<input type="button" class="send-image" value="library" />
 	<img style="width:100px;height:100px;" id="image" src="" />
-	<img style="width:100px;height:100px;" id="img" src="" />
+	
 	
 	
 <script type="text/javascript">
@@ -26,8 +26,6 @@ $(document).ready(function() {
 		function success(imageData) {
 			var url = 'http://moshavit.2fh.co/picture.php';
 			var params = {image: imageData};
-			
-			$('#img').attr('src',imageData);
 			
 			// send the data
 			$.post(url, params, function(data) {
@@ -46,5 +44,5 @@ $(document).ready(function() {
 });
 
 </script>
-	</div>
+</div>
     
