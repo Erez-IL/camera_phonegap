@@ -8,7 +8,8 @@
 	<br>
 	<input type="button" class="send-image" value="camera" />
 	<input type="button" class="send-image" value="library" />
-	<img style="width:60px;height:60px;" id="image" src="" />
+	<img style="width:100px;height:100px;" id="image" src="" />
+	<img style="width:100px;height:100px;" id="img" src="" />
 	
 	
 <script type="text/javascript">
@@ -19,23 +20,16 @@ $(document).ready(function() {
 		src = (src == 'library') ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA;
 		
 		// Aquire the image -> Phonegap API
-		navigator.camera.getPicture(success, fail, {quality: 10, sourceType: src});
+		navigator.camera.getPicture(success, fail, {quality: 10, sourceType: src, allowEdit: true, destinationType: Camera.DestinationType.DATA_URL});
 		
 		// Successfully aquired image data -> base64 encoded string of the image file
 		function success(imageData) {
 			var url = 'http://moshavit.2fh.co/picture.php';
 			var params = {image: imageData};
 			
-			$('#image').attr('src',imageData);
+			$('#img').attr('src',imageData);
 			
 			// send the data
-			$.post(url, params, function(data) {
-				
-				// Display the selected image on send complete
-				$('#image').attr('src', 'data:image/jpeg;base64,' + params['image']);
-				
-			});
-			var params = JSON.stringify(getBase64Image(imageData));
 			$.post(url, params, function(data) {
 				
 				// Display the selected image on send complete
@@ -49,16 +43,6 @@ $(document).ready(function() {
 	
 	$('.send-image').click(function () { sendImage($(this).val()); }); 
 	
-	function getBase64Image(imgElem) {
-// imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
-    var canvas = document.createElement("canvas");
-    canvas.width = imgElem.clientWidth;
-    canvas.height = imgElem.clientHeight;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(imgElem, 0, 0);
-    var dataURL = canvas.toDataURL("image/png");
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
 });
 
 </script>
