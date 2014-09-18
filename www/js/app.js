@@ -7,6 +7,7 @@
 */
 
 var CurrentSessionUser = {
+	//  "IdUser":0,
     //	"FirstName": "Erfdez",
     //	"LastName": "dsfdd",
     //	"Password": "azxsdxadc",
@@ -34,7 +35,6 @@ var add_containers_to_body = function () {
     $('body').append('<div id="container-head" ></div>');
     $('body').append('<div id="container"></div>');
 };
-
 
 var getTemplateHBS = function (templateName, callback) {
     $.get("templatesDirectory/" + templateName + ".hbs", function (data) {
@@ -136,7 +136,13 @@ var put_api=function(api_route,data){
 //python -m SimpleHTTPServer 8000
 $(document).ready(function () {
     if(CurrentSessionUser.IdUser===undefined)static_TemplateHBS("login",'body');
-
+	else{
+		clean_body();
+		add_containers_to_body();
+		static_TemplateHBS('desktop_menu', 'container-head');
+		static_TemplateHBS("phone_menu", 'container');
+		setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstName)},3000);
+	}
 });
 
 /**
