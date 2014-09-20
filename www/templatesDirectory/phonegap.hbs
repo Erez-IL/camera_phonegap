@@ -4,45 +4,45 @@
     <button class="btn btn-success" onclick="vibrate(3000);">רטט</button>       <br>
     <button class="btn btn-success" onclick="alert_moshavit('תוכן הודעה','נושא','לחצן');">התראה</button><br>
     <button class="btn btn-success" onclick="beep_it(3);">התראה</button><br>
-	<br>
-	<br>
-	<input type="button" class="send-image" value="camera" />
-	<input type="button" class="send-image" value="library" />
-	<img style="width:100px;height:100px;" id="image" src="" />
-	
-	
-	
-<script type="text/javascript">
-$(document).ready(function() {
-	function sendImage(src) {
-		
-		// Set the image source [library || camera]
-		src = (src == 'library') ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA;
-		
-		// Aquire the image -> Phonegap API
-		navigator.camera.getPicture(success, fail, {quality: 10, sourceType: src, allowEdit: true, destinationType: Camera.DestinationType.DATA_URL});
-		
-		// Successfully aquired image data -> base64 encoded string of the image file
-		function success(imageData) {
-			var url = 'http://moshavit.2fh.co/picture.php';
-			var params = {image: imageData};
-			
-			// send the data
-			$.post(url, params, function(data) {
-				
-				// Display the selected image on send complete
-				$('#image').attr('src', 'data:image/jpeg;base64,' + params['image']);
-				
-			});
-		}
-		
-		function fail(message) { alert(message); }
-	}
-	
-	$('.send-image').click(function () { sendImage($(this).val()); }); 
-	
-});
+    <br>
+    <br>
+    <input type="button" class="send-image" value="camera" />
+    <input type="button" class="send-image" value="library" />
+    <img style="width:100px;height:100px;" id="image" src="" />
 
-</script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            function sendImage(src) {
+
+                // Set the image source [library || camera]
+                src = (src == 'library') ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA;
+
+                // Aquire the image -> Phonegap API
+                navigator.camera.getPicture(success, fail, {quality: 10, sourceType: src, allowEdit: true, destinationType: Camera.DestinationType.DATA_URL});
+
+                // Successfully aquired image data -> base64 encoded string of the image file
+                function success(imageData) {
+                    var url = 'http://moshavit.2fh.co/picture.php';
+                    var params = {image: imageData};
+
+                    // send the data
+                    $.post(url, params, function(data) {
+
+                        // Display the selected image on send complete
+                        $('#image').attr('src', 'data:image/jpeg;base64,' + params['image']);
+
+                    });
+                }
+
+                function fail(message) { alert(message); }
+            }
+
+            $('.send-image').click(function () { sendImage($(this).val()); }); 
+
+        });
+
+    </script>
 </div>
     

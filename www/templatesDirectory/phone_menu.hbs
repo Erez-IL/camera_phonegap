@@ -3,19 +3,19 @@
     <div class="row hidden-desktop">
         <div class="span12">
             <a href="#" onclick="clean_main_container();dynamic_TemplateHBS('user_profile',get_all_users+CurrentSessionUser.IdUser,'container');$('#container').css({'margin-right': ''});"><img src="img/ico/Android-userProfile-48.png"
-                                                             style="max-height: 100px; max-width: 100px;" width="90"></a>
+                style="max-height: 100px; max-width: 100px;" width="90"></a>
             <a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('users',get_all_users,'container');$('#container').css({'margin-right': ''});"> <img src="img/ico/Android-Users-48.png"
-                                                               style="max-height: 100px; max-width: 100px;"
-                                                               width="90"></a>
+                style="max-height: 100px; max-width: 100px;"
+                width="90"></a>
             <a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});"><img
-                    src="http://c.dryicons.com/images/icon_sets/grey_moonlight_icons/png/128x128/news.png"
-                    style="max-height: 100px; max-width: 100px;" width="90"></a>
+                src="http://c.dryicons.com/images/icon_sets/grey_moonlight_icons/png/128x128/news.png"
+                style="max-height: 100px; max-width: 100px;" width="90"></a>
             <a href="#" onclick="clean_main_container();dynamic_TemplateHBS('messages',get_all_users+CurrentSessionUser.IdUser,'container');$('#container').css({'margin-right': ''});"><img src="img/ico/Android-Messages-48.png"
-                                          style="max-height: 100px; max-width: 100px;"></a>
+                style="max-height: 100px; max-width: 100px;"></a>
             <a href="#settings">
                 <img src="http://c.dryicons.com/images/icon_sets/grey_moonlight_icons/png/128x128/settings.png"
-                     style="max-height: 100px; max-width: 100px;" width="90"></a>
-            <a href="#survey">
+                    style="max-height: 100px; max-width: 100px;" width="90"></a>
+            <a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('survey',get_all_users,'container');$('#container').css({'margin-right': ''});">
                 <img src="img/ico/Android-Survey-48.png" style="max-height: 100px; max-width: 100px;" width="90">
             </a>
             <a href="#calender">                <img src="img/ico/Android-Calendar-48.png" style="max-height: 100px; max-width: 100px;" width="90">            </a>

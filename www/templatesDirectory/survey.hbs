@@ -2,67 +2,45 @@
 {{#if this}}
 
 {{#each this}}
-<div class="well  ">
+<div class="well ">
     <div class="row-fluid user-row">
         <div class="span10">
-            <span class="text-muted">{{Title}}</span></br>
-            <span class="text-muted">{{Content}}</span></br>
+            <span class="text-muted">נוצר ע"י : {{VadName}}</span></br>
+            <span class="text-muted">השאלה: {{Question}}</span></br>
+            <span class="text-muted">תאריך התחלה: {{StartTime}} , תאריך סיום: {{EndTime}}</span></br>
         </div>
-        <div class="span1 dropdown-user" data-for=".{{IdMessage}}">
+        <div class="span1 dropdown-user" data-for=".{{IdSurvey}}">
             <i class="icon-chevron-down text-muted"></i>
         </div>
     </div>
-    <div class="row-fluid user-infos {{IdMessage}}">
-        <div class="span10 offset1">
+    <div class="row-fluid user-infos {{IdSurvey}}">
+        <div class="">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{Title}}</h3>
+                    <h3 class="panel-title">סקר: {{Question}}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row-fluid">
-                        <div class="span6">
-                            <strong>{{Name}}</strong><br>
-                            <strong>{{Title}}</strong><br>
-                            <table class="table table-condensed table-responsive table-user-information">
-                                <tbody>
-                                    <tr>
-                                        <td>IdUser:</td>
-                                        <td>{{IdUser}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name:</td>
-                                        <td>{{Name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phone:</td>
-                                        <td>{{Phone}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>IdMessage:</td>
-                                        <td>{{IdMessage}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Title:</td>
-                                        <td>{{Title}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Content:</td>
-                                        <td>{{Content}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rate:</td>
-                                        <td>{{Rate}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>StarTime:</td>
-                                        <td>{{StarTime}}</td>
-                                    </tr> 
-                                    <tr>
-                                        <td>EndTime:</td>
-                                        <td>{{EndTime}}</td>
-                                    </tr> 
-                                </tbody>
-                            </table>
+                        <div class="">
+                            <strong>נוצר ע"י : {{VadName}}</strong><br>
+                            <strong>תאריך התחלה: {{StartTime}} , תאריך סיום: {{EndTime}}</strong><br>
+                            <h5>השאלה : {{Question}} ?</h5>
+                            <span class="pull-right"><strong>הצביעו כן : </strong>  {{Yes}}  משתמשים</span><br>
+                            <div class="progress progress-success active">{{math Yes "/" TotalVote}}%
+                                <div class="bar" style="width: {{math Yes "/" TotalVote}}%;"></div>
+                            </div>
+                            <span class="pull-right"><strong>הצביעו לא : </strong>  {{No}}  משתמשים</span><br>
+                            <div class="progress progress-danger active">{{math No "/" TotalVote }}%
+                                <div class="bar" style="width: {{math No "/" TotalVote }}%;"></div>
+                            </div>
+                            <span class="pull-right"><strong>בחרו להימנע : </strong>  {{Avoid}}  משתמשים</span><br>
+                            <div class="progress progress-warning active">{{math Avoid "/" TotalVote}}%
+                                <div class="bar" style="width: {{math Avoid "/" TotalVote}}%;"></div>
+                            </div>
+                            <span class="pull-right"><strong>סה"כ ההצבעות : </strong>  {{TotalVote}}  משתמשים</span> <br>
+                            <div class="progress progress-striped active">{{math TotalVote "t" a}}%
+                                <div class="bar" style="width: {{TotalVote}}%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

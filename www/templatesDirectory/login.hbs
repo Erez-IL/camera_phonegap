@@ -6,7 +6,7 @@
 <br>
 
 <div class="well">
-	<a href="http://moshavit.2fh.co/" ><img src="img/logo.png" style="max-height: 150px; max-width: 150px;display: block;    margin-left: auto;    margin-right: auto;" ><br><br></a>
+    <a href="http://moshavit.2fh.co/" ><img src="img/logo.png" style="max-height: 150px; max-width: 150px;display: block;    margin-left: auto;    margin-right: auto;" ><br><br></a>
     <div class="input-prepend">
         <label for="email">דוא"ל</label>
         <input id="email" type="email" class="email" value="" required="required" style="width: 100%;">
@@ -22,13 +22,13 @@
 
         <button class="new_user btn btn-warning" onclick="clean_body();add_containers_to_body();static_TemplateHBS('register','container');">משתמש חדש ?</button>
         <button class="forgetPasswordButton btn btn-warning" onclick="alert('יש לפנות למנהל המערכת לצורכי איפוס סיסמה\n בשלב עתידי יהיה טופס איפוס סיסמה');">שכחת סיסמה?</button>
-		<br>
+        <br>
     </div>
-	<br>
-	<br>
-	<div style="margin-left: auto;margin-right: auto;">
-		<a href="http://moshavit.2fh.co/moshavit.apk" ><b>להורדת האפליקציה לחץ כאן</b></a>
-	</div>
+    <br>
+    <br>
+    <div style="margin-left: auto;margin-right: auto;">
+        <a href="http://moshavit.2fh.co/moshavit.apk" ><b>להורדת האפליקציה לחץ כאן</b></a>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -59,11 +59,7 @@
                     console.log(data);
                 }
                 CurrentSessionUser = data;
-                clean_body();
-                add_containers_to_body();
-                static_TemplateHBS('desktop_menu', 'container-head');
-                static_TemplateHBS("phone_menu", 'container');
-                setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstName)},3000);
+                main_screen();
             },
             error: function (xhr, errorType, thrownError) {
                 if (Debug_mode) {console.log(xhr);}

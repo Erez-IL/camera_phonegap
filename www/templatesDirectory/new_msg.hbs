@@ -1,60 +1,118 @@
-<div class="well ">
-    <!--subject-->
+
+<div class="well " id="Form">
+
+    <input type="text" id="IdMessage" value="0" style="display:none;width: 1%;">
+    <input type="text" id="IdUser" value="1" style="display:none;width: 1%;">
+    <input type="text" id="Name" value="admin" style="display:none;width: 1%;">
+    <input type="text" id="Phone" value="0000" style="display:none;width: 1%;">
+
     <div class="input-prepend">
-        <label for="Subject">נושא</label>
-        <input type="text" id="subject" value="" required="required" style="width: 100%;">
+        <label for="Title">Title</label>
+        <input type="text" id="Title" value="" placeholder="Title" required="required">
     </div>
-    <!-- author.username -->
     <div class="input-prepend">
-        <label for="email ">מחבר ההודעה</label>
-        <input type="text" id="email" value="" placeholder="email" style="width: 100%;">
+        <label for="Description">Description</label>
+        <input type="text" id="Description" value="" placeholder="First name" required="required">
     </div>
-    <!--message-->
     <div class="input-prepend">
-        <label for="messageText">הודעה</label>
-        <textarea type="text" name="message" id="message" placeholder="הכנס מודעה חדשה ..." required="required" style="width: 100%;"></textarea>
+        <label for="Content">Content</label>
+        <input type="text" id="Content" value="" placeholder="Content" required="required">
+    </div>
+    <div class="input-prepend">
+        <label for="Details">Details</label>
+        <textarea type="text" id="Details" value="" placeholder="הכנס מודעה חדשה ..." required="required"></textarea>
     </div>
 
-    <button class="btn btn-success" onclick="set_msg(stringifyMsgJSON());">שמור</button>
-    <button class="btn btn-warning" onclick="clear_form();">נקה</button>
+    <button class="btn register btn-success" onclick="register(stringifyUserJSON());">שמור</button>
+    <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
 </div>
 
+//$.post("http://moshavit.somee.com/api/"+"login", {Email:"admin",Password:"admin"}, function(data) {});
 
 <script type="text/javascript">
-    $("#subject").focus();
-    var stringifyMsgJSON = function () {
-        return JSON.stringify({
-            CurrentSessionUser: CurrentSessionUser,
-						subject: $('#subject').val(),
-            message: $('#message').val()
-        })
+    $("#Title").focus();
+    var stringifyUserJSON = function () {
+        tjson={
+            "Description": $('#Description').val(),
+            "Content": $('#Content').val(),
+            "Title": $('#Title').val(),
+            "Phone": $('#Phone').val(),
+            "Details": $('#Details').val(),
+            "Name": $('#Name').val(),
+            "IdUser": $('#IdUser').val(),
+            "Title": $('#Title').val()
+        };
+        if($('#IdMessage').val()>0) tjson["IdMessage"]=$('#IdMessage').val();
+        return JSON.stringify(tjson)
     };
     var clear_form = function () {
-        $('#subject').val('');
-        $('#message').val('');
-        $("#subject").focus();
+        $('#Description').val('');
+        $('#Content').val('');
+        $('#Title').val('');
+        $('#Details').val('');
+
+        $("#Title").focus();
     };
 
-    var set_msg = function (msg_details) {
+    var register = function (register_details) {
+        var PP= ($('#IdMessage').val()!=0?'PUT':'POST');
         $.ajax({
-            type: 'POST',
-            contentType: 'application/json',
-            url: set_msg_api,
-            data: msg_details,
+            type: PP,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            url: "http://moshavit.somee.com/api/bulletinboard",
+            data: register_details,
             success: function (data) {
                 // Do something....
-                console.log(login_details);
-                console.log(data);
+                if (Debug_mode) {console.log(register_details);}
             },
             error: function (xhr, errorType, thrownError) {
-                console.log(xhr);
+                if (Debug_mode) {console.log(xhr);}
                 switch (xhr.status) {
                     case 404:
                         alert("404");
+                        break;
                     case 400:
                         alert(xhr.responseText);
+                        break;
+                    case 500:
+                        alert("חלק מהפרטים חסרים או לא תקינים"); 
+                        break;
+                    case 200:
+                        alert("ההודעה נוספה בהצלחה");
+                        main_screen();
+                        if (Debug_mode) {console.log(register_details);}
+                        break;
                 }
             }
         });
     };
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
