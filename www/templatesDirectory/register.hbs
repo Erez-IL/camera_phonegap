@@ -1,42 +1,46 @@
-
+<br>
 <div class="well " id="Form">
 
     <!-- E-mail -->
     <div class="input-prepend">
         <label for="email">דוא"ל</label>
-        <input type="email" id="email" value="" placeholder="Email" required="required">
+        <input type="email" id="email" value="" placeholder='הכנס דוא"ל' required="required" style="width: 100%;">
     </div>
     <!-- First Name -->
     <div class="input-prepend">
         <label for="firstName">שם פרטי</label>
-        <input type="text" id="firstName" value="" placeholder="First name" required="required">
+        <input type="text" id="firstName" value="" placeholder="הכנס שם פרטי" required="required" style="width: 100%;">
     </div>
     <!-- Last Name -->
     <div class="input-prepend">
         <label for="lastName">שם משפחה</label>
-        <input type="text" id="lastName" value="" placeholder="Last name" required="required">
+        <input type="text" id="lastName" value="" placeholder="הכנס שם משפחה" required="required" style="width: 100%;">
     </div>
     <!-- Address -->
     <div class="input-prepend">
         <label for="Address">כתובת</label>
-        <input type="text" id="address" value="" placeholder="Address" required="required">
+        <input type="text" id="address" value="" placeholder="הכנס כתובת" required="required" style="width: 100%;">
     </div>
     <!-- Phone -->
     <div class="input-prepend">
         <label for="Phone">טלפון</label>
-        <input type="text" id="phone" value="" placeholder="Phone" required="required">
+        <input type="text" id="phone" value="" placeholder="הכנס טלפון" required="required" style="width: 100%;">
     </div>
 
     <div class="input-prepend">
         <label for="password">סיסמה</label>
-        <input id="password" type="password" class="password" value="" required="required">
+        <input id="password" type="password" class="password" placeholder="הכנס סיסמה" value="" required="required"  style="width: 100%;">
     </div>
-    <div class="input-prepend">
+<!--    <div class="input-prepend">
         <label for="passwordConfirm">סיסמה שנית</label>
         <input id="passwordConfirm" type="password" class="passwordConfirm" value="" required="required">
-    </div>
-    <button class="btn register btn-success" onclick="register(stringifyUserJSON());">שמור</button>
-    <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
+    </div> -->
+    
+    <br>
+    <br>
+    <button class="btn-large btn-block register btn-success" onclick="register(stringifyUserJSON());">שמור</button>
+    <br>
+    <button class="btn-large btn-block clear btn-warning" onclick="clear_form();""><i class="icon-remove icon-white"></i>נקה</button>
 </div>
 
 <script type="text/javascript">

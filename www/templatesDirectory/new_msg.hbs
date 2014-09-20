@@ -7,23 +7,24 @@
     <input type="text" id="Phone" value="0000" style="display:none;width: 1%;">
 
     <div class="input-prepend">
-        <label for="Title">Title</label>
-        <input type="text" id="Title" value="" placeholder="Title" required="required">
+        <label for="Title">נושא</label>
+        <input type="text" id="Title" value="" placeholder="הכנס נושא" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend">
-        <label for="Description">Description</label>
-        <input type="text" id="Description" value="" placeholder="First name" required="required">
+        <label for="Description">תאור</label>
+        <input type="text" id="Description" value="" placeholder="הכנס תאור" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend">
-        <label for="Content">Content</label>
-        <input type="text" id="Content" value="" placeholder="Content" required="required">
+        <label for="Content">תוכן</label>
+        <input type="text" id="Content" value="" placeholder="הכנס תוכן" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend">
-        <label for="Details">Details</label>
-        <textarea type="text" id="Details" value="" placeholder="הכנס מודעה חדשה ..." required="required"></textarea>
+        <label for="Details">פרטים</label>
+        <textarea type="text" id="Details" value="" placeholder="הכנס פרטיי מודעה חדשה ..." required="required" style="width: 100%;height: 150px;"></textarea>
     </div>
 
-    <button class="btn register btn-success" onclick="register(stringifyUserJSON());">שמור</button>
+    <button class="btn-large btn-block register btn-success" onclick="register(stringifyUserJSON());">שמור</button>
+    <br>
     <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
 </div>
 

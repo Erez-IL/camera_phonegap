@@ -5,30 +5,28 @@
     <div class="row-fluid user-row">
         <div class="span1">
             <img class="img-circle"
-                src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
-                alt="User Pic">
+                src="/img/ico/user.png"
+                alt="User Pic" style="width:100px;height: 100px;">
         </div>
         <div class="span10">
             <strong>שם: {{FirstName}} {{LastName}}</strong><br>
-            <span class="text-muted">דוא"ל: {{Email}}</span>
-        </div>
-        <div class="span1 dropdown-user" data-for=".{{IdUser}}">
-            <i class="icon-chevron-down text-muted"></i>
+            <span class="text-muted">דוא"ל: {{Email}}</span> <br>
+            <span class="text-muted">טלפון: {{Phone}}</span>
+
+            <div class="span1 dropdown-user" data-for=".{{IdUser}}">   
+                <i class="icon-chevron-down text-muted"></i>
+            </div>
         </div>
     </div>
     <div class="row-fluid user-infos {{IdUser}}">
         <div class="span10 offset1">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">פרטיי משתמש</h3>
+                    <h5 class="panel-title">פרטיי משתמש</h5>
                 </div>
                 <div class="panel-body">
                     <div class="row-fluid">
-                        <div class="span3">
-                            <img class="img-circle"
-                                src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100"
-                                alt="User Pic">
-                        </div>
+
                         <div class="span6">
                             <strong>{{FirstName}} {{LastName}}</strong><br>
                             <table class="table table-condensed table-responsive table-user-information">
@@ -48,7 +46,7 @@
                                     </tr>
                                     <tr>
                                         <td>התחלת שימוש:</td>
-                                        <td>{{StartTime}}</td>
+                                        <td>{{fixDate StartTime}}</td>
                                     </tr>
                                     <tr>
                                         <td>כתובת</td>
@@ -67,14 +65,13 @@
                     <button class="btn  btn-primary" type="button"
                         data-toggle="tooltip"
                         data-original-title="Send message to user"><i class="icon-envelope icon-white"></i></button>
-                    <span class="pull-right">
+                   
                         <button class="btn btn-warning" type="button"
                             data-toggle="tooltip"
                             data-original-title="Edit this user"><i class="icon-edit icon-white"></i></button>
                         <button class="btn btn-danger" type="button"
                             data-toggle="tooltip"
                             data-original-title="Remove this user"><i class="icon-remove icon-white"></i></button>
-                    </span>
                 </div>
             </div>
         </div>

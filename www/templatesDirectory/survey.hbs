@@ -7,7 +7,7 @@
         <div class="span10">
             <span class="text-muted">נוצר ע"י : {{VadName}}</span></br>
             <span class="text-muted">השאלה: {{Question}}</span></br>
-            <span class="text-muted">תאריך התחלה: {{StartTime}} , תאריך סיום: {{EndTime}}</span></br>
+            <span class="text-muted">תאריך התחלה: {{fixDate StartTime}} , תאריך סיום: {{fixDate EndTime}}</span></br>
         </div>
         <div class="span1 dropdown-user" data-for=".{{IdSurvey}}">
             <i class="icon-chevron-down text-muted"></i>
@@ -23,7 +23,7 @@
                     <div class="row-fluid">
                         <div class="">
                             <strong>נוצר ע"י : {{VadName}}</strong><br>
-                            <strong>תאריך התחלה: {{StartTime}} , תאריך סיום: {{EndTime}}</strong><br>
+                            <strong>תאריך התחלה: {{fixDate StartTime}} , תאריך סיום: {{fixDate EndTime}}</strong><br>
                             <h5>השאלה : {{Question}} ?</h5>
                             <span class="pull-right"><strong>הצביעו כן : </strong>  {{Yes}}  משתמשים</span><br>
                             <div class="progress progress-success active">{{math Yes "/" TotalVote}}%
