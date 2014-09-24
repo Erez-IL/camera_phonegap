@@ -30,13 +30,13 @@
 
 <div class="sidebar-nav col visible-desktop style="display: block;width:8em;">
 <div class="well col-md-3" style="width:10em; padding: 8px 0; position:fixed;">
-    <ul class="nav nav-pills nav-stacked"> 
+    <ul class="nav nav-pills nav-stacked" id="desktopMenu"> 
         <li class="active"><a href="#">ראשי</a></li>
         <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('user_profile',get_all_users+CurrentSessionUser.IdUser,'container');$('#container').css({'margin-right': '11em'});">פרופיל</a></li>
         <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('users',get_all_users,'container');$('#container').css({'margin-right': '11em'});">משתמשים</a></li>
         <li><a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</a></li>
         <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('messages',get_all_users,'container');$('#container').css({'margin-right': '11em'});">הודעות</a></li>
-        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('babysiter',get_all_users,'container');$('#container').css({'margin-right': '11em'});">BabySiter</a></li>
+        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('babysitter',get_all_users,'container');$('#container').css({'margin-right': '11em'});">BabySitter</a></li>
         <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('carpull',get_all_users,'container');$('#container').css({'margin-right': '11em'});">CarPull</a></li>
         <li><a href="#">Settings</a></li>
         <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('survey',get_all_users,'container');$('#container').css({'margin-right': '11em'});">Survey</a></li>

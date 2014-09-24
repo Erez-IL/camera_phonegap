@@ -7,14 +7,14 @@
 */
 
 var CurrentSessionUser = {
-    "IdUser":0,
-    "FirstName": "Admin",
-    "LastName": "None",
-    "Password": "azxsdxadc",
-    "Email": "mail@gmail.com",
-    "Address": "בני אפריים 222 , תל אביב",
-    "StartTime": "30/08/2014T15:55:12",
-    "Phone": "051-2345678"
+//    "IdUser":0,
+//    "FirstName": "Admin",
+//    "LastName": "None",
+//    "Password": "azxsdxadc",
+//    "Email": "mail@gmail.com",
+//    "Address": "בני אפריים 222 , תל אביב",
+//    "StartTime": "30/08/2014T15:55:12",
+//    "Phone": "051-2345678"
 };
 var Debug_mode = true;
 //var base_url = "https://api.github.com/users/erez-il/repos";
@@ -25,15 +25,17 @@ var get_all_msg = "http://moshavit.somee.com/api/msgs/";
 var get_all_users = "http://moshavit.somee.com/api/user/";
 
 var loading_it = function(op){
+    if($('#container-head1').val()===undefined){
+        $('body').append('<div id="container-head1" style="display: none;" ><div class="contener_box" style="position: relative;margin-left: auto;margin-right: auto; " id="loadin_it">    <div class="box">      <i></i>    </div></div></div>');
+    }
     //op = show || hide
     switch (op) {
         case "show":
-            $('#container-head1').append('<div class="contener_box" style="position: relative;    margin-left: auto;    margin-right: auto;" id="loadin_it">	<div class="box">	  <i></i>	</div></div>');
+            $('#container-head1').css("display", "block");
             break;
         case "hide":
-            $("#loadin_it").remove();
+            $('#container-head1').css("display", "none");
             break;
-
     }
 };
 
@@ -46,7 +48,7 @@ var clean_body = function () {
 
 var add_containers_to_body = function () {
     $('body').append('<div id="container-head"  ></div>');
-    $('body').append('<div id="container-head1"  ></div>');
+    $('body').append('<div id="container-head1" style="display: none;" ><div class="contener_box" style="position: relative;margin-left: auto;margin-right: auto; " id="loadin_it">    <div class="box">      <i></i>    </div></div></div>');
     $('body').append('<div id="container"></div>');
 };
 
@@ -59,16 +61,16 @@ var main_screen = function(){
 };
 
 var getTemplateHBS = function (templateName, callback) {
-    loading_it("show");
     $.get("templatesDirectory/" + templateName + ".hbs", function (data) {
         var template = Handlebars.compile(data);
         if (Debug_mode) console.log("Compiled " + templateName + " template.");
         callback(template);
     });
-    loading_it("hide");
 };
 var dynamic_TemplateHBS = function (name, api_route,container) {
+    loading_it("show");
     getTemplateHBS(name, function (template) {
+        sleep(2000);
         //$.getJSON( api_route, function (data) {
         //for local varibels
         switch (name) {
@@ -78,8 +80,8 @@ var dynamic_TemplateHBS = function (name, api_route,container) {
             case "carpull":
                 data=CarPull;
                 break;
-            case "babysiter":
-                data=BabySiter;
+            case "babysitter":
+                data=BabySitter;
                 break;
             case "messages":
                 data=BulletinBoard;
@@ -91,22 +93,28 @@ var dynamic_TemplateHBS = function (name, api_route,container) {
                 data=CurrentSessionUser;
                 break;
         }
-
         if (Debug_mode) console.log("Got data by api: ", data);
         var templateWithData = template(data);
         container = '#'+container;
+        loading_it("hide"); 
         $(container).append(templateWithData);
+
         //for local varibels
         //});
     });
+
 };
 var static_TemplateHBS = function (templateName,container) {
+    loading_it("show");
     $.get("templatesDirectory/" + templateName + ".hbs", function (data) {
         var template = Handlebars.compile(data);
         if(container!=='body')container='#'+container;
+        loading_it("hide");
         $(container).append(template);
         if (Debug_mode) console.log("Compiled " + templateName + " template.");
+
     });
+
 };
 
 var getPicture=function(){
@@ -174,18 +182,75 @@ Handlebars.registerHelper("fixDate", function(date) {
     return date[0]+" "+date[1];
 });
 
+var sleep=function(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
+    }
+}
+
+var update_data = function(api){
+    switch (api) {
+            case "users":
+                $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data;});
+                break;
+            case "carpull":
+                 $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; });
+                break;
+            case "babysitter":
+                $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; });
+                break;
+            case "bulletinboard":
+                $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
+                break;
+            case "survey":
+                $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; });
+                break;
+        }
+}
+
 //start server on the webapp folder
 //python -m SimpleHTTPServer 8000
 $(document).ready(function () {
-    if(CurrentSessionUser.IdUser===undefined)static_TemplateHBS("login",'body');
-    else{
-        main_screen();
-        //        $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data; }); 
-        //        $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySiter=data; }); 
-        //        $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; }); 
-        //        $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
-        //        $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
+    if(CurrentSessionUser.IdUser===undefined){
+        static_TemplateHBS("login",'body');   
+        $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data;}); 
+        $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; }); 
+        $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; }); 
+        $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
+        $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
     }
+    //else{
+    //        loading_it("show");
+    //        main_screen();
+    ////        $.get("http://moshavit.somee.com/api/u1ser/", function (data) { Users=data;main_screen(); }); 
+    //        //        $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; }); 
+    //        //        $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; }); 
+    //        //        $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
+    //        //        $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
+    //    }
+    //will load all data from server and then will load the menu items
+    else{
+        loading_it("show");
+        $.get("http://moshavit.somee.com/api/user/", function (data) { 
+            Users=data;  
+            $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { 
+                BabySitter=data; 
+                $.get("http://moshavit.somee.com/api/carpull/", function (data) { 
+                    CarPull=data; 
+                    $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { 
+                        BulletinBoard=data; 
+                        $.get("http://moshavit.somee.com/api/Survey/", function (data) { 
+                            Survey=data;
+                            main_screen(); 
+                        });
+                    }); 
+                });  
+            });  
+        });
+    } 
 });                                          
 
 /**
@@ -234,10 +299,10 @@ $(document).ready(function () {
 //
 //סוגי הודעות
 //{
-//	"BabySiter","CarPull","GiveAndTake","Survey"
+//	"BabySitter","CarPull","GiveAndTake","Survey"
 //}
 //
-//BabySiter
+//BabySitter
 //{
 //	"IdUser":12345,
 //		"Title":"kjdfkjsdhfkjsdhfkjhfkj",
@@ -247,7 +312,7 @@ $(document).ready(function () {
 //		"EndTime":"yyyy-mm-dd hh:ii"
 //}
 //
-//הודעות BabySiter
+//הודעות BabySitter
 //
 //	[{
 //		"IdMessage":234,
@@ -566,74 +631,32 @@ var Users =  [
     {"IdUser": "99","FirstName": "אלכס","LastName": "אוחנינה","Password": "user99resu","Email": "אלכס99@moshavit.com","Address": "kineret 118","Phone": "054-2222320","StartTime": "01/07/2014T23:50:43"}
 ];
 
-var BabySiter = [
-    {"IdUser": "1","IdMessage": "1","Title": "babysiter 1","Content": "babysiter babysiter 1","Rate": "11","StarTime": "2014-11-11T20:00:00","EndTime": "2014-11-11T20:21:00","Name": "EH FZ","Phone": "054-2222222"},
-    {"IdUser": "2","IdMessage": "2","Title": "babysiter 2","Content": "babysiter babysiter 2","Rate": "12","StarTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","Name": "אתי אהרון","Phone": "054-2222223"},
-    {"IdUser": "3","IdMessage": "3","Title": "babysiter 3","Content": "babysiter babysiter 3","Rate": "13","StarTime": "2014-11-13T20:00:00","EndTime": "2014-11-13T20:23:00","Name": "ראובן בר","Phone": "054-2222224"},
-    {"IdUser": "44","IdMessage": "4","Title": "babysiter 4","Content": "babysiter babysiter 4","Rate": "14","StarTime": "2014-11-13T20:00:00","EndTime": "2014-11-14T20:24:00","Name": "אנה באחורי","Phone": "054-2222225"},
-    {"IdUser": "5","IdMessage": "5","Title": "babysiter 5","Content": "babysiter babysiter 5","Rate": "15","StarTime": "2014-11-15T20:00:00","EndTime": "2014-11-15T20:25:00","Name": "חיה טנוס","Phone": "054-2222226"},
-    {"IdUser": "32","IdMessage": "6","Title": "babysiter 6","Content": "babysiter babysiter 6","Rate": "12","StarTime": "2014-11-15T20:00:00","EndTime": "2014-11-16T20:26:00","Name": "מיכל ביאר","Phone": "054-2222227"},
-    {"IdUser": "7","IdMessage": "7","Title": "babysiter 7","Content": "babysiter babysiter 7","Rate": "17","StarTime": "2014-11-17T20:00:00","EndTime": "2014-11-17T20:27:00","Name": "אברהם אייזנברג","Phone": "054-2222228"},
-    {"IdUser": "8","IdMessage": "8","Title": "babysiter 8","Content": "babysiter babysiter 8","Rate": "18","StarTime": "2014-11-17T20:00:00","EndTime": "2014-11-18T20:28:00","Name": "סלבה שלום","Phone": "054-2222229"},
-    {"IdUser": "9","IdMessage": "9","Title": "babysiter 9","Content": "babysiter babysiter 9","Rate": "19","StarTime": "2014-11-19T20:00:00","EndTime": "2014-11-19T20:29:00","Name": "ברכה שלום","Phone": "054-2222230"},
-    {"IdUser": "2","IdMessage": "10","Title": "babysiter 10","Content": "babysiter babysiter 10","Rate": "12","StarTime": "2014-11-19T20:00:00","EndTime": "2014-11-10T20:20:00","Name": "אתי אהרון","Phone": "054-2222231"},
-    {"IdUser": "3","IdMessage": "11","Title": "babysiter 11","Content": "babysiter babysiter 11","Rate": "13","StarTime": "2014-11-13T20:00:00","EndTime": "2014-11-11T20:21:00","Name": "ראובן בר","Phone": "054-2222232"},
-    {"IdUser": "5","IdMessage": "12","Title": "babysiter 12","Content": "babysiter babysiter 12","Rate": "15","StarTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","Name": "חיה טנוס","Phone": "054-2222233"},
-    {"IdUser": "8","IdMessage": "13","Title": "babysiter 13","Content": "babysiter babysiter 13","Rate": "18","StarTime": "2014-11-18T20:00:00","EndTime": "2014-11-13T20:23:00","Name": "סלבה שלום","Phone": "054-2222234"},
-    {"IdUser": "88","IdMessage": "14","Title": "babysiter 14","Content": "babysiter babysiter 14","Rate": "18","StarTime": "2014-11-13T20:00:00","EndTime": "2014-11-14T20:24:00","Name": "ליאת כנעני","Phone": "054-2222235"},
-    {"IdUser": "3","IdMessage": "15","Title": "babysiter 15","Content": "babysiter babysiter 15","Rate": "13","StarTime": "2014-11-13T20:00:00","EndTime": "2014-11-15T20:25:00","Name": "ראובן בר","Phone": "054-2222236"},
-    {"IdUser": "16","IdMessage": "16","Title": "babysiter 16","Content": "babysiter babysiter 16","Rate": "16","StarTime": "2014-11-15T20:00:00","EndTime": "2014-11-16T20:26:00","Name": "גיא פסי","Phone": "054-2222237"},
-    {"IdUser": "17","IdMessage": "17","Title": "babysiter 17","Content": "babysiter babysiter 17","Rate": "17","StarTime": "2014-11-17T20:00:00","EndTime": "2014-11-17T20:27:00","Name": "דיאנה רייזמן","Phone": "054-2222238"},
-    {"IdUser": "23","IdMessage": "18","Title": "babysiter 18","Content": "babysiter babysiter 18","Rate": "13","StarTime": "2014-11-17T20:00:00","EndTime": "2014-11-18T20:28:00","Name": "מיכל לוי","Phone": "054-2222239"},
-    {"IdUser": "66","IdMessage": "19","Title": "babysiter 19","Content": "babysiter babysiter 19","Rate": "16","StarTime": "2014-11-16T20:00:00","EndTime": "2014-11-19T20:29:00","Name": "עוזי זיסו","Phone": "054-2222240"},
-    {"IdUser": "54","IdMessage": "20","Title": "babysiter 20","Content": "babysiter babysiter 20","Rate": "14","StarTime": "2014-11-19T20:00:00","EndTime": "2014-11-10T20:20:00","Name": "חביבה קהן","Phone": "054-2222241"},
-    {"IdUser": "45","IdMessage": "21","Title": "babysiter 21","Content": "babysiter babysiter 21","Rate": "15","StarTime": "2014-11-15T20:00:00","EndTime": "2014-11-11T20:21:00","Name": "חגית וירון רוגל","Phone": "054-2222242"},
-    {"IdUser": "65","IdMessage": "22","Title": "babysiter 22","Content": "babysiter babysiter 22","Rate": "15","StarTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","Name": "ריבלין שאהון","Phone": "054-2222243"},
-    {"IdUser": "9","IdMessage": "23","Title": "babysiter 23","Content": "babysiter babysiter 23","Rate": "19","StarTime": "2014-11-19T20:00:00","EndTime": "2014-11-13T20:23:00","Name": "ברכה שלום","Phone": "054-2222244"},
-    {"IdUser": "24","IdMessage": "24","Title": "babysiter 24","Content": "babysiter babysiter 24","Rate": "14","StarTime": "2014-11-13T20:00:00","EndTime": "2014-11-14T20:24:00","Name": "מיכאלו וינטראוב","Phone": "054-2222245"}
+var BabySitter = [
+    {"IdUser": "1","IdMessage": "1","Title": "דרושה בייביסיטר","Content": "ילד בן 5","Rate": "11","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-11T20:21:00","Name": "EH FZ","Phone": "054-2222222"},    {"IdUser": "2","IdMessage": "2","Title": "דרושה בייביסיטר אחראית","Content": "לילדים בני  5 ו- 8","Rate": "12","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","Name": "אתי אהרון","Phone": "054-2222223"},    {"IdUser": "3","IdMessage": "3","Title": "דרושה בייביסיטר","Content": "לילדה בת  1","Rate": "13","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-13T20:23:00","Name": "ראובן בר","Phone": "054-2222224"},    {"IdUser": "44","IdMessage": "4","Title": "דרושה בייביסיטר","Content": "לילד בן  6","Rate": "14","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-14T20:24:00","Name": "אנה באחורי","Phone": "054-2222225"},    {"IdUser": "5","IdMessage": "5","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  5","Rate": "15","StartTime": "2014-11-15T20:00:00","EndTime": "2014-11-15T20:25:00","Name": "חיה טנוס","Phone": "054-2222226"},    {"IdUser": "32","IdMessage": "6","Title": "דרושה בייביסיטר","Content": "לילד בן  1","Rate": "12","StartTime": "2014-11-15T20:00:00","EndTime": "2014-11-16T20:26:00","Name": "מיכל ביאר","Phone": "054-2222227"},    {"IdUser": "7","IdMessage": "7","Title": "דרושה בייביסיטר אחראית","Content": "לילדים בני  8 ו- 2","Rate": "17","StartTime": "2014-11-17T20:00:00","EndTime": "2014-11-17T20:27:00","Name": "אברהם אייזנברג","Phone": "054-2222228"},
+    {"IdUser": "8","IdMessage": "8","Title": "דרושה בייביסיטר","Content": "לילדה בת  6","Rate": "18","StartTime": "2014-11-17T20:00:00","EndTime": "2014-11-18T20:28:00","Name": "סלבה שלום","Phone": "054-2222229"},    {"IdUser": "9","IdMessage": "9","Title": "דרושה בייביסיטר אחראית","Content": "לילד בן  10","Rate": "19","StartTime": "2014-11-19T20:00:00","EndTime": "2014-11-19T20:29:00","Name": "ברכה שלום","Phone": "054-2222230"},    {"IdUser": "2","IdMessage": "10","Title": "דרושה בייביסיטר","Content": "לילדה בת  1","Rate": "12","StartTime": "2014-11-19T20:00:00","EndTime": "2014-11-10T20:20:00","Name": "אתי אהרון","Phone": "054-2222231"},    {"IdUser": "3","IdMessage": "11","Title": "דרושה בייביסיטר","Content": "לילד בן  9","Rate": "13","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-11T20:21:00","Name": "ראובן בר","Phone": "054-2222232"},    {"IdUser": "5","IdMessage": "12","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  1","Rate": "15","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","Name": "חיה טנוס","Phone": "054-2222233"},    {"IdUser": "8","IdMessage": "13","Title": "דרושה בייביסיטר אחראית","Content": "לילדים בני  9 ו- 8","Rate": "18","StartTime": "2014-11-18T20:00:00","EndTime": "2014-11-13T20:23:00","Name": "סלבה שלום","Phone": "054-2222234"},    {"IdUser": "88","IdMessage": "14","Title": "דרושה בייביסיטר","Content": "לילדה בת  8","Rate": "18","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-14T20:24:00","Name": "ליאת כנעני","Phone": "054-2222235"},
+    {"IdUser": "3","IdMessage": "15","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  4","Rate": "13","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-15T20:25:00","Name": "ראובן בר","Phone": "054-2222236"},    {"IdUser": "16","IdMessage": "16","Title": "דרושה בייביסיטר","Content": "לילד בן  2","Rate": "16","StartTime": "2014-11-15T20:00:00","EndTime": "2014-11-16T20:26:00","Name": "גיא פסי","Phone": "054-2222237"},    {"IdUser": "17","IdMessage": "17","Title": "דרושה בייביסיטר","Content": "לילדה בת  10","Rate": "17","StartTime": "2014-11-17T20:00:00","EndTime": "2014-11-17T20:27:00","Name": "דיאנה רייזמן","Phone": "054-2222238"},    {"IdUser": "23","IdMessage": "18","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  7","Rate": "13","StartTime": "2014-11-17T20:00:00","EndTime": "2014-11-18T20:28:00","Name": "מיכל לוי","Phone": "054-2222239"},    {"IdUser": "66","IdMessage": "19","Title": "דרושה בייביסיטר","Content": "לילד בן  9","Rate": "16","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-19T20:29:00","Name": "עוזי זיסו","Phone": "054-2222240"},    {"IdUser": "54","IdMessage": "20","Title": "דרושה בייביסיטר","Content": "לילדים בני  9 ו- 9","Rate": "14","StartTime": "2014-11-19T20:00:00","EndTime": "2014-11-10T20:20:00","Name": "חביבה קהן","Phone": "054-2222241"},    {"IdUser": "45","IdMessage": "21","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  6","Rate": "15","StartTime": "2014-11-15T20:00:00","EndTime": "2014-11-11T20:21:00","Name": "חגית וירון רוגל","Phone": "054-2222242"},
+    {"IdUser": "65","IdMessage": "22","Title": "דרושה בייביסיטר אחראית","Content": "לילד בן  7","Rate": "15","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","Name": "ריבלין שאהון","Phone": "054-2222243"},    {"IdUser": "43","IdMessage": "23","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  6","Rate": "13","StartTime": "2014-11-12T20:00:00","EndTime": "2014-11-13T20:23:00","Name": "פנינה קרטס","Phone": "054-2222244"},    {"IdUser": "34","IdMessage": "24","Title": "דרושה בייביסיטר","Content": "לילד בן  4","Rate": "14","StartTime": "2014-11-14T20:00:00","EndTime": "2014-11-14T20:24:00","Name": "מיכאל אתר","Phone": "054-2222245"},    {"IdUser": "77","IdMessage": "25","Title": "דרושה בייביסיטר","Content": "לילדים בני  3 ו- 3","Rate": "17","StartTime": "2014-11-14T20:00:00","EndTime": "2014-11-15T20:25:00","Name": "יוסי זהרי","Phone": "054-2222246"},    {"IdUser": "23","IdMessage": "26","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  5","Rate": "13","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-16T20:26:00","Name": "מיכל לוי","Phone": "054-2222247"},    {"IdUser": "83","IdMessage": "27","Title": "דרושה בייביסיטר אחראית","Content": "לילד בן  6","Rate": "13","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-17T20:27:00","Name": "ירון בדעאן","Phone": "054-2222248"},    {"IdUser": "86","IdMessage": "28","Title": "דרושה בייביסיטר אחראית","Content": "לילדים בני  9 ו- 1","Rate": "16","StartTime": "2014-11-17T20:00:00","EndTime": "2014-11-18T20:28:00","Name": "מרטין ספדי","Phone": "054-2222249"},
+    {"IdUser": "6","IdMessage": "29","Title": "דרושה בייביסיטר","Content": "לילד בן  8","Rate": "16","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-19T20:29:00","Name": "רעות אייזנברג","Phone": "054-2222250"},    {"IdUser": "16","IdMessage": "30","Title": "דרושה בייביסיטר","Content": "לילדים בני  7 ו- 6","Rate": "16","StartTime": "2014-11-19T20:00:00","EndTime": "2014-11-10T20:20:00","Name": "גיא פסי","Phone": "054-2222251"},    {"IdUser": "29","IdMessage": "31","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  4","Rate": "19","StartTime": "2014-11-19T20:00:00","EndTime": "2014-11-11T20:21:00","Name": "רחל שפר","Phone": "054-2222252"},    {"IdUser": "41","IdMessage": "32","Title": "דרושה בייביסיטר אחראית","Content": "לילד בן  9","Rate": "11","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","Name": "חגי הירשברג","Phone": "054-2222253"},    {"IdUser": "6","IdMessage": "33","Title": "דרושה בייביסיטר אחראית","Content": "לילדה בת  5","Rate": "16","StartTime": "2014-11-12T20:00:00","EndTime": "2014-11-13T20:23:00","Name": "רעות אייזנברג","Phone": "054-2222254"}
 ];
 
 var CarPull = [
-    {"IdUser": "1","IdMessage": "1","Title": "babysiter 1","Content": "babysiter babysiter 1","To": "תל אביב","From": "אשדוד","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-11T20:21:00","Name": "EH FZ","Phone": "054-2222222"},
-    {"IdUser": "2","IdMessage": "2","Title": "babysiter 2","Content": "babysiter babysiter 2","To": "ראש העין","From": "תל אביב","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-12T20:22:00","Name": "אתי אהרון","Phone": "054-2222223"},
-    {"IdUser": "3","IdMessage": "3","Title": "babysiter 3","Content": "babysiter babysiter 3","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-13T20:00:00","ReturnTime": "2014-11-13T20:23:00","Name": "ראובן בר","Phone": "054-2222224"},
-    {"IdUser": "44","IdMessage": "4","Title": "babysiter 4","Content": "babysiter babysiter 4","To": "חיפה","From": "אשדוד","PickUp": "2014-11-13T20:00:00","ReturnTime": "2014-11-14T20:24:00","Name": "אנה באחורי","Phone": "054-2222225"},
-    {"IdUser": "5","IdMessage": "5","Title": "babysiter 5","Content": "babysiter babysiter 5","To": "אילת","From": "באר שבע","PickUp": "2014-11-15T20:00:00","ReturnTime": "2014-11-15T20:25:00","Name": "חיה טנוס","Phone": "054-2222226"},
-    {"IdUser": "26","IdMessage": "6","Title": "babysiter 6","Content": "babysiter babysiter 6","To": "תל אביב","From": "אשדוד","PickUp": "2014-11-16T20:00:00","ReturnTime": "2014-11-16T20:26:00","Name": "עפר פדידה","Phone": "054-2222227"},
-    {"IdUser": "31","IdMessage": "7","Title": "babysiter 7","Content": "babysiter babysiter 7","To": "ראש העין","From": "תל אביב","PickUp": "2014-11-16T20:00:00","ReturnTime": "2014-11-17T20:27:00","Name": "מיכל זליג","Phone": "054-2222228"},
-    {"IdUser": "36","IdMessage": "8","Title": "babysiter 8","Content": "babysiter babysiter 8","To": "הרצליה","From": "הרצליה","PickUp": "2014-11-16T20:00:00","ReturnTime": "2014-11-18T20:28:00","Name": "יהודה חי","Phone": "054-2222229"},
-    {"IdUser": "41","IdMessage": "9","Title": "babysiter 9","Content": "babysiter babysiter 9","To": "חיפה","From": "הרצליה","PickUp": "2014-11-18T20:00:00","ReturnTime": "2014-11-19T20:29:00","Name": "חגי הירשברג","Phone": "054-2222230"},
-    {"IdUser": "46","IdMessage": "10","Title": "babysiter 10","Content": "babysiter babysiter 10","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-16T20:00:00","ReturnTime": "2014-11-10T20:20:00","Name": "סהר קרן צורף","Phone": "054-2222231"},
-    {"IdUser": "51","IdMessage": "11","Title": "babysiter 11","Content": "babysiter babysiter 11","To": "תל אביב","From": "אשדוד","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-11T20:21:00","Name": "נטלי גולן","Phone": "054-2222232"},
-    {"IdUser": "56","IdMessage": "12","Title": "babysiter 12","Content": "babysiter babysiter 12","To": "תל אביב","From": "תל אביב","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-12T20:22:00","Name": "איתי רוזן","Phone": "054-2222233"},
-    {"IdUser": "61","IdMessage": "13","Title": "babysiter 13","Content": "babysiter babysiter 13","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-13T20:23:00","Name": "Dorothy חורי","Phone": "054-2222234"}
+    {"IdUser": "1","IdMessage": "1","Title": "עבודה","Content": "טרמפ לעבודה","To": "תל אביב","From": "אשדוד","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-11T20:21:00","Name": "EH FZ","Phone": "054-2222222"},    {"IdUser": "2","IdMessage": "2","Title": "טרמפ לעבודה","Content": "כל בוקר","To": "ראש העין","From": "תל אביב","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-12T20:22:00","Name": "אתי אהרון","Phone": "054-2222223"},    {"IdUser": "3","IdMessage": "3","Title": "חד פעמי","Content": "בימי ראשון בלבד","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-13T20:00:00","ReturnTime": "2014-11-13T20:23:00","Name": "ראובן בר","Phone": "054-2222224"},    {"IdUser": "44","IdMessage": "4","Title": "הסעה קבועה","Content": "ראשון,חמישי","To": "חיפה","From": "אשדוד","PickUp": "2014-11-13T20:00:00","ReturnTime": "2014-11-14T20:24:00","Name": "אנה באחורי","Phone": "054-2222225"},    {"IdUser": "5","IdMessage": "5","Title": "הסעה קבועה","Content": "כל השבוע","To": "אילת","From": "באר שבע","PickUp": "2014-11-15T20:00:00","ReturnTime": "2014-11-15T20:25:00","Name": "חיה טנוס","Phone": "054-2222226"},    {"IdUser": "26","IdMessage": "6","Title": "חד פעמי","Content": "טרמפ לעבודה","To": "תל אביב","From": "אשדוד","PickUp": "2014-11-16T20:00:00","ReturnTime": "2014-11-16T20:26:00","Name": "עפר פדידה","Phone": "054-2222227"},    {"IdUser": "31","IdMessage": "7","Title": "הסעה קבועה","Content": "כל השבוע","To": "ראש העין","From": "תל אביב","PickUp": "2014-11-16T20:00:00","ReturnTime": "2014-11-17T20:27:00","Name": "מיכל זליג","Phone": "054-2222228"},
+    {"IdUser": "36","IdMessage": "8","Title": "הסעה קבועה","Content": "כל השבוע","To": "הרצליה","From": "הרצליה","PickUp": "2014-11-16T20:00:00","ReturnTime": "2014-11-18T20:28:00","Name": "יהודה חי","Phone": "054-2222229"},    {"IdUser": "41","IdMessage": "9","Title": "חד פעמי","Content": "טרמפ לעבודה","To": "חיפה","From": "הרצליה","PickUp": "2014-11-18T20:00:00","ReturnTime": "2014-11-19T20:29:00","Name": "חגי הירשברג","Phone": "054-2222230"},    {"IdUser": "46","IdMessage": "10","Title": "חד פעמי","Content": "טרמפ לעבודה","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-16T20:00:00","ReturnTime": "2014-11-10T20:20:00","Name": "סהר קרן צורף","Phone": "054-2222231"},    {"IdUser": "51","IdMessage": "11","Title": "הסעה קבועה","Content": "כל השבוע","To": "תל אביב","From": "אשדוד","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-11T20:21:00","Name": "נטלי גולן","Phone": "054-2222232"},    {"IdUser": "56","IdMessage": "12","Title": "הסעה קבועה","Content": "ביום שלישי הקרוב","To": "תל אביב","From": "תל אביב","PickUp": "2014-11-11T20:00:00","ReturnTime": "2014-11-12T20:22:00","Name": "איתי רוזן","Phone": "054-2222233"},    {"IdUser": "45","IdMessage": "13","Title": "הסעה קבועה","Content": "שני","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-15T20:00:00","ReturnTime": "2014-11-13T20:23:00","Name": "חגית וירון רוגל","Phone": "054-2222234"},    {"IdUser": "2","IdMessage": "14","Title": "טרמפ לעבודה","Content": "כל בוקר","To": "ראש העין","From": "תל אביב","PickUp": "2014-11-13T20:00:00","ReturnTime": "2014-11-14T20:24:00","Name": "אתי אהרון","Phone": "054-2222223"},
+    {"IdUser": "3","IdMessage": "15","Title": "חד פעמי","Content": "בימי ראשון בלבד","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-13T20:00:00","ReturnTime": "2014-11-15T20:25:00","Name": "ראובן בר","Phone": "054-2222224"},    {"IdUser": "44","IdMessage": "16","Title": "הסעה קבועה","Content": "ראשון,חמישי","To": "חיפה","From": "אשדוד","PickUp": "2014-11-15T20:00:00","ReturnTime": "2014-11-16T20:26:00","Name": "אנה באחורי","Phone": "054-2222225"},    {"IdUser": "24","IdMessage": "17","Title": "הסעה קבועה","Content": "כל השבוע","To": "אילת","From": "באר שבע","PickUp": "2014-11-14T20:00:00","ReturnTime": "2014-11-17T20:27:00","Name": "מיכאלו וינטראוב","Phone": "054-2222226"},    {"IdUser": "2","IdMessage": "18","Title": "חד פעמי","Content": "טרמפ לעבודה","To": "תל אביב","From": "אשדוד","PickUp": "2014-11-12T20:00:00","ReturnTime": "2014-11-18T20:28:00","Name": "אתי אהרון","Phone": "054-2222227"},    {"IdUser": "75","IdMessage": "19","Title": "הסעה קבועה","Content": "כל השבוע","To": "ראש העין","From": "תל אביב","PickUp": "2014-11-18T20:00:00","ReturnTime": "2014-11-19T20:29:00","Name": "אורית בני רביעה","Phone": "054-2222228"},    {"IdUser": "77","IdMessage": "20","Title": "הסעה קבועה","Content": "כל השבוע","To": "הרצליה","From": "הרצליה","PickUp": "2014-11-17T20:00:00","ReturnTime": "2014-11-10T20:20:00","Name": "יוסי זהרי","Phone": "054-2222229"},    {"IdUser": "89","IdMessage": "21","Title": "חד פעמי","Content": "טרמפ לעבודה","To": "חיפה","From": "הרצליה","PickUp": "2014-11-10T20:00:00","ReturnTime": "2014-11-11T20:21:00","Name": "חביבה בן אורי","Phone": "054-2222230"},
+    {"IdUser": "99","IdMessage": "22","Title": "חד פעמי","Content": "טרמפ לעבודה","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-19T20:00:00","ReturnTime": "2014-11-12T20:22:00","Name": "אלכס אוחנינה","Phone": "054-2222231"},    {"IdUser": "44","IdMessage": "23","Title": "הסעה קבועה","Content": "כל השבוע","To": "תל אביב","From": "אשדוד","PickUp": "2014-11-14T20:00:00","ReturnTime": "2014-11-13T20:23:00","Name": "אנה באחורי","Phone": "054-2222232"},    {"IdUser": "22","IdMessage": "24","Title": "הסעה קבועה","Content": "ביום שלישי הקרוב","To": "תל אביב","From": "תל אביב","PickUp": "2014-11-13T20:00:00","ReturnTime": "2014-11-14T20:24:00","Name": "בני נהור עובדיה","Phone": "054-2222233"},    {"IdUser": "7","IdMessage": "25","Title": "הסעה קבועה","Content": "שני","To": "הרצליה","From": "תל אביב","PickUp": "2014-11-17T20:00:00","ReturnTime": "2014-11-15T20:25:00","Name": "אברהם אייזנברג","Phone": "054-2222234"}
 ];
 
 var BulletinBoard = [
-    {"IdUser": "1","IdMessage": "1","Title": "babysiter 1","Content": "babysiter babysiter 1","Description": "כגגדכ","Details": "ציע","Name": "EH FZ","Phone": "054-2222222"},
-    {"IdUser": "2","IdMessage": "2","Title": "babysiter 2","Content": "babysiter babysiter 2","Description": "כגדג","Details": "יעצע","Name": "אתי אהרון","Phone": "054-2222223"},
-    {"IdUser": "3","IdMessage": "3","Title": "babysiter 3","Content": "babysiter babysiter 3","Description": "גכגדכ","Details": "ציעעצ","Name": "ראובן בר","Phone": "054-2222224"},
-    {"IdUser": "44","IdMessage": "4","Title": "babysiter 4","Content": "babysiter babysiter 4","Description": "גכדכ","Details": "צייעצ","Name": "אנה באחורי","Phone": "054-2222225"},
-    {"IdUser": "5","IdMessage": "5","Title": "babysiter 5","Content": "babysiter babysiter 5","Description": "כדג","Details": "ציציעע","Name": "חיה טנוס","Phone": "054-2222226"},
-    {"IdUser": "32","IdMessage": "6","Title": "babysiter 6","Content": "babysiter babysiter 6","Description": "בסה","Details": "יעימימ","Name": "מיכל ביאר","Phone": "054-2222227"},
-    {"IdUser": "7","IdMessage": "7","Title": "babysiter 7","Content": "babysiter babysiter 7","Description": "חא","Details": "עמעמעי","Name": "אברהם אייזנברג","Phone": "054-2222228"},
-    {"IdUser": "8","IdMessage": "8","Title": "babysiter 8","Content": "babysiter babysiter 8","Description": "חטאט","Details": "ציע","Name": "סלבה שלום","Phone": "054-2222229"},
-    {"IdUser": "9","IdMessage": "9","Title": "babysiter 9","Content": "babysiter babysiter 9","Description": "חטאט","Details": "טאטא","Name": "ברכה שלום","Phone": "054-2222230"},
-    {"IdUser": "2","IdMessage": "10","Title": "babysiter 10","Content": "babysiter babysiter 10","Description": "חטאט","Details": "טחאאט","Name": "אתי אהרון","Phone": "054-2222231"}
+    {"IdUser": "1","IdMessage": "1","Title": "נושא דוגמא 1","Content": "מכיל דוגמא נושא דוגמא 1  1","Description": "תאור דוגמא נושא דוגמא 1  1","Details": "פרטיי דוגמא נושא דוגמא 1 אתי אהרון  1","Name": "EH FZ","Phone": "054-2222222"},    {"IdUser": "2","IdMessage": "2","Title": "נושא דוגמא 2","Content": "מכיל דוגמא נושא דוגמא 2  2","Description": "תאור דוגמא נושא דוגמא 2  2","Details": "פרטיי דוגמא נושא דוגמא 2 ראובן בר  2","Name": "אתי אהרון","Phone": "054-2222223"},    {"IdUser": "3","IdMessage": "3","Title": "נושא דוגמא 3","Content": "מכיל דוגמא נושא דוגמא 3  3","Description": "תאור דוגמא נושא דוגמא 3  3","Details": "פרטיי דוגמא נושא דוגמא 3 דני קלקנר  3","Name": "ראובן בר","Phone": "054-2222224"},    {"IdUser": "85","IdMessage": "4","Title": "נושא דוגמא 4","Content": "מכיל דוגמא נושא דוגמא 4  4","Description": "תאור דוגמא נושא דוגמא 4  4","Details": "פרטיי דוגמא נושא דוגמא 4 זוהר רוזן  4","Name": "דני קלקנר","Phone": "054-2222225"},    {"IdUser": "79","IdMessage": "5","Title": "נושא דוגמא 5","Content": "מכיל דוגמא נושא דוגמא 5  5","Description": "תאור דוגמא נושא דוגמא 5  5","Details": "פרטיי דוגמא נושא דוגמא 5 מיכל ביאר  5","Name": "זוהר רוזן","Phone": "054-2222226"},    {"IdUser": "32","IdMessage": "6","Title": "נושא דוגמא 6","Content": "מכיל דוגמא נושא דוגמא 6  6","Description": "תאור דוגמא נושא דוגמא 6  6","Details": "פרטיי דוגמא נושא דוגמא 6 גיא פסי  6","Name": "מיכל ביאר","Phone": "054-2222227"},    {"IdUser": "16","IdMessage": "7","Title": "נושא דוגמא 7","Content": "מכיל דוגמא נושא דוגמא 7  7","Description": "תאור דוגמא נושא דוגמא 7  7","Details": "פרטיי דוגמא נושא דוגמא 7 Dorothy חורי  7","Name": "גיא פסי","Phone": "054-2222228"},
+    {"IdUser": "61","IdMessage": "8","Title": "נושא דוגמא 8","Content": "מכיל דוגמא נושא דוגמא 8  8","Description": "תאור דוגמא נושא דוגמא 8  8","Details": "פרטיי דוגמא נושא דוגמא 8 ברכה שלום  8","Name": "Dorothy חורי","Phone": "054-2222229"},    {"IdUser": "9","IdMessage": "9","Title": "נושא דוגמא 9","Content": "מכיל דוגמא נושא דוגמא 9  9","Description": "תאור דוגמא נושא דוגמא 9  9","Details": "פרטיי דוגמא נושא דוגמא 9 מיכל ביסקוביץ  9","Name": "ברכה שלום","Phone": "054-2222230"},    {"IdUser": "15","IdMessage": "10","Title": "נושא דוגמא 10","Content": "מכיל דוגמא נושא דוגמא 10  10","Description": "תאור דוגמא נושא דוגמא 10  10","Details": "פרטיי דוגמא נושא דוגמא 10 אתי אהרון  10","Name": "מיכל ביסקוביץ","Phone": "054-2222231"},    {"IdUser": "2","IdMessage": "11","Title": "נושא דוגמא 11","Content": "מכיל דוגמא נושא דוגמא 11  11","Description": "תאור דוגמא נושא דוגמא 11  11","Details": "פרטיי דוגמא נושא דוגמא 11 ראובן בר  11","Name": "אתי אהרון","Phone": "054-2222223"},    {"IdUser": "3","IdMessage": "12","Title": "נושא דוגמא 12","Content": "מכיל דוגמא נושא דוגמא 12  12","Description": "תאור דוגמא נושא דוגמא 12  12","Details": "פרטיי דוגמא נושא דוגמא 12 אנה באחורי  12","Name": "ראובן בר","Phone": "054-2222224"},    {"IdUser": "44","IdMessage": "13","Title": "נושא דוגמא 13","Content": "מכיל דוגמא נושא דוגמא 13  13","Description": "תאור דוגמא נושא דוגמא 13  13","Details": "פרטיי דוגמא נושא דוגמא 13 חיה טנוס  13","Name": "אנה באחורי","Phone": "054-2222225"},    {"IdUser": "5","IdMessage": "14","Title": "נושא דוגמא 14","Content": "מכיל דוגמא נושא דוגמא 14  14","Description": "תאור דוגמא נושא דוגמא 14  14","Details": "פרטיי דוגמא נושא דוגמא 14 מיכל ביאר  14","Name": "חיה טנוס","Phone": "054-2222226"},
+    {"IdUser": "32","IdMessage": "15","Title": "נושא דוגמא 15","Content": "מכיל דוגמא נושא דוגמא 15  15","Description": "תאור דוגמא נושא דוגמא 15  15","Details": "פרטיי דוגמא נושא דוגמא 15 סלבה שלום  15","Name": "מיכל ביאר","Phone": "054-2222227"},    {"IdUser": "8","IdMessage": "16","Title": "נושא דוגמא 16","Content": "מכיל דוגמא נושא דוגמא 16  16","Description": "תאור דוגמא נושא דוגמא 16  16","Details": "פרטיי דוגמא נושא דוגמא 16 חגית וירון רוגל  16","Name": "סלבה שלום","Phone": "054-2222228"},    {"IdUser": "45","IdMessage": "17","Title": "נושא דוגמא 17","Content": "מכיל דוגמא נושא דוגמא 17  17","Description": "תאור דוגמא נושא דוגמא 17  17","Details": "פרטיי דוגמא נושא דוגמא 17 חביבה קהן  17","Name": "חגית וירון רוגל","Phone": "054-2222229"},    {"IdUser": "54","IdMessage": "18","Title": "נושא דוגמא 18","Content": "מכיל דוגמא נושא דוגמא 18  18","Description": "תאור דוגמא נושא דוגמא 18  18","Details": "פרטיי דוגמא נושא דוגמא 18 אלינור סימה  18","Name": "חביבה קהן","Phone": "054-2222230"},    {"IdUser": "33","IdMessage": "19","Title": "נושא דוגמא 19","Content": "מכיל דוגמא נושא דוגמא 19  19","Description": "תאור דוגמא נושא דוגמא 19  19","Details": "פרטיי דוגמא נושא דוגמא 19 אתי אהרון  19","Name": "אלינור סימה","Phone": "054-2222231"},    {"IdUser": "2","IdMessage": "20","Title": "נושא דוגמא 20","Content": "מכיל דוגמא נושא דוגמא 20  20","Description": "תאור דוגמא נושא דוגמא 20  20","Details": "פרטיי דוגמא נושא דוגמא 20 מיכל ביאר  20","Name": "אתי אהרון","Phone": "054-2222231"},    {"IdUser": "32","IdMessage": "21","Title": "נושא דוגמא 21","Content": "מכיל דוגמא נושא דוגמא 21  21","Description": "תאור דוגמא נושא דוגמא 21  21","Details": "פרטיי דוגמא נושא דוגמא 21 חביבה אלמוג  21","Name": "מיכל ביאר","Phone": "054-2222223"},
+    {"IdUser": "96","IdMessage": "22","Title": "נושא דוגמא 22","Content": "מכיל דוגמא נושא דוגמא 22  22","Description": "תאור דוגמא נושא דוגמא 22  22","Details": "פרטיי דוגמא נושא דוגמא 22 אתי נאור  22","Name": "חביבה אלמוג","Phone": "054-2222224"},    {"IdUser": "69","IdMessage": "23","Title": "נושא דוגמא 23","Content": "מכיל דוגמא נושא דוגמא 23  23","Description": "תאור דוגמא נושא דוגמא 23  23","Details": "פרטיי דוגמא נושא דוגמא 23 חיה טנוס  23","Name": "אתי נאור","Phone": "054-2222225"},    {"IdUser": "5","IdMessage": "24","Title": "נושא דוגמא 24","Content": "מכיל דוגמא נושא דוגמא 24  24","Description": "תאור דוגמא נושא דוגמא 24  24","Details": "פרטיי דוגמא נושא דוגמא 24 מיכל ביאר  24","Name": "חיה טנוס","Phone": "054-2222226"},    {"IdUser": "32","IdMessage": "25","Title": "נושא דוגמא 25","Content": "מכיל דוגמא נושא דוגמא 25  25","Description": "תאור דוגמא נושא דוגמא 25  25","Details": "פרטיי דוגמא נושא דוגמא 25   25","Name": "מיכל ביאר","Phone": "054-2222227"}
 ];
 
 var Survey = [
-    {"IdUser": "1","IdSurvey": "1","Question": "babysiter 1","Yes": "3","No": "2","Avoid": "1","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-11T20:21:00","VadName": "EH FZ","TotalVote": "6"},
-    {"IdUser": "2","IdSurvey": "2","Question": "babysiter 2","Yes": "7","No": "7","Avoid": "0","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","VadName": "אתי אהרון","TotalVote": "14"},
-    {"IdUser": "3","IdSurvey": "3","Question": "babysiter 3","Yes": "8","No": "3","Avoid": "0","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-13T20:23:00","VadName": "ראובן בר","TotalVote": "11"},
-    {"IdUser": "44","IdSurvey": "4","Question": "babysiter 4","Yes": "3","No": "3","Avoid": "9","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-14T20:24:00","VadName": "אנה באחורי","TotalVote": "15"},
-    {"IdUser": "5","IdSurvey": "5","Question": "babysiter 5","Yes": "5","No": "8","Avoid": "6","StartTime": "2014-11-15T20:00:00","EndTime": "2014-11-15T20:25:00","VadName": "חיה טנוס","TotalVote": "19"},
-    {"IdUser": "26","IdSurvey": "6","Question": "babysiter 6","Yes": "2","No": "8","Avoid": "5","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-16T20:26:00","VadName": "עפר פדידה","TotalVote": "15"},
-    {"IdUser": "31","IdSurvey": "7","Question": "babysiter 7","Yes": "3","No": "6","Avoid": "4","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-17T20:27:00","VadName": "מיכל זליג","TotalVote": "13"},
-    {"IdUser": "36","IdSurvey": "8","Question": "babysiter 8","Yes": "6","No": "8","Avoid": "4","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-18T20:28:00","VadName": "יהודה חי","TotalVote": "18"},
-    {"IdUser": "41","IdSurvey": "9","Question": "babysiter 9","Yes": "7","No": "8","Avoid": "3","StartTime": "2014-11-18T20:00:00","EndTime": "2014-11-19T20:29:00","VadName": "חגי הירשברג","TotalVote": "18"},
-    {"IdUser": "46","IdSurvey": "10","Question": "babysiter 10","Yes": "7","No": "4","Avoid": "7","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-10T20:20:00","VadName": "סהר קרן צורף","TotalVote": "18"},
-    {"IdUser": "51","IdSurvey": "11","Question": "babysiter 11","Yes": "8","No": "6","Avoid": "8","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-11T20:21:00","VadName": "נטלי גולן","TotalVote": "22"},
-    {"IdUser": "56","IdSurvey": "12","Question": "babysiter 12","Yes": "3","No": "7","Avoid": "2","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","VadName": "איתי רוזן","TotalVote": "12"},
-    {"IdUser": "61","IdSurvey": "13","Question": "babysiter 13","Yes": "2","No": "7","Avoid": "1","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-13T20:23:00","VadName": "Dorothy חורי","TotalVote": "10"}
+    {"IdUser": "1","IdSurvey": "1","Question": "אנג'לינה ג'ולי היפה בנשים?","Yes": "34","No": "13","Avoid": "4","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-11T20:21:00","VadName": "EH FZ","TotalVote": "51"},    {"IdUser": "2","IdSurvey": "2","Question": "מחירי הדירות יעלו או ירדו","Yes": "2","No": "13","Avoid": "7","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","VadName": "אתי אהרון","TotalVote": "22"},    {"IdUser": "3","IdSurvey": "3","Question": "המאכל הישראלי האהוב ביותר - חומוס","Yes": "24","No": "36","Avoid": "4","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-13T20:23:00","VadName": "ראובן בר","TotalVote": "64"},    {"IdUser": "44","IdSurvey": "4","Question": "מיקרוסופט - ווינדוס ענקית התוכנה בדרך למטה?","Yes": "19","No": "31","Avoid": "3","StartTime": "2014-11-13T20:00:00","EndTime": "2014-11-14T20:24:00","VadName": "אנה באחורי","TotalVote": "53"},    {"IdUser": "5","IdSurvey": "5","Question": "האם הדיוטי פרי (duty free) באמת הכי זול?","Yes": "36","No": "2","Avoid": "7","StartTime": "2014-11-15T20:00:00","EndTime": "2014-11-15T20:25:00","VadName": "חיה טנוס","TotalVote": "45"},    {"IdUser": "26","IdSurvey": "6","Question": "הבורסה תעלה או תרד?","Yes": "44","No": "29","Avoid": "7","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-16T20:26:00","VadName": "עפר פדידה","TotalVote": "80"},    {"IdUser": "31","IdSurvey": "7","Question": "האם אתם בעד או נגד מדינה פלסטינאית","Yes": "16","No": "17","Avoid": "3","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-17T20:27:00","VadName": "מיכל זליג","TotalVote": "36"},
+    {"IdUser": "36","IdSurvey": "8","Question": "משקיעים בבורסה?","Yes": "47","No": "25","Avoid": "3","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-18T20:28:00","VadName": "יהודה חי","TotalVote": "75"},    {"IdUser": "41","IdSurvey": "9","Question": "מורפיקס,האם אתם משתמשים?","Yes": "17","No": "15","Avoid": "2","StartTime": "2014-11-18T20:00:00","EndTime": "2014-11-19T20:29:00","VadName": "חגי הירשברג","TotalVote": "34"},    {"IdUser": "46","IdSurvey": "10","Question": "משחקים בכסף?","Yes": "47","No": "13","Avoid": "0","StartTime": "2014-11-16T20:00:00","EndTime": "2014-11-10T20:20:00","VadName": "סהר קרן צורף","TotalVote": "60"},    {"IdUser": "51","IdSurvey": "11","Question": "מזלות,מאמינים?","Yes": "13","No": "1","Avoid": "4","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-11T20:21:00","VadName": "נטלי גולן","TotalVote": "18"},    {"IdUser": "56","IdSurvey": "12","Question": "העם אתם ילדותיים ?","Yes": "15","No": "24","Avoid": "6","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-12T20:22:00","VadName": "איתי רוזן","TotalVote": "45"},    {"IdUser": "61","IdSurvey": "13","Question": "טיסה,אתם אוהבים לטוס?","Yes": "55","No": "15","Avoid": "2","StartTime": "2014-11-11T20:00:00","EndTime": "2014-11-13T20:23:00","VadName": "Dorothy חורי","TotalVote": "72"}
 ];
+
+
+

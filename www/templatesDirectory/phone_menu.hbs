@@ -12,7 +12,7 @@
             <a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('survey',get_all_users,'container');$('#container').css({'margin-right': ''});">
                 <img src="img/ico/Android-Survey-48.png" style="max-height: 115px; max-width: 115px;">
             </a>
-            <a href="#" onclick="clean_main_container();dynamic_TemplateHBS('babysiter',get_all_users+CurrentSessionUser.IdUser,'container');$('#container').css({'margin-right': ''});">                <img src="img/ico/babysitter.png" style="max-height: 115px; max-width: 115px;">            </a>
+            <a href="#" onclick="clean_main_container();dynamic_TemplateHBS('babysitter',get_all_users+CurrentSessionUser.IdUser,'container');$('#container').css({'margin-right': ''});">                <img src="img/ico/babysitter.png" style="max-height: 115px; max-width: 115px;">            </a>
             <a href="#" onclick="clean_main_container();dynamic_TemplateHBS('carpull',get_all_users+CurrentSessionUser.IdUser,'container');$('#container').css({'margin-right': ''});">                <img src="img/ico/carPull.png" style="max-height: 115px; max-width: 115px;">            </a>
             <a href="#calender">                <img src="img/ico/Android-Calendar-48.png" style="max-height: 115px; max-width: 115px;">            </a>
             <a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});"><img
