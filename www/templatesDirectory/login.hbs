@@ -17,7 +17,7 @@
     </div>
     <div style="text-align: center">
         <button class="btn-large btn-block btn-success" onclick="login(stringifyUserJSON());">הכנס</button>
-<br>
+        <br>
         <button class="btn btn-warning" onclick="clear_form();">נקה</button>
         <br><b id="invalidPassword"></b><br><br>
 
@@ -60,6 +60,11 @@
                     console.log(data);
                 }
                 CurrentSessionUser = data;
+                $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data;}); 
+                $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; }); 
+                $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; }); 
+                $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
+                $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
                 main_screen();
             },
             error: function (xhr, errorType, thrownError) {
