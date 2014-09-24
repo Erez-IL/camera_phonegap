@@ -26,7 +26,7 @@ var get_all_users = "http://moshavit.somee.com/api/user/";
 
 var loading_it = function(op){
     if($('#container-head1').val()===undefined){
-        $('body').append('<div id="container-head1" style="display: none;" ><div class="contener_box" style="position: relative;margin-left: auto;margin-right: auto; " id="loadin_it">    <div class="box">      <i></i>    </div></div></div>');
+        $('body').append('<div id="container-head1" style="display: none;" ><div class="contener_box" style="position: relative;margin-left: auto;margin-right: auto; " id="loadin_it">    <div class="box">      <i><img src="img/logo.png" style="max-height: 100px; max-width: 100px;display: block;    margin-left: auto;    margin-right: auto;" ></i>    </div></div></div>');
     }
     //op = show || hide
     switch (op) {
@@ -48,7 +48,7 @@ var clean_body = function () {
 
 var add_containers_to_body = function () {
     $('body').append('<div id="container-head"  ></div>');
-    $('body').append('<div id="container-head1" style="display: none;" ><div class="contener_box" style="position: relative;margin-left: auto;margin-right: auto; " id="loadin_it">    <div class="box">      <i></i>    </div></div></div>');
+    $('body').append('<div id="container-head1" style="display: none;" ><div class="contener_box" style="position: relative;margin-left: auto;margin-right: auto; " id="loadin_it">    <div class="box">      <i><img src="img/logo.png" style="max-height: 100px; max-width: 100px;display: block;    margin-left: auto;    margin-right: auto;" ></i>    </div></div></div>');
     $('body').append('<div id="container"></div>');
 };
 
@@ -112,9 +112,7 @@ var static_TemplateHBS = function (templateName,container) {
         loading_it("hide");
         $(container).append(template);
         if (Debug_mode) console.log("Compiled " + templateName + " template.");
-
     });
-
 };
 
 var getPicture=function(){
@@ -215,7 +213,8 @@ var update_data = function(api){
 //python -m SimpleHTTPServer 8000
 $(document).ready(function () {
     if(CurrentSessionUser.IdUser===undefined){
-        static_TemplateHBS("login",'body');   
+        static_TemplateHBS("login",'body');
+        $("#email").focus();   
     }
     //else{
     //        loading_it("show");
@@ -226,6 +225,8 @@ $(document).ready(function () {
     //        //        $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
     //        //        $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
     //    }
+    
+    
     //will load all data from server and then will load the menu items
     else{
         loading_it("show");

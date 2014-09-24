@@ -45,6 +45,16 @@
         $('#password').val('');
         $("#email").focus();
     };
+    $('#password').on('keyup', function(e) {
+        if (e.which == 13) {
+            login(stringifyUserJSON());
+        }
+    });
+    $('#email').on('keyup', function(e) {
+        if (e.which == 13) {
+            login(stringifyUserJSON());
+        }
+    });
 
     var login = function (login_details) {
         $.ajax({
@@ -54,7 +64,6 @@
             url: login_api,
             data: login_details,
             success: function (data) {
-                // Do something....
                 if (Debug_mode) {
                     console.log(login_details);
                     console.log(data);
@@ -74,8 +83,9 @@
                         alert("404");
                         break;
                     case 400:
-                        //                        alert(xhr.responseText);
-                        alert("שם משתמש או סיסמה לא נכונים");
+                        alert("שם משתמש או סיסמה לא נכונים");    
+                        $('#password').val('');
+                        $("#password").focus();
                         break;
                 }
             }

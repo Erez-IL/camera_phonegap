@@ -7224,85 +7224,7 @@ textarea {
     width: 60%;
 }
 
-
-
-
-/*
-//////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////loader_css///////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-*/
-/* CONTAINER */
-.  {
-    width: 15px;
-    height: 15px;
-    /* PRESENTATIONAL PURPOSES */
-    margin: auto;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    -webkit-user-select: none;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    -webkit-box-shadow: 0 0 0 6px #D3D3D3,
-    0 0 6px 10px #979393;
-    -moz-box-shadow: 0 0 0 6px #D3D3D3,
-    0 0 6px 10px #979393;
-    box-shadow: 0 0 0 6px #D3D3D3,
-    0 0 6px 10px #979393
-}
-/* TEXT */
-#content_loader_css_loader {
-    background: #222;
-    background: -webkit-linear-gradient(#e8e8e8,#e8e8e8);
-    background: -moz-linear-gradient(#e8e8e8,#e8e8e8);
-    background: -o-linear-gradient(#e8e8e8,#e8e8e8);
-    background: linear-gradient(#e8e8e8,#e8e8e8);
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    text-align: center;
-    font: normal normal normal 32px/140px 
-    "Electrolize", Helvetica, Arial, sans-serif;
-    color: #000
-}
-#content_loader_css_loader span {
-    vertical-align: middle;
-    -webkit-animation: fade 1s linear infinite;
-    -moz-animation: fade 1s linear infinite;
-    -o-animation: fade 1s linear infinite;
-    animation: fade 1s linear infinite
-}
-/* SPINNING GRADIENT */
-.ring_loader_css {
-    margin: 0 auto;
-    border-radius: 100px;
-    padding: 10px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    -webkit-animation: rotate 1s linear infinite;
-    -moz-animation: rotate 1s linear infinite;
-    -o-animation: rotate 1s linear infinite;
-    animation: rotate 1s linear infinite
-}
-/* COLORS */
-.blue_loader_css {
-    background: -webkit-linear-gradient(#555,transparent,#555);
-    background: -moz-linear-gradient(#555,transparent,#555);
-    background: -o-linear-gradient(#555,transparent,#555);
-    background: linear-gradient(#555,transparent,#555)
-}
-
-
-
+   
 
 
 
@@ -7352,7 +7274,7 @@ textarea {
 }
 
 .box:before, .box:after, .box i, .box i:before, .box i:after {
-    content: '';
+    content: '';   
     display: block;
     width: 100px;
     height: 100px;
@@ -7368,7 +7290,7 @@ textarea {
     -moz-transform: rotateY(90deg) translate3D(-50px,0,50px);
     -ms-transform: rotateY(90deg) translate3D(-50px,0,50px);
     transform: rotateY(90deg) translate3D(-50px,0,50px);
-    background-color: #FA493F;
+    background-color: #FA493F;     
     content:'';/*url(img_welcome_100x100.png)*/
 }
 
@@ -7377,7 +7299,7 @@ textarea {
     -moz-transform: rotateY(90deg) rotateZ(180deg) translate3D(50px,0,-50px);
     -ms-transform: rotateY(90deg) rotateZ(180deg) translate3D(50px,0,-50px);
     transform: rotateY(90deg) rotateZ(180deg) translate3D(50px,0,-50px);
-    background-color: #00a096;
+    background-color: #00a096;           
     content:'';/*url(logo_100x100.png)*/
 }
 
