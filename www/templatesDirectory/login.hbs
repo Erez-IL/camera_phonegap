@@ -1,22 +1,18 @@
-
-
-
 <br>
 <br>
 <br>
-
-<div class="well">
-    <a href="http://moshavit.2fh.co/" ><img src="img/logo.png" style="max-height: 150px; max-width: 150px;display: block;    margin-left: auto;    margin-right: auto;" ><br><br></a>
+<div class="well" id="container">
+    <img src="img/logo.png" style="max-height: 150px; max-width: 150px;display: block;    margin-left: auto;    margin-right: auto;" ><br><br>
     <div class="input-prepend">
         <label for="email">דוא"ל</label>
-        <input id="email" type="email" class="email" value="" required="required" style="width: 100%;">
+        <input id="email" type="email" class="email" value="" required="required" style="width: 100%;"  maxlength="100">
     </div>
     <div class="input-prepend">
         <label for="password">סיסמה</label>
-        <input id="password" type="password" class="password" value="" required="required" style="width: 100%;">
+        <input id="password" type="password" class="password" value="" required="required" style="width: 100%;"  maxlength="16">
     </div>
     <div style="text-align: center">
-        <button class="btn-large btn-block btn-success" onclick="login(stringifyUserJSON());">הכנס</button>
+        <button class="btn-large btn-block btn-success" onclick="$('#container').css('display', 'none');login(stringifyUserJSON());">הכנס</button>
         <br>
         <button class="btn btn-warning" onclick="clear_form();">נקה</button>
         <br><b id="invalidPassword"></b><br><br>
@@ -57,39 +53,48 @@
     });
 
     var login = function (login_details) {
-        $.ajax({
-            type: 'POST',
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            url: login_api,
-            data: login_details,
-            success: function (data) {
-                if (Debug_mode) {
-                    console.log(login_details);
-                    console.log(data);
+        if($('#email').val()==='' || $('#password').val()==='') {
+            alert("חסרים נתונים עבור הכניסה");
+        }
+        else{
+            $('#container').css("display", "none");
+            loading_it('show');
+            $.ajax({
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                url: login_api,
+                data: login_details,
+                success: function (data) {
+                    if (Debug_mode) {
+                        console.log(login_details);
+                        console.log(data);
+                    }
+                    CurrentSessionUser = data;
+                    $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data;}); 
+                    $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; }); 
+                    $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; }); 
+                    $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
+                    $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
+                    main_screen();
+                },
+                error: function (xhr, errorType, thrownError) {
+                    if (Debug_mode) {console.log(xhr);}
+                    switch (xhr.status) {
+                        case 404:
+                            alert("404");
+                            break;
+                        case 400:
+                            alert("שם משתמש או סיסמה לא נכונים");
+                            loading_it('hide');
+                            $('#container').css("display", "block");
+                            $('#password').val('');
+                            $("#password").focus();
+                            break;
+                    }
                 }
-                CurrentSessionUser = data;
-                $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data;}); 
-                $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; }); 
-                $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; }); 
-                $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
-                $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
-                main_screen();
-            },
-            error: function (xhr, errorType, thrownError) {
-                if (Debug_mode) {console.log(xhr);}
-                switch (xhr.status) {
-                    case 404:
-                        alert("404");
-                        break;
-                    case 400:
-                        alert("שם משתמש או סיסמה לא נכונים");    
-                        $('#password').val('');
-                        $("#password").focus();
-                        break;
-                }
-            }
-        });
+            });
+        }
     };
 </script>
 

@@ -4,43 +4,40 @@
     <!-- E-mail -->
     <div class="input-prepend">
         <label for="email">דוא"ל</label>
-        <input type="email" id="email" value="" placeholder='הכנס דוא"ל' required="required" style="width: 100%;">
+        <input type="email" id="email" value="" placeholder='הכנס דוא"ל' required="required" style="width: 100%;" maxlength="100">
     </div>
     <!-- First Name -->
     <div class="input-prepend">
         <label for="firstName">שם פרטי</label>
-        <input type="text" id="firstName" value="" placeholder="הכנס שם פרטי" required="required" style="width: 100%;">
+        <input type="text" id="firstName" value="" placeholder="הכנס שם פרטי" required="required" style="width: 100%;" maxlength="100">
     </div>
     <!-- Last Name -->
     <div class="input-prepend">
         <label for="lastName">שם משפחה</label>
-        <input type="text" id="lastName" value="" placeholder="הכנס שם משפחה" required="required" style="width: 100%;">
+        <input type="text" id="lastName" value="" placeholder="הכנס שם משפחה" required="required" style="width: 100%;" maxlength="100">
     </div>
     <!-- Address -->
     <div class="input-prepend">
-        <label for="Address">כתובת</label>
-        <input type="text" id="address" value="" placeholder="הכנס כתובת" required="required" style="width: 100%;">
+        <label for="address">כתובת</label>
+        <input type="text" id="address" value="" placeholder="הכנס כתובת" required="required" style="width: 100%;" maxlength="100">
     </div>
     <!-- Phone -->
     <div class="input-prepend">
-        <label for="Phone">טלפון</label>
-        <input type="text" id="phone" value="" placeholder="הכנס טלפון" required="required" style="width: 100%;">
+        <label for="phone">טלפון</label>
+        <input type="text" id="phone" value="" placeholder="הכנס טלפון" required="required" style="width: 100%;" onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="13">
     </div>
-
     <div class="input-prepend">
         <label for="password">סיסמה</label>
-        <input id="password" type="password" class="password" placeholder="הכנס סיסמה" value="" required="required"  style="width: 100%;">
+        <input id="password" type="password" class="password" placeholder="הכנס סיסמה" value="" required="required"  style="width: 100%;" onkeyup="if(this.value===''){$('#sec_pass').css('display', 'none');}else{$('#sec_pass').css('display', 'block');}" maxlength="16">
     </div>
-<!--    <div class="input-prepend">
+    <div class="input-prepend" id="sec_pass" style="display: none;">
         <label for="passwordConfirm">סיסמה שנית</label>
-        <input id="passwordConfirm" type="password" class="passwordConfirm" value="" required="required">
-    </div> -->
-    
-    <br>
-    <br>
+        <input id="passwordConfirm" type="password" class="passwordConfirm" value="" required="required" style="width: 100%;" maxlength="16">
+    </div> 
+    <br>    <br>
     <button class="btn-large btn-block register btn-success" onclick="register(stringifyUserJSON());">שמור</button>
     <br>
-    <button class="btn-large btn-block clear btn-warning" onclick="clear_form();""><i class="icon-remove icon-white"></i>נקה</button>
+    <button class="btn-large btn-block clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
 </div>
 
 <script type="text/javascript">
@@ -69,48 +66,75 @@
     };
 
     var register = function (register_details) {
-        $.ajax({
-            type: 'POST',
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            url: register_api,
-            data: register_details,
-            success: function (data) {
-                // Do something....
-                if (Debug_mode) {console.log(register_details);}
-                alert("הרישום בוצע בהצלחה,\nהנך מועבר למערכת");
-                CurrentSessionUser = register_details;
-                clean_body();
-                add_containers_to_body();
-                static_TemplateHBS('desktop_menu', 'container-head');
-                static_TemplateHBS("phone_menu", 'container');
-            },
-            error: function (xhr, errorType, thrownError) {
-                if (Debug_mode) {console.log(xhr);}
-                switch (xhr.status) {
-                    case 404:
-                        alert("404");
-                        break;
-                    case 400:
-                        alert(xhr.responseText);
-                        break;
-                    case 500:
-                        alert("חלק מהפרטים חסרים או לא תקינים"); 
-                        break;
-                    case 200:
-                        alert("הרישום בוצע בהצלחה,\nהנך מועבר למערכת");
-                        if (Debug_mode) {console.log(register_details);}
-                        CurrentSessionUser = register_details;
-                        clean_body();
-                        add_containers_to_body();
-                        static_TemplateHBS('desktop_menu', 'container-head');
-                        static_TemplateHBS("phone_menu", 'container');
-                        update_data("users");
-                        setTimeout(function(){$('#sessionUsername').text('שלום ')},3000);
-                        break;
-                }
+        if($('#firstName').val()==='' || 
+            $('#lastName').val()==='' || 
+            $('#email').val()==='' ||
+            $('#address').val()==='' ||
+            $('#phone').val()==='' ||
+            $('#email').val()==='' ||
+            $('#password').val()===''){
+            $("#email").focus();
+            alert('חסרים פרטים לצורכי רישום');
+        }
+        else{
+            if(!validateEmail($('#email').val())){
+                $("#email").focus();
+                alert('כתובת הדוא"ל לא תקינה');
             }
-        });
+            else{
+                if($('#password').val()!==$('#passwordConfirm').val()){
+                    $("#password").focus();
+                    $('#password').val('');
+                    $('#passwordConfirm').val('');
+                    alert('סיסמאות לא תואמות');
+                }  
+                else{
+                    $('#Form').css("display", "none");
+                    loading_it('show');
+                    $.ajax({
+                        type: 'POST',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        url: register_api,
+                        data: register_details,
+                        success: function (data) {
+                            if (Debug_mode) {console.log(register_details);}
+                            alert("הרישום בוצע בהצלחה,\nהנך מועבר למערכת");
+                            CurrentSessionUser = register_details;
+                            clean_body();
+                            add_containers_to_body();
+                            static_TemplateHBS('desktop_menu', 'container-head');
+                            static_TemplateHBS("phone_menu", 'container');
+                        },
+                        error: function (xhr, errorType, thrownError) {
+                            if (Debug_mode) {console.log(xhr);}
+                            switch (xhr.status) {
+                                case 404:
+                                    alert("404");
+                                    break;
+                                case 400:
+                                    alert(xhr.responseText);
+                                    break;
+                                case 500:
+                                    alert("חלק מהפרטים חסרים או לא תקינים"); 
+                                    break;
+                                case 200:
+                                    alert("הרישום בוצע בהצלחה,\nהנך מועבר למערכת");
+                                    if (Debug_mode) {console.log(register_details);}
+                                    CurrentSessionUser = register_details;
+                                    clean_body();
+                                    add_containers_to_body();
+                                    static_TemplateHBS('desktop_menu', 'container-head');
+                                    static_TemplateHBS("phone_menu", 'container');
+                                    update_data("users");
+                                    setTimeout(function(){$('#sessionUsername').text('שלום ')},3000);
+                                    break;
+                            }
+                        }
+                    });
+                }   
+            }
+        }
     };
 </script>
 
