@@ -5,18 +5,22 @@
 * Time: 9:27 PM
 * To change this template use File | Settings | File Templates.
 */
+var Debug_mode = false;
+if(Debug_mode){
+    var CurrentSessionUser = {
+        "IdUser":0,
+        "FirstName": "Admin",
+        "LastName": "None",
+        "Password": "azxsdxadc",
+        "Email": "mail@gmail.com",
+        "Address": "בני אפריים 222 , תל אביב",
+        "StartTime": "30/08/2014T15:55:12",
+        "Phone": "051-2345678"
+    };  
+}else{
+    var CurrentSessionUser = {};  
+} 
 
-var CurrentSessionUser = {
-    //    "IdUser":0,
-    //    "FirstName": "Admin",
-    //    "LastName": "None",
-    //    "Password": "azxsdxadc",
-    //    "Email": "mail@gmail.com",
-    //    "Address": "בני אפריים 222 , תל אביב",
-    //    "StartTime": "30/08/2014T15:55:12",
-    //    "Phone": "051-2345678"
-};
-var Debug_mode = true;
 //var base_url = "https://api.github.com/users/erez-il/repos";
 var register_api = "http://moshavit.somee.com/api/register/";
 var login_api = "http://moshavit.somee.com/api/login/";
@@ -176,8 +180,13 @@ Handlebars.registerHelper("math", function(lvalue, operator, rvalue, options) {
     }[operator];
 });
 Handlebars.registerHelper("fixDate", function(date) {
-    date = date.split("T");
-    return date[0]+" "+date[1];
+    //get 2014-09-25T21:56:00.13 and return 21:56:00 25/09/2014
+    dateHHII = date.split("T");
+    dateYYMMDD = dateHHII[0];
+    dateHHII = dateHHII[1].split(".");
+    dateYYMMDD = dateYYMMDD.split("-");
+
+    return dateHHII[0]+" "+dateYYMMDD[2]+"/"+dateYYMMDD[1]+"/"+dateYYMMDD[0];
 });
 
 var sleep=function(milliseconds) {
