@@ -42,7 +42,6 @@
         <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('survey',get_all_users,'container');$('#container').css({'margin-right': '11em'});">Survey</a></li>
         <li><a href="#">Calender</a></li>
         <li><a href="#"  onclick="clean_main_container();static_TemplateHBS('register','container');$('#container').css({'margin-right': '11em'});">משתמש חדש</a></li>
-        <li><a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</a></li>
         <li><a href="#" onclick="clean_body();CurrentSessionUser={}; static_TemplateHBS('login','body');$('#container').css({'margin-right': '11em'});">יציאה</a></li>
     </ul>
 	</div>
