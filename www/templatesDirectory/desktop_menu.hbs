@@ -1,12 +1,12 @@
 
-<div class="navbar navbar-fixed-top ">
-    <div class="navbar-inner">
+<div class="navbar navbar-fixed-top " >
+    <div class="navbar-inner" data-role="navbar" style="height: 55px ;">
         <div id="appNavBar" class="container">
             <!--<a style="float: left" class="hidden-desktop" href="#" onclick="javascript:navigator.app.clearHistory();$('#container').css({'margin-right': ''});"><img-->
-            <a style="float: left" class="hidden-desktop" href="#" onclick="clean_main_container(); static_TemplateHBS('phone_menu','container');$('#container').css({'margin-right': ''});"><img
+            <a  class="hidden-desktop ui-btn-left" href="#" onclick="clean_main_container(); static_TemplateHBS('phone_menu','container');$('#container').css({'margin-right': ''});"><img
                 src="img/ico/icon.png"
                 style="max-height: 60px; max-width: 60px;"></a>
-            <a style="cursor:pointer; float: right" class="hidden-desktop" onclick="confirm_moshavit_exit('האם ברצונך לצאת?','לצאת?','אשר,בטל');"><img
+            <a style="cursor:pointer; " class="hidden-desktop ui-btn-right" onclick="confirm_moshavit_exit('האם ברצונך לצאת?','לצאת?','אשר,בטל');"><img
                 src="img/ico/quit.png" style="max-height: 59px; max-width: 59px;padding-top: 1px;"></a>
 
             <p style="text-align: center"><span id='sessionUsername'>שלום</span></p>
