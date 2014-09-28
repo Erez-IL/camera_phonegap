@@ -7,14 +7,14 @@
 */
 
 var CurrentSessionUser = {
-//    "IdUser":0,
-//    "FirstName": "Admin",
-//    "LastName": "None",
-//    "Password": "azxsdxadc",
-//    "Email": "mail@gmail.com",
-//    "Address": "בני אפריים 222 , תל אביב",
-//    "StartTime": "30/08/2014T15:55:12",
-//    "Phone": "051-2345678"
+    //    "IdUser":0,
+    //    "FirstName": "Admin",
+    //    "LastName": "None",
+    //    "Password": "azxsdxadc",
+    //    "Email": "mail@gmail.com",
+    //    "Address": "בני אפריים 222 , תל אביב",
+    //    "StartTime": "30/08/2014T15:55:12",
+    //    "Phone": "051-2345678"
 };
 var Debug_mode = true;
 //var base_url = "https://api.github.com/users/erez-il/repos";
@@ -191,22 +191,22 @@ var sleep=function(milliseconds) {
 
 var update_data = function(api){
     switch (api) {
-            case "users":
-                $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data;});
-                break;
-            case "carpull":
-                 $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; });
-                break;
-            case "babysitter":
-                $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; });
-                break;
-            case "bulletinboard":
-                $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
-                break;
-            case "survey":
-                $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; });
-                break;
-        }
+        case "users":
+            $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data;});
+            break;
+        case "carpull":
+            $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; });
+            break;
+        case "babysitter":
+            $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; });
+            break;
+        case "bulletinboard":
+            $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
+            break;
+        case "survey":
+            $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; });
+            break;
+    }
 }
 
 //start server on the webapp folder
@@ -225,8 +225,8 @@ $(document).ready(function () {
     //        //        $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
     //        //        $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
     //    }
-    
-    
+
+
     //will load all data from server and then will load the menu items
     else{
         loading_it("show");
@@ -248,6 +248,14 @@ $(document).ready(function () {
         });
     } 
 });                                          
+
+
+var validateEmail = function(email){
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+}
+
+
 
 /**
 //הרשמה
@@ -604,9 +612,9 @@ login(prompt("Enter Username "), prompt("Enter Password "));
 
 
 ***/
+/*
 
-
-    //
+//
 //
 //var Users =  [
 //    {"IdUser": "1","FirstName": "EH","LastName": "FZ","Password": "admin","Email": "admin","Address": "kineret 20","Phone": "054-2222222","StartTime": "30/06/2014T15:55:12"},    {"IdUser": "2","FirstName": "אתי","LastName": "אהרון","Password": "user2resu","Email": "אתי2@moshavit.com","Address": "הרדוף 274","Phone": "054-2222223","StartTime": "30/06/2014T18:37:14"},    {"IdUser": "3","FirstName": "ראובן","LastName": "בר","Password": "user3resu","Email": "ראובן3@moshavit.com","Address": "פועלי ציון 10","Phone": "054-2222224","StartTime": "30/06/2014T18:48:08"},    {"IdUser": "4","FirstName": "אלכס","LastName": "כהן פדידה","Password": "user4resu","Email": "אלכס4@moshavit.com","Address": "חיים בר לב 1","Phone": "054-2222225","StartTime": "30/06/2014T19:24:48"},    {"IdUser": "5","FirstName": "חיה","LastName": "טנוס","Password": "user5resu","Email": "חיה5@moshavit.com","Address": "ת.ד. 421","Phone": "054-2222226","StartTime": "30/06/2014T22:51:40"},    {"IdUser": "6","FirstName": "רעות","LastName": "אייזנברג","Password": "user6resu","Email": "רעות6@moshavit.com","Address": "אלכסנדר ינאי 21","Phone": "054-2222227","StartTime": "30/06/2014T23:12:46"},    {"IdUser": "7","FirstName": "אברהם","LastName": "אייזנברג","Password": "user7resu","Email": "אברהם7@moshavit.com","Address": "יהושע בן נון 70","Phone": "054-2222228","StartTime": "30/06/2014T23:58:05"},
@@ -656,3 +664,4 @@ login(prompt("Enter Username "), prompt("Enter Password "));
 //
 //
 //
+*/
