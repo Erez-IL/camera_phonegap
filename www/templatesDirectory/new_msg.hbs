@@ -1,34 +1,33 @@
 
 <div class="well " id="Form">
 
-    <input type="text" id="IdMessage" value="0" style="display:none;width: 1%;">
+    <input type="text" id="IdMessage" value="{{IdMessage}}" style="display:none;width: 1%;">
     <input type="text" id="IdUser" value="1" style="display:none;width: 1%;">
-    <input type="text" id="Name" value="admin" style="display:none;width: 1%;">
-    <input type="text" id="Phone" value="0000" style="display:none;width: 1%;">
 
     <div class="input-prepend">
         <label for="Title">נושא</label>
-        <input type="text" id="Title" value="" placeholder="הכנס נושא" required="required" style="width: 100%;">
+        <input type="text" id="Title" value="{{Title}}" placeholder="הכנס נושא" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend">
         <label for="Description">תאור</label>
-        <input type="text" id="Description" value="" placeholder="הכנס תאור" required="required" style="width: 100%;">
+        <input type="text" id="Description" value="{{Description}}" placeholder="הכנס תאור" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend">
         <label for="Content">תוכן</label>
-        <input type="text" id="Content" value="" placeholder="הכנס תוכן" required="required" style="width: 100%;">
+        <input type="text" id="Content" value="{{Content}}" placeholder="הכנס תוכן" required="required" style="width: 100%;">
     </div>
-    <div class="input-prepend">
+    <div class="textarea-prepend">
         <label for="Details">פרטים</label>
-        <textarea type="text" id="Details" value="" placeholder="הכנס פרטיי מודעה חדשה ..." required="required" style="width: 100%;height: 150px;"></textarea>
+        <textarea id="Details" placeholder="הכנס פרטיי מודעה חדשה ..." required="required" style="width: 100%;height: 150px;">{{Details}}</textarea>
+        <input type="button" class="send-image hidden-desktop" value="camera" />
+        <input type="button" class="send-image hidden-desktop" value="library" />
+        <img style="width:100px;height:100px;display: none;" class="hidden-desktop" id="image" src="" />
     </div>
 
-    <button class="btn-large btn-block register btn-success" onclick="register(stringifyUserJSON());">שמור</button>
+    <button class="btn-large btn-block msg_func btn-success" onclick="msg_func(stringifyUserJSON());">שמור</button>
     <br>
     <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
 </div>
-
-//$.post("http://moshavit.somee.com/api/"+"login", {Email:"admin",Password:"admin"}, function(data) {});
 
 <script type="text/javascript">
     $("#Title").focus();
@@ -43,7 +42,7 @@
             "IdUser": $('#IdUser').val(),
             "Title": $('#Title').val()
         };
-        if($('#IdMessage').val()>0) tjson["IdMessage"]=$('#IdMessage').val();
+        if($('#IdMessage').val()>0) tjson["IdMessage"]=$('#IdMessage').val(); 
         return JSON.stringify(tjson)
     };
     var clear_form = function () {
@@ -55,17 +54,17 @@
         $("#Title").focus();
     };
 
-    var register = function (register_details) {
-        var PP= ($('#IdMessage').val()!=0?'PUT':'POST');
+    var msg_func = function (msg_func_details) {
+        var PP= ($('#IdMessage').val()!=0?'PUT':'POST'); 
         $.ajax({
             type: PP,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             url: "http://moshavit.somee.com/api/bulletinboard",
-            data: register_details,
+            data: msg_func_details,
             success: function (data) {
                 // Do something....
-                if (Debug_mode) {console.log(register_details);}
+                if (Debug_mode) {console.log(msg_func_details);}
             },
             error: function (xhr, errorType, thrownError) {
                 if (Debug_mode) {console.log(xhr);}
@@ -74,21 +73,49 @@
                         alert("404");
                         break;
                     case 400:
-                        alert(xhr.responseText);
+                        alert("חלק מהפרטים חסרים או לא תקינים");
                         break;
                     case 500:
                         alert("חלק מהפרטים חסרים או לא תקינים"); 
                         break;
                     case 200:
-                        alert("ההודעה נוספה בהצלחה");
+                        if(PP==='PUT')
+                            alert("ההודעה עודכנה בהצלחה");
+                        else
+                            alert("ההודעה נוספה בהצלחה");
                         main_screen();
                         update_data("bulletinboard");
-                        if (Debug_mode) {console.log(register_details);}
+                        if (Debug_mode) {console.log(msg_func_details);}
                         break;
                 }
             }
         });
     };
+    $(document).ready(function() {
+        function sendImage(src) {
+
+            // Set the image source [library || camera]
+            src = (src == 'library') ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA;
+
+            // Aquire the image -> Phonegap API
+            navigator.camera.getPicture(success, fail, {quality: 10, sourceType: src, allowEdit: true, destinationType: Camera.DestinationType.DATA_URL});
+
+            // Successfully aquired image data -> base64 encoded string of the image file
+            function success(imageData) {
+                $('#Details').val(imageData);
+                $('#image').attr('src', 'data:image/jpeg;base64,' + imageData);
+                $('#Details').css("display", "none");
+                $('#image').css("display", "block");
+
+                $('#image').removeClass("hidden-desktop");
+            }
+
+            function fail(message) { alert("ישנה שגיאה בתמונה"); }
+        }
+
+        $('.send-image').click(function () { sendImage($(this).val()); }); 
+
+    });
 </script>
 
 

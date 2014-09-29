@@ -32,14 +32,14 @@
 <div class="well col-md-3" style="width:10em; padding: 8px 0; position:fixed;">
     <ul class="nav nav-pills nav-stacked" id="desktopMenu"> 
         <li class="active"><a href="#">ראשי</a></li>
-        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('user_profile',get_all_users+CurrentSessionUser.IdUser,'container');$('#container').css({'margin-right': '11em'});">פרופיל</a></li>
-        <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('users',get_all_users,'container');$('#container').css({'margin-right': '11em'});">משתמשים</a></li>
-        <li><a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#email').val(CurrentSessionUser.Email).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</a></li>
-        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('messages',get_all_users,'container');$('#container').css({'margin-right': '11em'});">הודעות</a></li>
-        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('babysitter',get_all_users,'container');$('#container').css({'margin-right': '11em'});">BabySitter</a></li>
-        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('carpull',get_all_users,'container');$('#container').css({'margin-right': '11em'});">CarPull</a></li>
+        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('user_profile','container','');$('#container').css({'margin-right': '11em'});">פרופיל</a></li>
+        <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('users','container','');$('#container').css({'margin-right': '11em'});">משתמשים</a></li>
+        <li><a href="#" onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</a></li>
+        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('messages','container','');$('#container').css({'margin-right': '11em'});">הודעות</a></li>
+        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('babysitter','container','');$('#container').css({'margin-right': '11em'});">BabySitter</a></li>
+        <li><a href="#" onclick="clean_main_container();dynamic_TemplateHBS('carpull','container','');$('#container').css({'margin-right': '11em'});">CarPull</a></li>
         <li><a href="#">Settings</a></li>
-        <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('survey',get_all_users,'container');$('#container').css({'margin-right': '11em'});">Survey</a></li>
+        <li><a href="#"  onclick="clean_main_container();dynamic_TemplateHBS('survey','container','');$('#container').css({'margin-right': '11em'});">Survey</a></li>
         <li><a href="#">Calender</a></li>
         <li><a href="#"  onclick="clean_main_container();static_TemplateHBS('register','container');$('#container').css({'margin-right': '11em'});">משתמש חדש</a></li>
         <li><a href="#" onclick="clean_body();CurrentSessionUser={}; static_TemplateHBS('login','body');$('#container').css({'margin-right': '11em'});">יציאה</a></li>

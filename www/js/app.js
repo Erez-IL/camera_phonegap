@@ -8,13 +8,13 @@
 var Debug_mode = false;
 if(Debug_mode){
     var CurrentSessionUser = {
-        "IdUser":0,
+        "IdUser":65,
         "FirstName": "Admin",
         "LastName": "None",
         "Password": "azxsdxadc",
         "Email": "mail@gmail.com",
         "Address": "בני אפריים 222 , תל אביב",
-        "StartTime": "30/08/2014T15:55:12",
+        "StartTime": "2014-08-30T20:55:12",
         "Phone": "051-2345678"
     };  
 }else{
@@ -49,7 +49,7 @@ var clean_main_container = function () {
 var clean_body = function () {
     $('body').empty();
 };
-                                        
+
 var add_containers_to_body = function () {
     $('body').append('<div id="container-head"  ></div>');
     $('body').append('<div id="container-head1" style="display: none;" ><div class="contener_box" style="position: relative;margin-left: auto;margin-right: auto; " id="loadin_it">    <div class="box">      <i><img src="img/logo.png" style="max-height: 100px; max-width: 100px;display: block;    margin-left: auto;    margin-right: auto;" ></i>    </div></div></div>');
@@ -71,30 +71,57 @@ var getTemplateHBS = function (templateName, callback) {
         callback(template);
     });
 };
-var dynamic_TemplateHBS = function (name, api_route,container) {
+var dynamic_TemplateHBS = function (name, container ,t) {
     loading_it("show");
     getTemplateHBS(name, function (template) {
-        sleep(2000);
-        //$.getJSON( api_route, function (data) {
-        //for local varibels
+        sleep(1000);
         switch (name) {
             case "users":
-                data=Users;
+                if(t!==''){
+                    data=[];
+                    data.push(getByID(Users,'IdUser',t));
+                    console.log(data);
+                }
+                else
+                    data=Users;
                 break;
             case "carpull":
-                data=CarPull;
+                if(t!=='') {
+                    data=[];
+                    data.push(getByID(CarPull,'IdMessage',t));
+                }
+                else
+                    data=CarPull;
                 break;
             case "babysitter":
-                data=BabySitter;
+                if(t!==''){
+                    data=[];
+                    data.push(getByID(BabySitter,'IdMessage',t));
+                }
+                else
+                    data=BabySitter;
                 break;
             case "messages":
-                data=BulletinBoard;
+                if(t!==''){
+                    data=[];
+                    data.push(getByID(BulletinBoard,'IdMessage',t));
+                }
+                else
+                    data=BulletinBoard;
                 break;
-            case "survey":
-                data=Survey;
+            case "survey":  
+                if(t!==''){
+                    data=[];
+                    data.push(getByID(Survey,'IdSurvey',t));
+                }
+                else                   
+                    data=Survey;
                 break;
             case "user_profile":
-                data=CurrentSessionUser;
+                if(t!=='')
+                    data=getByID(Users,'IdUser',t);
+                else
+                    data=CurrentSessionUser;
                 break;
         }
         if (Debug_mode) console.log("Got data by api: ", data);
@@ -102,9 +129,6 @@ var dynamic_TemplateHBS = function (name, api_route,container) {
         container = '#'+container;
         loading_it("hide"); 
         $(container).append(templateWithData);
-
-        //for local varibels
-        //});
     });
 
 };
@@ -141,6 +165,14 @@ var alert_moshavit=function(msg,title,btn){
 var confirm_moshavit_exit=function(msg,title,btns){navigator.notification.confirm(msg,confirm_moshavit_exit_callback,title,btns);}
 var confirm_moshavit_exit_callback=function(op){if (op == 1){navigator.app.exitApp();}}
 
+var getByID=function(arr,key, value) {
+
+    var result = [];
+    arr.forEach(function(o){if (o[key] == value) result.push(o);} );
+    return result? result[0] : null; // or undefined
+
+}
+
 
 var post_api=function(api_route,params){
     //$.post("http://moshavit.somee.com/api/"+"login", {Email:"admin",Password:"admin"}, function(data) {});
@@ -165,7 +197,7 @@ var put_api=function(api_route,params){
     });
 }
 
-
+var base64Matcher = new RegExp("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$");
 Handlebars.registerHelper("math", function(lvalue, operator, rvalue, options) {
     lvalue = parseFloat(lvalue);
     rvalue = parseFloat(rvalue);
@@ -187,6 +219,14 @@ Handlebars.registerHelper("fixDate", function(date) {
     dateYYMMDD = dateYYMMDD.split("-");
 
     return dateHHII[0]+" "+dateYYMMDD[2]+"/"+dateYYMMDD[1]+"/"+dateYYMMDD[0];
+});
+Handlebars.registerHelper('base64', function(text) {
+    if (base64Matcher.test(text) & text.length > 150) { 
+        text="<img style='width:100px;height:100px;' src='data:image/jpeg;base64," + text + "'/>";
+        return new Handlebars.SafeString(text);
+    } else {
+        return text;
+    }
 });
 
 var sleep=function(milliseconds) {
