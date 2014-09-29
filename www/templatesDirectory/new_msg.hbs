@@ -50,6 +50,26 @@
 
         $("#Title").focus();
     };
+    $('#Title').on('keyup', function(e) {
+        if (e.which == 13) {
+            msg_func(stringifyUserJSON());
+        }
+    });
+    $('#Description').on('keyup', function(e) {
+        if (e.which == 13) {
+            msg_func(stringifyUserJSON());
+        }
+    });
+    $('#Content').on('keyup', function(e) {
+        if (e.which == 13) {
+            msg_func(stringifyUserJSON());
+        }
+    });
+    $('#Details').on('keyup', function(e) {
+        if (e.which == 13) {
+            msg_func(stringifyUserJSON());
+        }
+    });
 
     var msg_func = function (msg_func_details) {
         if($('#Description').val()==='' || $('#Content').val()==='' || $('#Title').val()==='' || $('#Details').val()==='') {
