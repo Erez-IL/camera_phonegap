@@ -222,7 +222,7 @@ Handlebars.registerHelper("fixDate", function(date) {
 });
 Handlebars.registerHelper('base64', function(text) {
     if (base64Matcher.test(text) & text.length > 150) { 
-        text="<img style='width:100px;height:100px;' src='data:image/jpeg;base64," + text + "'/>";
+        text="<img style='width:150px;height:150px;' src='data:image/jpeg;base64," + text + "'/>";
         return new Handlebars.SafeString(text);
     } else {
         return text;
