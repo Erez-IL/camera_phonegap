@@ -109,6 +109,13 @@ var dynamic_TemplateHBS = function (name, container ,t) {
                 else
                     data=BulletinBoard;
                 break;
+                case "new_msg":
+                if(t!==''){
+                    data=getByID(BulletinBoard,'IdMessage',t);
+                }
+                else
+                    data=BulletinBoard;
+                break;
             case "survey":  
                 if(t!==''){
                     data=[];
@@ -117,6 +124,12 @@ var dynamic_TemplateHBS = function (name, container ,t) {
                 else                   
                     data=Survey;
                 break;
+            case "register":
+                if(t!=='')
+                    data=getByID(Users,'IdUser',t);
+                else
+                    data=CurrentSessionUser;
+                break;
             case "user_profile":
                 if(t!=='')
                     data=getByID(Users,'IdUser',t);
@@ -124,7 +137,7 @@ var dynamic_TemplateHBS = function (name, container ,t) {
                     data=CurrentSessionUser;
                 break;
         }
-        if (Debug_mode) console.log("Got data by api: ", data);
+        console.log("Got data by api: ", data);
         var templateWithData = template(data);
         container = '#'+container;
         loading_it("hide"); 
@@ -168,8 +181,11 @@ var confirm_moshavit_exit_callback=function(op){if (op == 1){navigator.app.exitA
 var getByID=function(arr,key, value) {
 
     var result = [];
-    arr.forEach(function(o){if (o[key] == value) result.push(o);} );
-    return result? result[0] : null; // or undefined
+    arr.forEach(function(o){if (o[key] === value) result.push(o);} );
+    console.log(result);
+    result=result[0];
+    console.log(result);
+    return result? result : null; // or undefined
 
 }
 
@@ -227,6 +243,12 @@ Handlebars.registerHelper('base64', function(text) {
     } else {
         return text;
     }
+});
+Handlebars.registerHelper('memberType', function(type) {
+    if (type===3) return "שוכר";
+    if (type===2) return "תושב";
+    if (type===1) return "מנהל";
+    return "לא מוגדר";
 });
 
 var sleep=function(milliseconds) {

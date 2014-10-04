@@ -1,7 +1,10 @@
 {{#if this}}
-
+<div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
+    <br><br>
+</div>
 {{#each this}}
-<div class="well  ">
+<div class="well  "> 
     <div class="row-fluid user-row">
         <div class="span10">
             <span class="text-muted">{{Title}}</span></br>
@@ -63,16 +66,8 @@
                 </div>
                 <div class="panel-footer">
                     <button class="btn  btn-primary" type="button"
-                        data-toggle="tooltip"
-                        data-original-title="Send message to user"><i class="icon-envelope icon-white"></i></button>
-                    <span class="pull-right">
-                        <button class="btn btn-warning" type="button"
-                            data-toggle="tooltip"
-                            data-original-title="Edit this user"><i class="icon-edit icon-white"></i></button>
-                        <button class="btn btn-danger" type="button"
-                            data-toggle="tooltip"
-                            data-original-title="Remove this user"><i class="icon-remove icon-white"></i></button>
-                    </span>
+                        data-toggle="tooltip" onclick="dynamic_TemplateHBS('new_msg','container',{{IdMessage}});clean_main_container();setTimeout(function(){$('#email').prop('disabled', true);},1000);"
+                        data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;ערוך</button>
                 </div>
             </div>
         </div>
@@ -204,9 +199,13 @@
 </script>
 {{else}}
 <div class="well">
+    <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
+        <br><br>
+    </div>
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
-            <th>No BulletinBoard found.</th>
+            <th>לא קיימות הודעות במערכת.</th>
         </thead>
         <tbody></tbody>
     </table>

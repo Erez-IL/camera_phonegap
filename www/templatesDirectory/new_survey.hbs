@@ -1,0 +1,149 @@
+
+<div class="well " id="Form">
+
+    <input type="text" id="IdSurvey" value="{{IdSurvey}}" style="display:none;width: 1%;">
+    <input type="text" id="IdUser" value="0" style="display:none;width: 1%;">
+
+    <div class="input-prepend">
+        <label for="Question">שאלת הסקר</label>
+        <input type="text" id="Question" value="{{Question}}" placeholder="הכנס את שאלת הסקר" required="required" style="width: 100%;">
+    </div>
+    <div class="input-prepend date">
+        <label for="StartTime">תאריך התחלה</label>
+        <input type="date" id="StartTime" value="{{StartTime}}" placeholder="תאריך התחלה" required="required" style="width: 100%;">
+    </div>
+    <div class="input-prepend date">
+        <label for="EndTime">תאריך סיום</label>
+        <input type="date" id="EndTime" value="{{EndTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
+    </div> 
+    <div class="input-prepend">
+        <label for="Type">סוגי משתמשים</label>
+        <select id="Type" required="required" style="width: 100%;">
+            <option>{{Type}}</option>
+            <option>מנהל</option>
+            <option>תושב</option>
+            <option>שוכר</option>
+        </select>
+    </div>
+
+
+    <button class="btn-large btn-block msg_func btn-success" onclick="survey_func(stringifyUserJSON());">שמור</button>
+    <br>
+    <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
+</div>
+
+<script type="text/javascript">
+    $("#Question").focus();
+    var stringifyUserJSON = function () {
+        tjson={
+            "Question": $('#Question').val(),
+            "StartTime": $('#StartTime').val(),
+            "EndTime": $('#EndTime').val(),
+            "IdUser": CurrentSessionUser.IdUser,
+            "Type": ($('#Type').val()==="מנהל"?1:$('#Type').val()==="תושב"?2:3)
+        };
+        if($('#IdSurvey').val()>0) tjson["IdSurvey"]=$('#IdSurvey').val(); 
+        return JSON.stringify(tjson)
+    };
+    var clear_form = function () {
+        $('#Question').val('');
+        $('#StartTime').val('');
+        $('#EndTime').val('');
+        $('#Type').val('');
+
+        $("#Question").focus();
+    };
+    $('#Question').on('keyup', function(e) {
+        if (e.which == 13) {
+            survey_func(stringifyUserJSON());
+        }
+    });
+
+
+    var survey_func = function (survey) {
+        if($('#Question').val()==='' || $('#StartTime').val()==='' || $('#EndTime').val()==='' || $('#Type').val()==='') {
+            alert("לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים");
+            if($('#Question').val()==='')   
+                $("#Question").focus();
+            else
+                if($('#StartTime').val()==='') 
+                    $("#StartTime").focus();
+                else
+                    if($('#EndTime').val()==='')
+                        $("#EndTime").focus();
+                    else
+                        $("#Type").focus();
+        }
+        else{
+            var PP= ($('#IdSurvey').val()!=0?'PUT':'POST');
+            $('#Form').css("display", "none");
+            loading_it('show'); 
+            $.ajax({
+                type: PP,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                url: "http://moshavit.somee.com/api/Survey",
+                data: survey,
+                success: function (data) {
+                    // Do something....
+                    if (Debug_mode) {console.log(survey);}
+                },
+                error: function (xhr, errorType, thrownError) {
+                    if (Debug_mode) {console.log(xhr);}
+                    switch (xhr.status) {
+                        case 404:
+                            alert("404");
+                            break;
+                        case 400:
+                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            $('#container').css("display", "block");
+                            loading_it('hide');
+                            break;
+                        case 500:
+                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            $('#container').css("display", "block");
+                            loading_it('hide'); 
+                            break;
+                        case 200:
+                            if(PP==='PUT')
+                                alert("הסקר עודכן בהצלחה");
+                            else
+                                alert("הסקר נוסף בהצלחה");
+                            main_screen();
+                            update_data("survey");
+                            if (Debug_mode) {console.log(survey);}
+                            break;
+                    }
+                }
+            });
+        }
+    };
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

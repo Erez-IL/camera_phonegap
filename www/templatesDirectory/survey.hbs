@@ -1,6 +1,9 @@
 
 {{#if this}}
-
+<div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">סקר חדש</button> 
+    <br><br>
+</div>
 {{#each this}}
 <div class="well">
     <div class="row-fluid user-row">
@@ -48,19 +51,25 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="panel-footer">
-                    <button class="btn  btn-primary" type="button"
-                        data-toggle="tooltip"
-                        data-original-title="Send message to user"><i class="icon-envelope icon-white"></i></button>
-                    <span class="pull-right">
-                        <button class="btn btn-warning" type="button"
-                            data-toggle="tooltip"
-                            data-original-title="Edit this user"><i class="icon-edit icon-white"></i></button>
-                        <button class="btn btn-danger" type="button"
-                            data-toggle="tooltip"
-                            data-original-title="Remove this user"><i class="icon-remove icon-white"></i></button>
-                    </span>
+                </div>  
+                <div>  
+                    הדעה שלך !
+                    <div class="panel-footer">
+                        <button class="btn  btn-success" type="button"
+                            onclick='votenow({{IdSurvey}},"{{Question}}",1);'
+                            data-original-title="הצבעה"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;כן</button>
+
+
+                        <button class="btn  btn-danger" type="button"
+                            onclick='votenow({{IdSurvey}},"{{Question}}",2);'
+                            data-original-title="הצבעה"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;לא</button>
+
+
+                        <button class="btn  btn-info" type="button"
+                            onclick='votenow({{IdSurvey}},"{{Question}}",3);'
+                            data-original-title="הצבעה"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;נמנע</button>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -183,14 +192,52 @@
         })
     });
 
-    $('[data-toggle="tooltip"]').tooltip();
+    var votenow = function(IdSurvey,survey,answer){
+        IdUser=CurrentSessionUser.IdUser;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            url: "http://moshavit.somee.com/api/vote",
+            data: JSON.stringify({"IdSurvey":IdSurvey,"IdUser":IdUser,"Vote":answer}),
+            success: function (data) {
+                // Do something....
+                if (Debug_mode) {console.log(survey);}
+            },
+            error: function (xhr, errorType, thrownError) {
+                if (Debug_mode) {console.log(xhr);}
+                switch (xhr.status) {
+                    case 404:
+                        alert("404");
+                        break;
+                    case 400:
+                        alert("הצבעת כבר");
+                        $('#container').css("display", "block");
+                        loading_it('hide');
+                        break;
+                    case 500:
+                        alert("הצבעת כבר");
+                        $('#container').css("display", "block");
+                        loading_it('hide'); 
+                        break;
+                    case 200:
+                        alert('ההצבעה נקלטה בהצלחה');
+                        main_screen();
+                        update_data("survey");
+                        if (Debug_mode) {console.log(survey);}
+                        break;
+                }
+            }
+        });
+    };
 
-    $('button').click(function (e) {
-        e.preventDefault();
-        alert("This is a demo.\n :-)");
-    });
+
 </script>
 {{else}}
+<div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">סקר חדש</button> 
+    <br><br>
+</div>
 <div class="well">
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>

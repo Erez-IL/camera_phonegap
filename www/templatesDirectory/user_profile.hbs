@@ -9,18 +9,12 @@
         <h6>התחלת שימוש: {{fixDate StartTime}}</h6>
         <h6>כתובת: {{Address}}</h6>
         <h6>טלפון: {{Phone}}</h6>
+        <h6>סוג משתמש: {{memberType Type}}</h6>
     </div>
 
-    <div class="span2">
-        <div class="btn-group">
-            <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
-                Action
-                <span class="icon-cog icon-white"></span><span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="#"><span class="icon-wrench"></span> ערוך</a></li>
-                <li><a href="#"><span class="icon-trash"></span> מחק</a></li>
-            </ul>
-        </div>
+    <div class="panel-footer">
+        <button class="btn  btn-primary" type="button"
+            data-toggle="tooltip" onclick="dynamic_TemplateHBS('register','container','');clean_main_container();setTimeout(function(){$('#email').prop('disabled', true);},1000);"
+            data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;ערוך</button>
     </div>
 </div>
