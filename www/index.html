@@ -17,10 +17,22 @@
         <script src="js/vendor/handlebars.js"></script>
         <script src="js/vendor/jqBootstrapValidation.js"></script>
         <script src="js/jquery.mobile-git.js"></script>
+        <script src="/js/handelbar-Helpers.js"></script>
 
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+        <script type="text/javascript">
+            function setCookie(key, value) {
+                var expires = new Date();
+                expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+                document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+            }
 
+            function getCookie(key) {
+                var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+                return keyValue ? keyValue[2] : null;
+            }
+        </script>
     </head>
     <body>
 

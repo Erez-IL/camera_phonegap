@@ -1,0 +1,163 @@
+
+<div class="well " id="Form">
+
+    <input type="text" id="IdSurvey" value="{{IdMessage}}" style="display:none;width: 1%;">
+    <input type="text" id="IdUser" value="0" style="display:none;width: 1%;">
+
+    <div class="input-prepend">
+        <label for="Title">נושא</label>
+        <input type="text" id="Title" value="{{Title}}" placeholder="הכנס את נושא" required="required" style="width: 100%;">
+    </div>
+    <div class="input-prepend">
+        <label for="Content">תוכן</label>
+        <input type="text" id="Content" value="{{Content}}" placeholder="הכנס את תוכן" required="required" style="width: 100%;">
+    </div>
+    <div class="input-prepend date">
+        <label for="From">מאיכן</label>
+        <input type="text" id="From" value="{{From}}" placeholder="מאיכן" required="required" style="width: 100%;">
+    </div> 
+    <div class="input-prepend date">
+        <label for="To">לאן</label>
+        <input type="text" id="To" value="{{To}}" placeholder="לאן" required="required" style="width: 100%;">
+    </div>
+    <div class="input-prepend date">
+        <label for="PickUp">תאריך התחלה</label>
+        <input type="date" id="PickUp" value="{{PickUp}}" placeholder="תאריך התחלה" required="required" style="width: 100%;">
+    </div>
+    <div class="input-prepend date">
+        <label for="ReturnTime">תאריך חזרה</label>
+        <input type="date" id="ReturnTime" value="{{ReturnTime}}" placeholder="תאריך חזרה" required="required" style="width: 100%;">
+    </div> 
+
+    <button class="btn-large btn-block msg_func btn-success" onclick="carpull_func(stringifyUserJSON());">שמור</button>
+    <br>
+    <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
+</div>
+
+<script type="text/javascript">
+    $("#Question").focus();
+    var stringifyUserJSON = function () {
+        tjson={
+            "Title": $('#Title').val(),
+            "Content": $('#Content').val(),
+            "From": $('#From').val(),
+            "To": $('#To').val(),
+            "PickUp": $('#PickUp').val(),
+            "ReturnTime": $('#ReturnTime').val(),
+            "IdUser": CurrentSessionUser.IdUser
+        };
+        if($('#IdMessage').val()>0) tjson["IdMessage"]=$('#IdMessage').val(); 
+        console.log(JSON.stringify(tjson));
+        return JSON.stringify(tjson)
+    };
+    var clear_form = function () {
+        $('#Title').val('');
+        $('#Content').val('');
+        $('#From').val('');
+        $('#To').val('');
+        $('#PickUp').val('');
+        $('#ReturnTime').val('');
+
+        $("#Title").focus();
+    };
+    $('#Title').on('keyup', function(e) {
+        if (e.which == 13) {
+            carpull_func(stringifyUserJSON());
+        }
+    });
+
+
+    var carpull_func = function (survey) {
+        if($('#Title').val()==='' ||$('#Content').val()==='' || $('#From').val()==='' || $('#To').val()==='' || $('#PickUp').val()==='' || $('#ReturnTime').val()==='' ) {
+            alert("לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים");
+            if($('#Title').val()==='')   
+                $("#Title").focus();
+            else
+                if($('#Content').val()==='')   
+                    $("#Content").focus();
+                else
+                    if($('#From').val()==='')   
+                        $("#From").focus();
+                    else
+                        if($('#To').val()==='')   
+                            $("#To").focus();
+                        else
+                            if($('#StartTime').val()==='') 
+                                $("#StartTime").focus();
+                            else
+                                if($('#ReturnTime').val()==='')
+                                    $("#ReturnTime").focus();
+        }
+        else{
+            var PP= ($('#IdMessage').val()>0?'PUT':'POST');
+            $('#Form').css("display", "none");
+            loading_it('show'); 
+            $.ajax({
+                type: PP,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                url: "http://moshavit.somee.com/api/Carpull",
+                data: survey,
+                success: function (data) {
+                    // Do something....
+                    if (Debug_mode) {console.log(survey);}
+                },
+                error: function (xhr, errorType, thrownError) {
+                    if (Debug_mode) {console.log(xhr);}
+                    switch (xhr.status) {
+                        case 404:
+                            alert("404");
+                            break;
+                        case 400:
+                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            $('#container').css("display", "block");
+                            loading_it('hide');
+                            break;
+                        case 500:
+                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            $('#container').css("display", "block");
+                            loading_it('hide'); 
+                            break;
+                        case 200:
+                            if(PP==='PUT')
+                                alert("קארפול עודכן בהצלחה");
+                            else
+                                alert("קארפול נוסף בהצלחה");
+                            main_screen();
+                            update_data("carpull");
+                            if (Debug_mode) {console.log(survey);}
+                            break;
+                    }
+                }
+            });
+        }
+    };
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

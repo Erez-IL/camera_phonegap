@@ -1,7 +1,14 @@
 {{#if this}}
-
+<div id="FormUsers"></div> 
+<script type="text/javascript">
+    $(document).ready(function(){
+        if(CurrentSessionUser.Type==1){
+            $('#FormUsers').prepend("<div style='text-align: center;'><button class='btn  btn-primary' type='button' onclick='clean_main_container();static_TemplateHBS(\"register\",\"container\");setTimeout(function(){$(\"#IdUser\").val(CurrentSessionUser.IdUser).prop(\"readonly\", true);},2000);$(\"#container\").css({\"margin-right\": \"11em\"});'>משתמש חדש</button><br><br></div>");
+        }
+    });
+</script>
 {{#each this}}
-<div class="well  ">
+<div class="well">
     <div class="row-fluid user-row">
         <div class="span1">
             <img 
@@ -192,19 +199,26 @@
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    $('button').click(function (e) {
-        e.preventDefault();
-        alert("This is a demo.\n :-)");
-    });
 
-</script>
+
+</script> 
 {{else}}
-<div class="well">
+<div class="well" id="FormUsers">
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
             <th>לא קיימים משתמשים</th>
         </thead>
         <tbody></tbody>
     </table>
-    </div>
+</div> 
+<script type="text/javascript">
+    $(document).ready(function(){
+        if(CurrentSessionUser.Type==1){
+            $('#FormUsers').prepend("<div style='text-align: center;'><button class='btn  btn-primary' type='button' onclick='clean_main_container();static_TemplateHBS(\"register\",\"container\");setTimeout(function(){$(\"#IdUser\").val(CurrentSessionUser.IdUser).prop(\"readonly\", true);},2000);$(\"#container\").css({\"margin-right\": \"11em\"});'>משתמש חדש</button><br><br></div>");
+        }
+    });
+</script>
 {{/if}}
+
+
+

@@ -1,0 +1,221 @@
+
+<div class="well " id="Form">
+
+    <input type="text" id="IdMessage" value="{{IdMessage}}" style="display:none;width: 1%;">
+    <input type="text" id="IdUser" value="1" style="display:none;width: 1%;">
+
+    <div class="input-prepend">
+        <label for="Title">נושא</label>
+        <input type="text" id="Title" value="{{Title}}" placeholder="הכנס נושא" required="required" style="width: 100%;">
+    </div>
+    <div class="input-prepend">
+        <label for="Content">תוכן</label>
+        <input type="text" id="Content" value="{{Content}}" placeholder="הכנס תוכן" required="required" style="width: 100%;">
+    </div>
+    <div class="textarea-prepend">
+        <label for="Image1">תמונה 1</label>
+        <textarea id="Image1" placeholder="הכנס פרטיי מודעה חדשה ..." style="display:none; width: 100%;height: 150px;">{{Image1}}</textarea>
+        <input type="button" class="send-image1 hidden-desktop" value="מצלמה" />
+        <input type="button" class="send-image1 hidden-desktop" value="מאלבום תמונות" />
+        <img style="width:100px;height:100px;display: none;" class="hidden-desktop" id="image01" />
+    </div>
+    <div class="textarea-prepend">
+        <label for="Image2">תמונה 2</label>
+        <textarea id="Image2" placeholder="הכנס פרטיי מודעה חדשה ..." style="display:none; width: 100%;height: 150px;">{{Image2}}</textarea>
+        <input type="button" class="send-image2 hidden-desktop" value="מצלמה" />
+        <input type="button" class="send-image2 hidden-desktop" value="מאלבום תמונות" />
+        <img style="width:100px;height:100px;display: none;" class="hidden-desktop" id="image02" />
+    </div>
+    <div class="textarea-prepend">
+        <label for="Image3">תמונה 3</label>
+        <textarea id="Image3" placeholder="הכנס פרטיי מודעה חדשה ..." style="display:none; width: 100%;height: 150px;">{{Image3}}</textarea>
+        <input type="button" class="send-image3 hidden-desktop" value="מצלמה" />
+        <input type="button" class="send-image3 hidden-desktop" value="מאלבום תמונות" />
+        <img style="width:100px;height:100px;display: none;" class="hidden-desktop" id="image03" />
+    </div>
+
+    <button class="btn-large btn-block giveandtake_func btn-success" onclick="giveandtake_func(stringifyUserJSON());">שמור</button>
+    <br>
+    <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
+</div>
+
+<script type="text/javascript">
+    $("#Title").focus();
+    var stringifyUserJSON = function () {
+        tjson={
+            "Content": $('#Content').val(),
+            "Image1": $('#Image1').val(),
+            "Image2": $('#Image2').val(),
+            "Image3": $('#Image3').val(),
+            "IdUser": $('#IdUser').val(),
+            "Title": $('#Title').val()
+        };
+        if($('#IdMessage').val()>0) tjson["IdMessage"]=$('#IdMessage').val(); 
+        return JSON.stringify(tjson)
+    };
+    var clear_form = function () {
+        $('#Content').val('');
+        $('#Title').val('');
+        $('#Image1').val('');
+        $('#Image2').val('');
+        $('#Image3').val('');
+
+        $("#Title").focus();
+    };
+    $('#Title').on('keyup', function(e) {
+        if (e.which == 13) {
+            giveandtake_func(stringifyUserJSON());
+        }
+    });
+    $('#Content').on('keyup', function(e) {
+        if (e.which == 13) {
+            giveandtake_func(stringifyUserJSON());
+        }
+    });
+    $('#Image1').on('keyup', function(e) {
+        if (e.which == 13) {
+            giveandtake_func(stringifyUserJSON());
+        }
+    });
+    $('#Image2').on('keyup', function(e) {
+        if (e.which == 13) {
+            giveandtake_func(stringifyUserJSON());
+        }
+    });
+    $('#Image3').on('keyup', function(e) {
+        if (e.which == 13) {
+            giveandtake_func(stringifyUserJSON());
+        }
+    });
+
+    var giveandtake_func = function (giveandtake_func_details) {
+        if($('#Content').val()==='' || $('#Title').val()==='' ) {
+            alert("לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים");
+            if($('#Title').val()==='')   
+                $("#Title").focus();
+            else
+                if($('#Content').val()==='')
+                    $("#Content").focus();
+        }
+        else{
+            var PP= ($('#IdMessage').val()!=0?'PUT':'POST');
+            $('#Form').css("display", "none");
+            loading_it('show'); 
+            $.ajax({
+                type: PP,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                url: "http://moshavit.somee.com/api/giveandtake",
+                data: giveandtake_func_details,
+                success: function (data) {
+                    // Do something....
+                    if (Debug_mode) {console.log(giveandtake_func_details);}
+                },
+                error: function (xhr, errorType, thrownError) {
+                    if (Debug_mode) {console.log(xhr);}
+                    switch (xhr.status) {
+                        case 404:
+                            alert("404");
+                            break;
+                        case 400:
+                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            $('#container').css("display", "block");
+                            loading_it('hide');
+                            break;
+                        case 500:
+                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            $('#container').css("display", "block");
+                            loading_it('hide'); 
+                            break;
+                        case 200:
+                            if(PP==='PUT')
+                                alert("ההודעה עודכנה בהצלחה");
+                            else
+                                alert("ההודעה נוספה בהצלחה");
+                            main_screen();
+                            update_data("giveandtake");
+                            if (Debug_mode) {console.log(giveandtake_func_details);}
+                            break;
+                    }
+                }
+            });
+        }
+    };
+    $(document).ready(function() {
+        function sendImage1(src) {
+            // Set the image source [library || camera]
+            src = (src == 'מאלבום תמונות') ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA;
+            // Aquire the image -> Phonegap API
+            navigator.camera.getPicture(success, fail, {quality: 10, sourceType: src, allowEdit: true, destinationType: Camera.DestinationType.DATA_URL});
+            // Successfully aquired image data -> base64 encoded string of the image file
+            function success(imageData) {
+                $('#Image1').val(imageData);
+                $('#image01').attr('src', 'data:image/jpeg;base64,' + imageData);
+                $('#image01').css("display", "block");
+                $('#image01').removeClass("hidden-desktop");
+            }
+            function fail(message) { alert("הייתה שגיאה בטעינת התמונה, אנא נסה שנית"); }
+        }
+        function sendImage2(src) {
+            // Set the image source [library || camera]
+            src = (src == 'מאלבום תמונות') ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA;
+            // Aquire the image -> Phonegap API
+            navigator.camera.getPicture(success, fail, {quality: 10, sourceType: src, allowEdit: true, destinationType: Camera.DestinationType.DATA_URL});
+            // Successfully aquired image data -> base64 encoded string of the image file
+            function success(imageData) {
+                $('#Image2').val(imageData);
+                $('#image02').attr('src', 'data:image/jpeg;base64,' + imageData);
+                $('#image02').css("display", "block");
+                $('#image02').removeClass("hidden-desktop");
+            }
+            function fail(message) { alert("הייתה שגיאה בטעינת התמונה, אנא נסה שנית"); }
+        }
+        function sendImage3(src) {
+            // Set the image source [library || camera]
+            src = (src == 'מאלבום תמונות') ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA;
+            // Aquire the image -> Phonegap API
+            navigator.camera.getPicture(success, fail, {quality: 10, sourceType: src, allowEdit: true, destinationType: Camera.DestinationType.DATA_URL});
+            // Successfully aquired image data -> base64 encoded string of the image file
+            function success(imageData) {
+                $('#Image3').val(imageData);
+                $('#image03').attr('src', 'data:image/jpeg;base64,' + imageData);
+                $('#image03').css("display", "block");
+                $('#image03').removeClass("hidden-desktop");
+            }
+            function fail(message) { alert("הייתה שגיאה בטעינת התמונה, אנא נסה שנית"); }
+        }
+
+        $('.send-image1').click(function () { sendImage1($(this).val()); }); 
+        $('.send-image2').click(function () { sendImage2($(this).val()); }); 
+        $('.send-image3').click(function () { sendImage3($(this).val()); }); 
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

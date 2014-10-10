@@ -76,8 +76,10 @@
                     $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; }); 
                     $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
                     $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
+                    $.get("http://moshavit.somee.com/api/GiveAndTake/", function (data) { GiveAndTake=data; }); 
                     main_screen();
-                    setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstName+" "+CurrentSessionUser.LastName)},1000);
+                    setCookie("Email", CurrentSessionUser.Email);
+                    setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstName+" "+CurrentSessionUser.LastName);},1000);
                 },
                 error: function (xhr, errorType, thrownError) {
                     if (Debug_mode) {console.log(xhr);}

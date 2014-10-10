@@ -1,11 +1,8 @@
 
 {{#if this}}
-<div style="text-align: center;"><button class="btn  btn-primary" type="button" 
-        onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">סקר חדש</button> 
-    <br><br>
-</div>
+<div id="FormSurvey"></div>
 {{#each this}}
-<div class="well">
+<div class="well" >
     <div class="row-fluid user-row">
         <div class="span1">
             <img 
@@ -17,11 +14,11 @@
             <span class="text-muted">השאלה: {{Question}}</span><br>
             <span class="text-muted">תאריך התחלה: {{fixDate StartTime}} , תאריך סיום: {{fixDate EndTime}}</span><br>
         </div>
-        <div class="span1 dropdown-user" data-for=".{{IdSurvey}}">
+        <div class="span1 dropdown-user" data-for=".Survey{{IdSurvey}}">
             <i class="icon-chevron-down text-muted"></i>
         </div>
     </div>
-    <div class="row-fluid user-infos {{IdSurvey}}">
+    <div class="row-fluid user-infos Survey{{IdSurvey}}">
         <div class="">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -70,6 +67,11 @@
                             data-original-title="הצבעה"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;נמנע</button>
 
                     </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn  btn-primary" type="button"
+                        data-toggle="tooltip" onclick="DELETE_survey({{IdSurvey}});"
+                        data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;מחק</button>
                 </div>
             </div>
         </div>
@@ -230,20 +232,65 @@
             }
         });
     };
-
+    var DELETE_survey = function(IdSurvey){
+        if(CurrentSessionUser.Type===1)
+            $.ajax({
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                url: "http://moshavit.somee.com/api/Survey/"+IdSurvey,
+                data: JSON.stringify({"IdSurvey":IdSurvey}),
+                success: function (data) {
+                    // Do something....
+                    if (Debug_mode) {console.log(survey);}
+                },
+                error: function (xhr, errorType, thrownError) {
+                    if (Debug_mode) {console.log(xhr);}
+                    switch (xhr.status) {
+                        case 404:
+                            alert("404");
+                            break;
+                        case 400:
+                            alert("לא ניתן למחוק סקר זה");
+                            $('#container').css("display", "block");
+                            loading_it('hide');
+                            break;
+                        case 500:
+                            alert("לא ניתן למחוק סקר זה");
+                            $('#container').css("display", "block");
+                            loading_it('hide'); 
+                            break;
+                        case 200:
+                            alert('הסקר נמחק בהצלחה');
+                            main_screen();
+                            update_data("survey");
+                            if (Debug_mode) {console.log(survey);}
+                            break;
+                    }
+                }
+            })
+            else
+            alert("אין באפשרותך למחוק בסקרים,\nאנא פנה למנהל המערכת ");
+    }
 
 </script>
 {{else}}
-<div style="text-align: center;"><button class="btn  btn-primary" type="button" 
-        onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">סקר חדש</button> 
-    <br><br>
-</div>
-<div class="well">
+
+<div class="well" id="FormSurvey">
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
             <th>לא קיימים סקרים</th>
         </thead>
         <tbody></tbody>
     </table>
-    </div>
+</div>
 {{/if}}
+
+<script>
+    $(document).ready(function() {
+        if(CurrentSessionUser.Type===1){
+            $('#FormSurvey').prepend("<div style='text-align: center;'><button class='btn  btn-primary' type='button' onclick='clean_main_container();static_TemplateHBS(\"new_survey\",\"container\");setTimeout(function(){$(\"#IdUser\").val(CurrentSessionUser.IdUser).prop(\"readonly\", true);},2000);$(\"#container\").css({\"margin-right\": \"11em\"});'>סקר חדש</button><br><br></div>");
+        }
+    });
+</script>
+

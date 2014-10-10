@@ -98,7 +98,7 @@
                 }  
                 else{
                     $('#Form').css("display", "none");
-                    loading_it('show');
+                    loading_it('show');  
                     if( $('#IdUser').val()==='') PP="POST"; else PP="PUT";
                     $.ajax({
                         type: 'POST',
@@ -164,17 +164,20 @@
                     alert('סיסמאות לא תואמות');
                 }  
                 else{
+                    url="http://moshavit.somee.com/api/user";
                     $('#Form').css("display", "none");
                     loading_it('show');
                     $.ajax({
                         type: "PUT",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: register_api,
+                        url: url,
                         data: register_details,
                         success: function (data) {
                             if (Debug_mode) {console.log(register_details);}
                             alert("הפרטים עודכנו במערכת");
+                            update_data("users");
+                            main_screen();
                         },
                         error: function (xhr, errorType, thrownError) {
                             if (Debug_mode) {console.log(xhr);}
@@ -192,7 +195,6 @@
                                     alert("הפרטים עודכנו במערכת");
                                     if (Debug_mode) {console.log(register_details);}
                                     update_data("users");
-                                    setTimeout(function(){$('#sessionUsername').text('שלום ')},3000);
                                     break;
                             }
                         }

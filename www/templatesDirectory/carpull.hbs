@@ -1,10 +1,12 @@
-
 {{#if this}}
-
+<div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('new_carpull','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">מודעה חדשה</button> 
+    <br><br>
+</div>
 {{#each this}}
 <div class="well  ">
     <div class="row-fluid user-row">
-    <div class="span1">
+        <div class="span1">
             <img 
                 src="img/ico/carPull.png"
                 alt="carPull" style="width:100px;height: 100px;float: left;">
@@ -15,11 +17,11 @@
             <span class="text-muted">מ- {{From}} ,</span>
             <span class="text-muted">ל- {{To}}</span><br>
         </div>
-        <div class="span1 dropdown-user" data-for=".{{IdMessage}}">
+        <div class="span1 dropdown-user" data-for=".carpull{{IdMessage}}">
             <i class="icon-chevron-down text-muted"></i>
         </div>
     </div>
-    <div class="row-fluid user-infos {{IdMessage}}">
+    <div class="row-fluid user-infos carpull{{IdMessage}}">
         <div class="span10 offset1">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -220,6 +222,10 @@
 </script>
 {{else}}
 <div class="well">
+    <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('new_carpull','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">מודעה חדשה</button> 
+        <br><br>
+    </div>
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
             <th>No CarPull found.</th>

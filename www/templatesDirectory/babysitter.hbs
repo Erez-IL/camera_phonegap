@@ -1,6 +1,9 @@
 
 {{#if this}}
-
+<div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('new_babysitter','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">מודעה חדשה</button> 
+    <br><br>
+</div>
 {{#each this}}
 <div class="well  ">
     <div class="row-fluid user-row">
@@ -214,6 +217,10 @@
 </script>
 {{else}}
 <div class="well">
+    <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('new_babysitter','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">מודעה חדשה</button> 
+        <br><br>
+    </div>
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
             <th>No BabySitter found.</th>

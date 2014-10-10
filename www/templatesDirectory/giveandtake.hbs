@@ -1,6 +1,6 @@
 {{#if this}}
 <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
-        onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">הודעה חדשה</button> 
+        onclick="clean_main_container();static_TemplateHBS('new_giveandtake','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
     <br><br>
 </div>
 {{#each this}}
@@ -10,11 +10,11 @@
             <span class="text-muted">{{Title}}</span></br>
             <span class="text-muted">{{Content}}</span></br>
         </div>
-        <div class="span1 dropdown-user" data-for=".{{IdMessage}}">
+        <div class="span1 dropdown-user" data-for=".giveandtake{{IdMessage}}">
             <i class="icon-chevron-down text-muted"></i>
         </div>
     </div>
-    <div class="row-fluid user-infos {{IdMessage}}">
+    <div class="row-fluid user-infos giveandtake{{IdMessage}}">
         <div class="span10 offset1">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -51,14 +51,25 @@
                                         <td>Content:</td>
                                         <td>{{Content}}</td>
                                     </tr>
+                                    {{#if Image1}}
                                     <tr>
-                                        <td>Description:</td>
-                                        <td>{{Description}}</td>
-                                    </tr>
+                                        <td>תמונה 1:</td>
+                                        <td>{{base64 Image1}}</td>
+                                    </tr> 
+                                    {{/if}}
+                                    {{#if Image2}}
                                     <tr>
-                                        <td>תאור:</td>
-                                        <td>{{base64 Details}}</td>
+                                        <td>תמונה 2:</td>
+                                        <td>{{base64 Image2}}</td>
                                     </tr>
+                                    {{/if}}
+                                   {{#if Image3}}
+                                    <tr>
+                                        <td>תמונה 3:</td>
+                                        <td>{{base64 Image3}}</td>
+                                    </tr>
+                                    {{/if}}
+                                   
                                 </tbody>
                             </table>
                         </div>
@@ -66,7 +77,7 @@
                 </div>
                 <div class="panel-footer">
                     <button class="btn  btn-primary" type="button"
-                        data-toggle="tooltip" onclick="dynamic_TemplateHBS('new_msg','container',{{IdMessage}});clean_main_container();setTimeout(function(){$('#email').prop('disabled', true);},1000);"
+                        data-toggle="tooltip" onclick="dynamic_TemplateHBS('new_giveandtake','container',{{IdMessage}});clean_main_container();"
                         data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;ערוך</button>
                 </div>
             </div>
@@ -190,17 +201,12 @@
         })
     });
 
-    $('[data-toggle="tooltip"]').tooltip();
 
-    $('button').click(function (e) {
-        e.preventDefault();
-        alert("This is a demo.\n :-)");
-    });
 </script>
 {{else}}
 <div class="well">
     <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
-            onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
+            onclick="clean_main_container();static_TemplateHBS('new_giveandtake','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
         <br><br>
     </div>
     <table id="UserTableList" class="users table table-hover tablesorter">
