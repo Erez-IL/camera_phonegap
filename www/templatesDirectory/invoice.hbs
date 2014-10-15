@@ -1,0 +1,135 @@
+<div id="invoice-tmp">
+    <div class="well">
+        <div class="row">
+            <div >
+                <div class="invoice-title">
+                    <h2>חשבונית - דוגמא!!!</h2>
+                </div>
+                <div class="invoice-title">
+                    <h4>חשבונית מס: 12345</h4>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xs-6 span6">
+                        <address>
+                            <strong>נשלח ל :</strong><br>
+                            {{FirstName}}, {{LastName}}<br>
+                            {{Address}}
+                        </address>
+                    </div>
+                    <div class="col-xs-6 span6 text-right">
+                        <address>
+                            <strong>עבור :</strong><br>
+                            {{FirstName}}, {{LastName}}<br>
+                            {{Phone}}<br>
+                            {{Address}}<br>
+                            {{memberType Type}}
+                        </address>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 span6">
+                        <address>
+                            <strong>תאריך התחלה:</strong>&nbsp;&nbsp;
+                            {{fixDate StartTime}}<br> 
+                            <strong>תאריך סיום:</strong>&nbsp;&nbsp;
+                            {{fixDate StartTime}}<br>
+                        </address>
+                    </div>
+                    <div class="col-xs-6 span6 text-right">
+                        <address>
+                            <strong>תשלום ע"י:</strong><br>
+                            Visa  ******** 4242<br>
+                            {{Email}}
+                        </address>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 span12 " >
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>פרוט חשבונית</strong></h3>
+                    </div>
+                    <div class="panel-body ">
+                        <div class="table-responsive">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td><strong>תאור</strong></td>
+                                        <td class="text-center"><strong>מחיר</strong></td>
+                                        <td class="text-center"><strong>כמות</strong></td>
+                                        <td class="text-right"><strong>סה"כ</strong></td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                    <tr>
+                                        <td>מים חודש אוגוסט</td>
+                                        <td class="text-center">0.5₪</td>
+                                        <td class="text-center">100</td>
+                                        <td class="text-right">50₪</td>
+                                    </tr>
+                                    <tr>
+                                        <td>מים חודש יולי</td>
+                                        <td class="text-center">0.76₪</td>
+                                        <td class="text-center">150</td>
+                                        <td class="text-right">114₪</td>
+                                    </tr>
+                                    <tr>
+                                        <td>מים חודש יוני</td>
+                                        <td class="text-center">0.76₪</td>
+                                        <td class="text-center">166</td>
+                                        <td class="text-right">126.16₪</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>שרותי קהילה</td>
+                                        <td class="text-center">200₪</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-right">200₪</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-center"><strong>סה"כ</strong></td>
+                                        <td class="thick-line text-right">490.16₪</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .invoice-title h2, .invoice-title h3 {
+        display: inline-block;
+    }
+
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+
+    .table > tbody > tr > .thick-line {
+        border-top: 2px solid;
+    }
+    .table > tbody > tr > td{
+        text-align: right;
+        direction: rtl;
+    }  
+    .table > thead > tr > td{
+        text-align: right;
+        direction: rtl;
+    }
+</style>

@@ -1,8 +1,8 @@
 
 {{#if this}}
-<div id="FormSurvey"></div>
+<div id="survey-tmp"></div>
 {{#each this}}
-<div class="well" >
+<div class="well">
     <div class="row-fluid user-row">
         <div class="span1">
             <img 
@@ -68,10 +68,10 @@
 
                     </div>
                 </div>
-                <div class="panel-footer">
-                    <button class="btn  btn-primary" type="button"
-                        data-toggle="tooltip" onclick="DELETE_survey({{IdSurvey}});"
-                        data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;מחק</button>
+                <div class="panel-footer" {{isCurrentUser IdUser}}>
+                    <button class="btn  btn-warning" type="button"
+                        data-toggle="tooltip" onclick="DELETE_survey({{IdSurvey}},{{IdUser}});"
+                        data-original-title="מחק"><i class="icon-remove-sign icon-white"></i>&nbsp;&nbsp;&nbsp;מחק</button> 
                 </div>
             </div>
         </div>
@@ -232,51 +232,54 @@
             }
         });
     };
-    var DELETE_survey = function(IdSurvey){
-        if(CurrentSessionUser.Type===1)
-            $.ajax({
-                type: "DELETE",
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                url: "http://moshavit.somee.com/api/Survey/"+IdSurvey,
-                data: JSON.stringify({"IdSurvey":IdSurvey}),
-                success: function (data) {
-                    // Do something....
-                    if (Debug_mode) {console.log(survey);}
-                },
-                error: function (xhr, errorType, thrownError) {
-                    if (Debug_mode) {console.log(xhr);}
-                    switch (xhr.status) {
-                        case 404:
-                            alert("404");
-                            break;
-                        case 400:
-                            alert("לא ניתן למחוק סקר זה");
-                            $('#container').css("display", "block");
-                            loading_it('hide');
-                            break;
-                        case 500:
-                            alert("לא ניתן למחוק סקר זה");
-                            $('#container').css("display", "block");
-                            loading_it('hide'); 
-                            break;
-                        case 200:
-                            alert('הסקר נמחק בהצלחה');
-                            main_screen();
-                            update_data("survey");
-                            if (Debug_mode) {console.log(survey);}
-                            break;
+    var DELETE_survey = function(IdSurvey,IdUser){
+        if(CurrentSessionUser.Type===1 || CurrentSessionUser.IdUser==IdUser) 
+        {
+            if(confirm("לא ניתן לאחזר מידע לאחר המחיקה")) 
+                $.ajax({
+                    type: "DELETE",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    url: "http://moshavit.somee.com/api/Survey/"+IdSurvey,
+                    data: JSON.stringify({"IdSurvey":IdSurvey}),
+                    success: function (data) {
+                        // Do something....
+                        if (Debug_mode) {console.log(survey);}
+                    },
+                    error: function (xhr, errorType, thrownError) {
+                        if (Debug_mode) {console.log(xhr);}
+                        switch (xhr.status) {
+                            case 404:
+                                alert("404");
+                                break;
+                            case 400:
+                                alert("לא ניתן למחוק סקר זה");
+                                $('#container').css("display", "block");
+                                loading_it('hide');
+                                break;
+                            case 500:
+                                alert("לא ניתן למחוק סקר זה");
+                                $('#container').css("display", "block");
+                                loading_it('hide'); 
+                                break;
+                            case 200:
+                                alert('הסקר נמחק בהצלחה');
+                                main_screen();
+                                update_data("survey");
+                                if (Debug_mode) {console.log(survey);}
+                                break;
+                        }
                     }
-                }
-            })
-            else
+                })
+        }
+        else
             alert("אין באפשרותך למחוק בסקרים,\nאנא פנה למנהל המערכת ");
     }
 
 </script>
 {{else}}
 
-<div class="well" id="FormSurvey">
+<div class="well" id="survey-tmp">
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
             <th>לא קיימים סקרים</th>
@@ -289,7 +292,7 @@
 <script>
     $(document).ready(function() {
         if(CurrentSessionUser.Type===1){
-            $('#FormSurvey').prepend("<div style='text-align: center;'><button class='btn  btn-primary' type='button' onclick='clean_main_container();static_TemplateHBS(\"new_survey\",\"container\");setTimeout(function(){$(\"#IdUser\").val(CurrentSessionUser.IdUser).prop(\"readonly\", true);},2000);$(\"#container\").css({\"margin-right\": \"11em\"});'>סקר חדש</button><br><br></div>");
+            $('#survey-tmp').prepend("<div style='text-align: center;'><button class='btn  btn-primary' type='button' onclick='clean_main_container();static_TemplateHBS(\"new_survey\",\"container\");setTimeout(function(){$(\"#IdUser\").val(CurrentSessionUser.IdUser).prop(\"readonly\", true);},2000);$(\"#container\").css({\"margin-right\": \"11em\"});'>סקר חדש</button><br><br></div>");
         }
     });
 </script>

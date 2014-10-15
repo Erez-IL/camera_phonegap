@@ -18,7 +18,7 @@
         <br><b id="invalidPassword"></b><br><br>
 
         <button class="new_user btn btn-warning" onclick="clean_body();add_containers_to_body();static_TemplateHBS('register','container');">משתמש חדש ?</button>
-        <button class="forgetPasswordButton btn btn-warning" onclick="alert('יש לפנות למנהל המערכת לצורכי איפוס סיסמה\n בשלב עתידי יהיה טופס איפוס סיסמה');">שכחת סיסמה?</button>
+        <button class="forgetPasswordButton btn btn-warning" onclick="forgotPassword();">שכחת סיסמה?</button>
         <br>
     </div>
     <br>
@@ -99,6 +99,63 @@
             });
         }
     };
+
+    var forgotPassword =function(){
+        if($('#email').val()==='' ) {
+            alert("לצורך שיחזור סיסמה אנא הכנס דוא'ל");
+            $("#email").focus();
+        }
+        else{
+            var email=JSON.stringify({Email: $('#email').val()        });
+            $('#container').css("display", "none");
+            loading_it('show');
+            $.ajax({
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                url: "http://moshavit.somee.com/api/forgotpassword",
+                data:  email,
+                success: function (data) {
+                    alert("אנא בדוק כי קבלת דוא'ל שכולל את הסיסמה והתחבר שוב");
+                    loading_it('hide');
+                    $('#container').css("display", "block");
+                    $('#password').val('');
+                    $("#password").focus();
+                },
+                error: function (xhr, errorType, thrownError) {
+                    if (Debug_mode) {console.log(xhr);}
+                    switch (xhr.status) {
+                        case 404:
+                            alert("404");
+                            break;
+                        case 400:
+                            alert("שם משתמש או סיסמה לא נכונים");
+                            loading_it('hide');
+                            $('#container').css("display", "block");
+                            $('#email').val('');
+                            $("#email").focus();
+                            break;
+                        case 500:
+                            alert("דוא'ל לא תקין");
+                            loading_it('hide');
+                            $('#container').css("display", "block");
+                            $('#email').val('');
+                            $("#email").focus();
+                            break;
+                        case 200:
+                            alert("אנא בדוק כי קבלת דוא'ל שכולל את הסיסמה והתחבר שוב");
+                            loading_it('hide');
+                            $('#container').css("display", "block");
+                            $('#password').val('');
+                            $("#password").focus();
+                            break;
+                    }
+                }
+            }); 
+        }
+    }
+
+
 </script>
 
 
