@@ -17,9 +17,9 @@
         <input type="date" id="EndTime" value="{{EndTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
     </div> 
     <div class="input-prepend">
-        <label for="Type">סוגי משתמשים</label>
-        <select id="Type" required="required" style="width: 100%;">
-            <option>{{Type}}</option>
+        <label for="TypeMember">סוגי משתמשים</label>
+        <select id="TypeMember" required="required" style="width: 100%;">
+            <option>{{TypeMember}}</option>
             <option>מנהל</option>
             <option>תושב</option>
             <option>שוכר</option>
@@ -40,7 +40,7 @@
             "StartTime": $('#StartTime').val(),
             "EndTime": $('#EndTime').val(),
             "IdUser": CurrentSessionUser.IdUser,
-            "Type": ($('#Type').val()==="מנהל"?1:$('#Type').val()==="תושב"?2:3)
+            "TypeMember": ($('#TypeMember').val()==="מנהל"?1:$('#Type').val()==="תושב"?2:3)
         };
         if($('#IdSurvey').val()>0) tjson["IdSurvey"]=$('#IdSurvey').val(); 
         return JSON.stringify(tjson)

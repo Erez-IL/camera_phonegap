@@ -1065,19 +1065,19 @@ var BulletinBoard = [
 ];
 
 var Survey = [
-    {"IdUser": "1", "IdSurvey": "1", "Question": "אנג'לינה ג'ולי היפה בנשים?", "Yes": "34", "No": "13", "Avoid": "4", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-11T20:21:00", "VadName": "EH FZ", "TotalVote": "51"},
-    {"IdUser": "2", "IdSurvey": "2", "Question": "מחירי הדירות יעלו או ירדו", "Yes": "2", "No": "13", "Avoid": "7", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-12T20:22:00", "VadName": "אתי אהרון", "TotalVote": "22"},
-    {"IdUser": "3", "IdSurvey": "3", "Question": "המאכל הישראלי האהוב ביותר - חומוס", "Yes": "24", "No": "36", "Avoid": "4", "StartTime": "2014-11-13T20:00:00", "EndTime": "2014-11-13T20:23:00", "VadName": "ראובן בר", "TotalVote": "64"},
-    {"IdUser": "44", "IdSurvey": "4", "Question": "מיקרוסופט - ווינדוס ענקית התוכנה בדרך למטה?", "Yes": "19", "No": "31", "Avoid": "3", "StartTime": "2014-11-13T20:00:00", "EndTime": "2014-11-14T20:24:00", "VadName": "אנה באחורי", "TotalVote": "53"},
-    {"IdUser": "5", "IdSurvey": "5", "Question": "האם הדיוטי פרי (duty free) באמת הכי זול?", "Yes": "36", "No": "2", "Avoid": "7", "StartTime": "2014-11-15T20:00:00", "EndTime": "2014-11-15T20:25:00", "VadName": "חיה טנוס", "TotalVote": "45"},
-    {"IdUser": "26", "IdSurvey": "6", "Question": "הבורסה תעלה או תרד?", "Yes": "44", "No": "29", "Avoid": "7", "StartTime": "2014-11-16T20:00:00", "EndTime": "2014-11-16T20:26:00", "VadName": "עפר פדידה", "TotalVote": "80"},
-    {"IdUser": "31", "IdSurvey": "7", "Question": "האם אתם בעד או נגד מדינה פלסטינאית", "Yes": "16", "No": "17", "Avoid": "3", "StartTime": "2014-11-16T20:00:00", "EndTime": "2014-11-17T20:27:00", "VadName": "מיכל זליג", "TotalVote": "36"},
-    {"IdUser": "36", "IdSurvey": "8", "Question": "משקיעים בבורסה?", "Yes": "47", "No": "25", "Avoid": "3", "StartTime": "2014-11-16T20:00:00", "EndTime": "2014-11-18T20:28:00", "VadName": "יהודה חי", "TotalVote": "75"},
-    {"IdUser": "41", "IdSurvey": "9", "Question": "מורפיקס,האם אתם משתמשים?", "Yes": "17", "No": "15", "Avoid": "2", "StartTime": "2014-11-18T20:00:00", "EndTime": "2014-11-19T20:29:00", "VadName": "חגי הירשברג", "TotalVote": "34"},
-    {"IdUser": "46", "IdSurvey": "10", "Question": "משחקים בכסף?", "Yes": "47", "No": "13", "Avoid": "0", "StartTime": "2014-11-16T20:00:00", "EndTime": "2014-11-10T20:20:00", "VadName": "סהר קרן צורף", "TotalVote": "60"},
-    {"IdUser": "51", "IdSurvey": "11", "Question": "מזלות,מאמינים?", "Yes": "13", "No": "1", "Avoid": "4", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-11T20:21:00", "VadName": "נטלי גולן", "TotalVote": "18"},
-    {"IdUser": "56", "IdSurvey": "12", "Question": "העם אתם ילדותיים ?", "Yes": "15", "No": "24", "Avoid": "6", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-12T20:22:00", "VadName": "איתי רוזן", "TotalVote": "45"},
-    {"IdUser": "61", "IdSurvey": "13", "Question": "טיסה,אתם אוהבים לטוס?", "Yes": "55", "No": "15", "Avoid": "2", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-13T20:23:00", "VadName": "Dorothy חורי", "TotalVote": "72"}
+    {"IdUser": "1", "IdSurvey": "1", "Question": "אנג'לינה ג'ולי היפה בנשים?", "Yes": "34", "No": "13", "Avoid": "4", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-11T20:21:00", "VadName": "EH FZ", "TotalVote": "51","TypeMember":1},
+    {"IdUser": "2", "IdSurvey": "2", "Question": "מחירי הדירות יעלו או ירדו", "Yes": "2", "No": "13", "Avoid": "7", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-12T20:22:00", "VadName": "אתי אהרון", "TotalVote": "22","TypeMember":2},
+    {"IdUser": "3", "IdSurvey": "3", "Question": "המאכל הישראלי האהוב ביותר - חומוס", "Yes": "24", "No": "36", "Avoid": "4", "StartTime": "2014-11-13T20:00:00", "EndTime": "2014-11-13T20:23:00", "VadName": "ראובן בר", "TotalVote": "64","TypeMember":2},
+    {"IdUser": "44", "IdSurvey": "4", "Question": "מיקרוסופט - ווינדוס ענקית התוכנה בדרך למטה?", "Yes": "19", "No": "31", "Avoid": "3", "StartTime": "2014-11-13T20:00:00", "EndTime": "2014-11-14T20:24:00", "VadName": "אנה באחורי", "TotalVote": "53","TypeMember":2},
+    {"IdUser": "5", "IdSurvey": "5", "Question": "האם הדיוטי פרי (duty free) באמת הכי זול?", "Yes": "36", "No": "2", "Avoid": "7", "StartTime": "2014-11-15T20:00:00", "EndTime": "2014-11-15T20:25:00", "VadName": "חיה טנוס", "TotalVote": "45","TypeMember":3},
+    {"IdUser": "26", "IdSurvey": "6", "Question": "הבורסה תעלה או תרד?", "Yes": "44", "No": "29", "Avoid": "7", "StartTime": "2014-11-16T20:00:00", "EndTime": "2014-11-16T20:26:00", "VadName": "עפר פדידה", "TotalVote": "80","TypeMember":2},
+    {"IdUser": "31", "IdSurvey": "7", "Question": "האם אתם בעד או נגד מדינה פלסטינאית", "Yes": "16", "No": "17", "Avoid": "3", "StartTime": "2014-11-16T20:00:00", "EndTime": "2014-11-17T20:27:00", "VadName": "מיכל זליג", "TotalVote": "36","TypeMember":2},
+    {"IdUser": "36", "IdSurvey": "8", "Question": "משקיעים בבורסה?", "Yes": "47", "No": "25", "Avoid": "3", "StartTime": "2014-11-16T20:00:00", "EndTime": "2014-11-18T20:28:00", "VadName": "יהודה חי", "TotalVote": "75","TypeMember":2},
+    {"IdUser": "41", "IdSurvey": "9", "Question": "מורפיקס,האם אתם משתמשים?", "Yes": "17", "No": "15", "Avoid": "2", "StartTime": "2014-11-18T20:00:00", "EndTime": "2014-11-19T20:29:00", "VadName": "חגי הירשברג", "TotalVote": "34","TypeMember":3},
+    {"IdUser": "46", "IdSurvey": "10", "Question": "משחקים בכסף?", "Yes": "47", "No": "13", "Avoid": "0", "StartTime": "2014-11-16T20:00:00", "EndTime": "2014-11-10T20:20:00", "VadName": "סהר קרן צורף", "TotalVote": "60","TypeMember":2},
+    {"IdUser": "51", "IdSurvey": "11", "Question": "מזלות,מאמינים?", "Yes": "13", "No": "1", "Avoid": "4", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-11T20:21:00", "VadName": "נטלי גולן", "TotalVote": "18","TypeMember":2},
+    {"IdUser": "56", "IdSurvey": "12", "Question": "העם אתם ילדותיים ?", "Yes": "15", "No": "24", "Avoid": "6", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-12T20:22:00", "VadName": "איתי רוזן", "TotalVote": "45","TypeMember":2},
+    {"IdUser": "61", "IdSurvey": "13", "Question": "טיסה,אתם אוהבים לטוס?", "Yes": "55", "No": "15", "Avoid": "2", "StartTime": "2014-11-11T20:00:00", "EndTime": "2014-11-13T20:23:00", "VadName": "Dorothy חורי", "TotalVote": "72","TypeMember":3}
 ];
 
 var GiveAndTake = [
