@@ -429,12 +429,12 @@ var update_data = function (api) {
 };
 
 var latest_news = function () {
-    var latest_Users = Users.splice(0, (Users.length > 5 ? 4 : Users.length - 1));
-    var latest_BabySitter = BabySitter.splice(0, (BabySitter.length > 5 ? 4 : BabySitter.length - 1));
-    var latest_CarPull = CarPull.splice(0, (CarPull.length > 5 ? 4 : CarPull.length - 1));
-    var latest_BulletinBoard = BulletinBoard.splice(0, (BulletinBoard.length > 5 ? 4 : BulletinBoard.length - 1));
-    var latest_Survey = Survey.splice(0, (Survey.length > 5 ? 4 : Survey.length - 1));
-    var latest_GiveAndTake = GiveAndTake.splice(0, (GiveAndTake.length > 5 ? 4 : GiveAndTake.length - 1));
+    var latest_Users = Users.slice(0, 5);
+    var latest_BabySitter = BabySitter.slice(0, 5);
+    var latest_CarPull = CarPull.slice(0, 5);
+    var latest_BulletinBoard = BulletinBoard.slice(0, 5);
+    var latest_Survey = Survey.slice(0, 5);
+    var latest_GiveAndTake = GiveAndTake.slice(0, 5);
     var rander_it=function(template_file,title,data){
         getTemplateHBS(template_file, function (template) {
             $(container).append('<h4 class="well" style="text-align:center;">'+title+'</h4>');
