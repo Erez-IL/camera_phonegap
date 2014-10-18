@@ -1,7 +1,11 @@
 {{#if this}}
 <div id="giveandtake-tmp">
-    <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+    <div class="visible-desktop" style="text-align: center;"><button class="btn  btn-primary" type="button" 
             onclick="clean_main_container();static_TemplateHBS('new_giveandtake','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
+        <br><br>
+    </div>
+    <div class="hidden-desktop" style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('new_giveandtake','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">הודעה חדשה</button> 
         <br><br>
     </div>
     {{#each this}}
@@ -256,8 +260,12 @@
 </script>
 {{else}}
 <div class="well">
-    <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
+    <div class="visible-desktop" style="text-align: center;"><button class="btn  btn-primary" type="button" 
             onclick="clean_main_container();static_TemplateHBS('new_giveandtake','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
+        <br><br>
+    </div>
+    <div class="hidden-desktop" style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('new_giveandtake','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">הודעה חדשה</button> 
         <br><br>
     </div>
     <table id="UserTableList" class="users table table-hover tablesorter">

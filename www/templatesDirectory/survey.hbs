@@ -1,6 +1,12 @@
-
 {{#if this}}
-<div id="survey-tmp"></div>
+<div class="visible-desktop" {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">סקר חדש</button> 
+    <br><br>
+</div>
+<div class="hidden-desktop"  {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">סקר חדש</button> 
+    <br><br>
+</div>
 {{#each this}}
 <div class="well">
     <div class="row-fluid user-row">
@@ -280,6 +286,15 @@
 {{else}}
 
 <div class="well" id="survey-tmp">
+    <div class="visible-desktop" {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">סקר חדש</button> 
+        <br><br>
+    </div>
+    <div class="hidden-desktop"  {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">סקר חדש</button> 
+        <br><br>
+    </div>
+
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
             <th>לא קיימים סקרים</th>
@@ -288,12 +303,3 @@
     </table>
 </div>
 {{/if}}
-
-<script>
-    $(document).ready(function() {
-        if(CurrentSessionUser.Type===1){
-            $('#survey-tmp').prepend("<div style='text-align: center;'><button class='btn  btn-primary' type='button' onclick='clean_main_container();static_TemplateHBS(\"new_survey\",\"container\");setTimeout(function(){$(\"#IdUser\").val(CurrentSessionUser.IdUser).prop(\"readonly\", true);},2000);$(\"#container\").css({\"margin-right\": \"11em\"});'>סקר חדש</button><br><br></div>");
-        }
-    });
-</script>
-

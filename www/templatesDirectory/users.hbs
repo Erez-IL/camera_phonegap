@@ -1,91 +1,90 @@
 {{#if this}}
-<div id="users-tmp">
-    <script type="text/javascript">
-        $(document).ready(function(){
-            if(CurrentSessionUser.Type==1){
-                $('#users-tmp').prepend("<div style='text-align: center;'><button class='btn  btn-primary' type='button' onclick='clean_main_container();static_TemplateHBS(\"register\",\"container\");setTimeout(function(){$(\"#IdUser\").val(CurrentSessionUser.IdUser).prop(\"readonly\", true);},2000);$(\"#container\").css({\"margin-right\": \"11em\"});'>משתמש חדש</button><br><br></div>");
-            }
-        });
-    </script>
-    {{#each this}}
-    <div class="well">
-        <div class="row-fluid user-row">
-            <div class="span1">
-                <img 
-                    src="img/ico/Android-userProfile-48.png"
-                    alt="User" style="width:100px;height: 100px;float: left;">
-            </div>
-            <div class="span10">
-                <strong>שם: {{FirstName}} {{LastName}}</strong><br>
-                <span class="text-muted">דוא"ל: {{Email}}</span> <br>
-                <span class="text-muted">טלפון: {{Phone}}</span>
+<div class="visible-desktop" {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">משתמש חדש</button> 
+    <br><br>
+</div>
+<div class="hidden-desktop"  {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
+        onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">משתמש חדש</button> 
+    <br><br>
+</div>    
+{{#each this}}
+<div class="well">
+    <div class="row-fluid user-row">
+        <div class="span1">
+            <img 
+                src="img/ico/Android-userProfile-48.png"
+                alt="User" style="width:100px;height: 100px;float: left;">
+        </div>
+        <div class="span10">
+            <strong>שם: {{FirstName}} {{LastName}}</strong><br>
+            <span class="text-muted">דוא"ל: {{Email}}</span> <br>
+            <span class="text-muted">טלפון: {{Phone}}</span>
 
-                <div class="span1 dropdown-user" data-for=".{{IdUser}}">   
-                    <i class="icon-chevron-down text-muted"></i>
-                </div>
+            <div class="span1 dropdown-user" data-for=".{{IdUser}}">   
+                <i class="icon-chevron-down text-muted"></i>
             </div>
         </div>
-        <div class="row-fluid user-infos {{IdUser}}">
-            <div class="span10 offset1">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h5 class="panel-title">פרטיי משתמש</h5>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row-fluid">
+    </div>
+    <div class="row-fluid user-infos {{IdUser}}">
+        <div class="span10 offset1">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h5 class="panel-title">פרטיי משתמש</h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row-fluid">
 
-                            <div class="span6">
-                                <strong>{{FirstName}} {{LastName}}</strong><br>
-                                <table class="table table-condensed table-responsive table-user-information">
-                                    <tbody>
-                                        <tr>
-                                            <td>שם פרטי:</td>
-                                            <td>{{FirstName}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>שם משפחה:</td>
-                                            <td>{{LastName}}</td>
-                                        </tr>
-                                        <tr>
-                                        <tr>
-                                            <td>דוא"ל:</td>
-                                            <td>{{Email}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>התחלת שימוש:</td>
-                                            <td>{{fixDate StartTime}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>כתובת</td>
-                                            <td>{{Address}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>טלפון</td>
-                                            <td>{{Phone}}</td>
-                                        </tr> 
-                                        <tr>
-                                            <td>סוג משתמש</td>
-                                            <td>{{memberType Type}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="span6">
+                            <strong>{{FirstName}} {{LastName}}</strong><br>
+                            <table class="table table-condensed table-responsive table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>שם פרטי:</td>
+                                        <td>{{FirstName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>שם משפחה:</td>
+                                        <td>{{LastName}}</td>
+                                    </tr>
+                                    <tr>
+                                    <tr>
+                                        <td>דוא"ל:</td>
+                                        <td>{{Email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>התחלת שימוש:</td>
+                                        <td>{{fixDate StartTime}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>כתובת</td>
+                                        <td>{{Address}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>טלפון</td>
+                                        <td>{{Phone}}</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>סוג משתמש</td>
+                                        <td>{{memberType Type}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="panel-footer" {{isCurrentUser IdUser}}>
-                        <button class="btn  btn-primary" type="button"
-                            data-toggle="tooltip" onclick="dynamic_TemplateHBS('register','container',{{IdUser}});clean_main_container();setTimeout(function(){$('#email').prop('disabled', true);},1000);"
-                            data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;ערוך</button> &nbsp;&nbsp;
-                        <button class="btn  btn-warning" type="button"
-                            data-toggle="tooltip" onclick="DELETE_user({{IdUser}});"
-                            data-original-title="מחק"><i class="icon-remove-sign icon-white"></i>&nbsp;&nbsp;&nbsp;מחק</button>
-                    </div>
+                </div>
+                <div class="panel-footer" {{isCurrentUser IdUser}}>
+                    <button class="btn  btn-primary" type="button"
+                        data-toggle="tooltip" onclick="dynamic_TemplateHBS('register','container',{{IdUser}});clean_main_container();setTimeout(function(){$('#email').prop('disabled', true);},1000);"
+                        data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;ערוך</button> &nbsp;&nbsp;
+                    <button class="btn  btn-warning" type="button"
+                        data-toggle="tooltip" onclick="DELETE_user({{IdUser}});"
+                        data-original-title="מחק"><i class="icon-remove-sign icon-white"></i>&nbsp;&nbsp;&nbsp;מחק</button>
                 </div>
             </div>
         </div>
     </div>
-    {{/each}}
 </div>
+{{/each}}
 <style>
     /*//Reusing bootstrap 3 panel CSS*/
     .panel {
@@ -243,12 +242,17 @@
         else
             alert("אין באפשרותך למחוק משתמשים,\nאנא פנה למנהל המערכת ");
     }
-
-
-
 </script> 
 {{else}}
 <div class="well" id="users-tmp">
+    <div class="visible-desktop" {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">משתמש חדש</button> 
+        <br><br>
+    </div>
+    <div class="hidden-desktop"  {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
+            onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">משתמש חדש</button> 
+        <br><br>
+    </div>
     <table id="UserTableList" class="users table table-hover tablesorter">
         <thead>
             <th>לא קיימים משתמשים</th>
@@ -256,13 +260,6 @@
         <tbody></tbody>
     </table>
 </div> 
-<script type="text/javascript">
-    $(document).ready(function(){
-        if(CurrentSessionUser.Type==1){
-            $('#users-tmp').prepend("<div style='text-align: center;'><button class='btn  btn-primary' type='button' onclick='clean_main_container();static_TemplateHBS(\"register\",\"container\");setTimeout(function(){$(\"#IdUser\").val(CurrentSessionUser.IdUser).prop(\"readonly\", true);},2000);$(\"#container\").css({\"margin-right\": \"11em\"});'>משתמש חדש</button><br><br></div>");
-        }
-    });
-</script>
 {{/if}}
 
 

@@ -50,9 +50,15 @@
 
             <br>
             <br>
-                 <li><a href="#"  
+            <li><a href="#"  
                 onclick="alert('השרות תחת פיתוח');clean_main_container();dynamic_TemplateHBS('invoice','container','');$('#container').css({'margin-right': '11em'});"
-                >חשבונית מים</a></li> 
+                >חשבונית מים</a></li>
+            <li {{isAdmin 1}}><a href="#"  
+                onclick="alert('השרות תחת פיתוח');"
+                >גיבוי</a></li>
+            <li><a href="#"  
+                onclick="clean_main_container();dynamic_TemplateHBS('about_us','container','');$('#container').css({'margin-right': '11em'});"
+                >אודותינו</a></li> 
             <br>
             <br>
 

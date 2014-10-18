@@ -160,6 +160,13 @@ var dynamic_TemplateHBS = function (name, container, t) {
                 }
                 else
                     data = CurrentSessionUser;
+                break; 
+                case "about_us":
+                if (t !== '') {
+                    data = CurrentSessionUser;
+                }
+                else
+                    data = CurrentSessionUser;
                 break;
         }
         console.log("Got data by api: ", data);
@@ -349,6 +356,13 @@ Handlebars.registerHelper('isCurrentUser', function (id) {
         return "style=display:none;"
     }
 });
+Handlebars.registerHelper('isAdmin', function (id) {
+    if ( CurrentSessionUser.Type == 1) {
+        return ""
+    } else {
+        return "style=display:none;"
+    }
+});
 
 var sleep = function (milliseconds) {
     var start = new Date().getTime();
@@ -368,12 +382,12 @@ var update_data = function (api) {
             break;
         case "carpull":
             $.get("http://moshavit.somee.com/api/BabySitter/", function (data) {
-                BabySitter = data;
+                CarPull = data;
             });
             break;
         case "babysitter":
             $.get("http://moshavit.somee.com/api/carpull/", function (data) {
-                CarPull = data;
+                BabySitter = data;
             });
             break;
         case "bulletinboard":
