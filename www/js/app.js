@@ -154,6 +154,20 @@ var dynamic_TemplateHBS = function (name, container, t) {
                 else
                     data = CurrentSessionUser;
                 break;
+            case "new_babysitter":
+                if (t !== '') {
+                    data = getByID(BabySitter, 'IdMessage', t);
+                }
+                else
+                    data = "";
+                break;
+            case "new_carpull":
+                if (t !== '') {
+                    data = getByID(CarPull, 'IdMessage', t);
+                }
+                else
+                    data = "";
+                break;
             case "invoice":
                 if (t !== '') {
                     data = CurrentSessionUser;
@@ -174,8 +188,8 @@ var dynamic_TemplateHBS = function (name, container, t) {
         container = '#' + container;
         loading_it("hide");
         $(container).append(templateWithData);
-//        $('body').append("<div class='scroll-to-top' style='display: block;'>    <img src='img/ico/arrow-up.png' alt='לראש העמוד'></div>");
-        
+        //        $('body').append("<div class='scroll-to-top' style='display: block;'>    <img src='img/ico/arrow-up.png' alt='לראש העמוד'></div>");
+
     });
 
 };
@@ -288,6 +302,7 @@ Handlebars.registerHelper("math", function (lvalue, operator, rvalue, options) {
     }[operator];
 });
 Handlebars.registerHelper("fixDate", function (date) {
+    if(date===undefined) return "";
     /*
     {{fixDate 2014-09-25T21:56:00.13}}        return   21:56:00 25/09/2014
     */
@@ -297,6 +312,26 @@ Handlebars.registerHelper("fixDate", function (date) {
     dateYYMMDD = dateYYMMDD.split("-");
 
     return dateHHII[0] + " " + dateYYMMDD[2] + "/" + dateYYMMDD[1] + "/" + dateYYMMDD[0];
+});
+Handlebars.registerHelper("getDate", function (date) {
+    if(date===undefined) return "";
+    /*
+    {{getDate 2014-09-25T21:56:00.13}}        return    2014-09-25
+    */
+    dateHHII = date.split("T");
+    dateYYMMDD = dateHHII[0];
+
+    return dateYYMMDD;
+});
+Handlebars.registerHelper("getTime", function (date) {
+    if(date===undefined) return "";
+    /*
+    {{getTime 2014-09-25T21:56:00.13}}        return   21:56
+    */
+    dateHHII = date.split("T");
+    dateHHII = dateHHII[1].split(":");
+
+    return dateHHII[0]+":"+dateHHII[1];
 });
 Handlebars.registerHelper('base64', function (text) {
     if (base64Matcher.test(text) && text.length > 150) {

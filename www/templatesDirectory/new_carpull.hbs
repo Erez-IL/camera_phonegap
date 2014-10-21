@@ -1,7 +1,7 @@
 
 <div class="well " id="Form">
 
-    <input type="text" id="IdSurvey" value="{{IdMessage}}" style="display:none;width: 1%;">
+    <input type="text" id="IdMessage" value="{{IdMessage}}" style="display:none;width: 1%;">
     <input type="text" id="IdUser" value="0" style="display:none;width: 1%;">
 
     <div class="input-prepend">
@@ -13,25 +13,29 @@
         <input type="text" id="Content" value="{{Content}}" placeholder="הכנס את תוכן" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend date">
-        <label for="From">מאיכן</label>
+        <label for="From">מקור</label>
         <input type="text" id="From" value="{{From}}" placeholder="מאיכן" required="required" style="width: 100%;">
     </div> 
     <div class="input-prepend date">
-        <label for="To">לאן</label>
+        <label for="To">יעד</label>
         <input type="text" id="To" value="{{To}}" placeholder="לאן" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend date">
-        <label for="PickUp">תאריך התחלה</label>
-        <input type="date" id="PickUp" value="{{PickUp}}" placeholder="תאריך התחלה" required="required" style="width: 100%;">
+        <label for="PickUpDate">תאריך איסוף</label>
+        <input type="date" id="PickUpDate" value="{{getDate PickUp}}" placeholder="תאריך התחלה" required="required" style="width: 100%;"> 
+        <label for="PickUp">שעת איסוף</label>
+        <input type="time" id="PickUp" value="{{getTime PickUp}}" placeholder="תאריך התחלה"  required="required" style="width: 100%;">
     </div>
     <div class="input-prepend date">
-        <label for="ReturnTime">תאריך חזרה</label>
-        <input type="date" id="ReturnTime" value="{{ReturnTime}}" placeholder="תאריך חזרה" required="required" style="width: 100%;">
+        <label for="ReturnDate">תאריך חזרה</label>
+        <input type="date" id="ReturnDate" value="{{getDate ReturnTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
+        <label for="ReturnTime">שעת חזרה</label>
+        <input type="time" id="ReturnTime" value="{{getTime ReturnTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
     </div> 
-
-    <button class="btn-large btn-block msg_func btn-success" onclick="carpull_func(stringifyUserJSON());">שמור</button>
+    
+    <button class="btn-large btn-block msg_func btn-success" onclick="carpull_func(stringifyUserJSON());" >שמור</button>
     <br>
-    <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
+    <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>  
 </div>
 
 <script type="text/javascript">
@@ -42,8 +46,8 @@
             "Content": $('#Content').val(),
             "From": $('#From').val(),
             "To": $('#To').val(),
-            "PickUp": $('#PickUp').val(),
-            "ReturnTime": $('#ReturnTime').val(),
+            "PickUp": $('#PickUpDate').val()+" "+$('#PickUp').val(),
+            "ReturnTime": $('#ReturnDate').val()+" "+$('#ReturnTime').val(),
             "IdUser": CurrentSessionUser.IdUser
         };
         if($('#IdMessage').val()>0) tjson["IdMessage"]=$('#IdMessage').val(); 
@@ -55,8 +59,10 @@
         $('#Content').val('');
         $('#From').val('');
         $('#To').val('');
-        $('#PickUp').val('');
-        $('#ReturnTime').val('');
+        $('#PickUpDate').val('');
+        $('#PickUp').val('00:00');
+        $('#ReturnDate').val('');
+        $('#ReturnTime').val('00:00');
 
         $("#Title").focus();
     };
@@ -89,7 +95,7 @@
                                     $("#ReturnTime").focus();
         }
         else{
-            var PP= ($('#IdMessage').val()>0?'PUT':'POST');
+            var PP= (($('#IdMessage').val()!==0) & ($('#IdMessage').val()!=="")?'PUT':'POST');
             $('#Form').css("display", "none");
             loading_it('show'); 
             $.ajax({

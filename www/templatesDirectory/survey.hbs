@@ -1,9 +1,5 @@
 {{#if this}}
-<div class="visible-desktop"  style="text-align: center;{{isAdmin 1}}"><button class="btn  btn-primary" type="button" 
-        style="{{isAdmin IdUser}}"  onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">סקר חדש</button> 
-    <br><br>
-</div>
-<div class="hidden-desktop"   style="text-align: center;{{isAdmin 1}}"><button class="btn  btn-primary" type="button" 
+<div style="text-align: center;{{isAdmin 1}}"><button class="btn  btn-primary" type="button" 
         style="{{isAdmin IdUser}}"  onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">סקר חדש</button> 
     <br><br>
 </div>
@@ -288,11 +284,7 @@
 {{else}}
 
 <div class="well" id="survey-tmp">
-    <div class="visible-desktop"  style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
-             style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">סקר חדש</button> 
-        <br><br>
-    </div>
-    <div class="hidden-desktop"   style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
+    <div style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
              style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('new_survey','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">סקר חדש</button> 
         <br><br>
     </div>

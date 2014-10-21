@@ -9,20 +9,23 @@
         <input type="text" id="Question" value="{{Question}}" placeholder="הכנס את שאלת הסקר" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend date">
-        <label for="StartTime">תאריך התחלה</label>
-        <input type="date" id="StartTime" value="{{StartTime}}" placeholder="תאריך התחלה" required="required" style="width: 100%;">
+        <label for="StartDate">תאריך התחלה</label>
+        <input type="date" id="StartDate" value="{{getDate StartTime}}" placeholder="תאריך התחלה" required="required" style="width: 100%;"> 
+        <label for="StartTime">שעת התחלה</label>
+        <input type="time" id="StartTime" value="{{getTime StartTime}}" placeholder="תאריך התחלה"  required="required" style="width: 100%;">
     </div>
     <div class="input-prepend date">
-        <label for="EndTime">תאריך סיום</label>
-        <input type="date" id="EndTime" value="{{EndTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
+        <label for="EndDate">תאריך סיום</label>
+        <input type="date" id="EndDate" value="{{getDate EndTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
+        <label for="EndTime">שעת סיום</label>
+        <input type="time" id="EndTime" value="{{getTime EndTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
     </div> 
     <div class="input-prepend">
         <label for="TypeMember">סוגי משתמשים</label>
         <select id="TypeMember" required="required" style="width: 100%;">
-            <option>{{TypeMember}}</option>
-            <option>מנהל</option>
             <option>תושב</option>
             <option>שוכר</option>
+            <option>מנהל</option>
         </select>
     </div>
 
@@ -37,8 +40,8 @@
     var stringifyUserJSON = function () {
         tjson={
             "Question": $('#Question').val(),
-            "StartTime": $('#StartTime').val(),
-            "EndTime": $('#EndTime').val(),
+            "StartTime": $('#StartDate').val()+" "+$('#StartTime').val(),
+            "EndTime": $('#EndDate').val()+" "+$('#EndTime').val(),
             "IdUser": CurrentSessionUser.IdUser,
             "TypeMember": ($('#TypeMember').val()==="מנהל"?1:$('#Type').val()==="תושב"?2:3)
         };
@@ -47,8 +50,10 @@
     };
     var clear_form = function () {
         $('#Question').val('');
-        $('#StartTime').val('');
-        $('#EndTime').val('');
+        $('#StartDate').val('');
+        $('#StartTime').val('00:00');
+        $('#EndDate').val('');
+        $('#EndTime').val('00:00');
         $('#Type').val('');
 
         $("#Question").focus();
@@ -75,7 +80,7 @@
                         $("#Type").focus();
         }
         else{
-            var PP= ($('#IdSurvey').val()!=0?'PUT':'POST');
+            var PP= (($('#IdSurvey').val()!==0) & ($('#IdSurvey').val()!=="")?'PUT':'POST');
             $('#Form').css("display", "none");
             loading_it('show'); 
             $.ajax({

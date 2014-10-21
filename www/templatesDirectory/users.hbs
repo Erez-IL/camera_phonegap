@@ -1,9 +1,5 @@
 {{#if this}}
-<div class="visible-desktop"  style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
-        style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">משתמש חדש</button> 
-    <br><br>
-</div>
-<div class="hidden-desktop"   style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
+<div style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
         style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">משתמש חדש</button> 
     <br><br>
 </div>    
@@ -245,11 +241,7 @@
 </script> 
 {{else}}
 <div class="well" id="users-tmp">
-    <div class="visible-desktop"  style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
-            style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">משתמש חדש</button> 
-        <br><br>
-    </div>
-    <div class="hidden-desktop"   style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
+    <div style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
             style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">משתמש חדש</button> 
         <br><br>
     </div>

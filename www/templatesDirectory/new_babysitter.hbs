@@ -1,7 +1,7 @@
 
 <div class="well " id="Form">
 
-    <input type="text" id="IdSurvey" value="{{IdMessage}}" style="display:none;width: 1%;">
+    <input type="text" id="IdMessage" value="{{IdMessage}}" style="display:none;width: 1%;">
     <input type="text" id="IdUser" value="0" style="display:none;width: 1%;">
 
     <div class="input-prepend">
@@ -13,16 +13,20 @@
         <input type="text" id="Content" value="{{Content}}" placeholder="הכנס את תוכן" required="required" style="width: 100%;">
     </div>
     <div class="input-prepend">
-        <label for="Rate">מחיר</label>
-        <input type="number" id="Rate" value="{{Rate}}" placeholder="מחיר" required="required" style="width: 100%;">
+        <label for="Rate">מחיר לשעה</label>
+        <input type="number" id="Rate" value="{{Rate}}" placeholder="מחיר" required="required" onkeyup="this.value=this.value.replace(/[^\d]/,'')" style="width: 100%;">
     </div>
     <div class="input-prepend date">
-        <label for="StartTime">תאריך התחלה</label>
-        <input type="date" id="StartTime" value="{{StartTime}}" placeholder="תאריך התחלה" required="required" style="width: 100%;">
+        <label for="StartDate">תאריך התחלה</label>
+        <input type="date" id="StartDate" value="{{getDate StartTime}}" placeholder="תאריך התחלה" required="required" style="width: 100%;"> 
+        <label for="StartTime">שעת התחלה</label>
+        <input type="time" id="StartTime" value="{{getTime StartTime}}" placeholder="תאריך התחלה"  required="required" style="width: 100%;">
     </div>
     <div class="input-prepend date">
-        <label for="EndTime">תאריך סיום</label>
-        <input type="date" id="EndTime" value="{{EndTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
+        <label for="EndDate">תאריך סיום</label>
+        <input type="date" id="EndDate" value="{{getDate EndTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
+        <label for="EndTime">שעת סיום</label>
+        <input type="time" id="EndTime" value="{{getTime EndTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
     </div> 
 
     <button class="btn-large btn-block msg_func btn-success" onclick="babySitter_func(stringifyUserJSON());">שמור</button>
@@ -37,8 +41,8 @@
             "Title": $('#Title').val(),
             "Content": $('#Content').val(),
             "Rate": $('#Rate').val(),
-            "StartTime": $('#StartTime').val(),
-            "EndTime": $('#EndTime').val(),
+            "StartTime": $('#StartDate').val()+" "+$('#StartTime').val(),
+            "EndTime": $('#EndDate').val()+" "+$('#EndTime').val(),
             "IdUser": CurrentSessionUser.IdUser
         };
         if($('#IdMessage').val()>0) tjson["IdMessage"]=$('#IdMessage').val(); 
@@ -48,8 +52,10 @@
         $('#Title').val('');
         $('#Content').val('');
         $('#Rate').val('');
-        $('#StartTime').val('');
-        $('#EndTime').val('');
+        $('#StartDate').val('');
+        $('#StartTime').val('00:00');
+        $('#EndDate').val('');
+        $('#EndTime').val('00:00');
 
         $("#Title").focus();
     };
@@ -61,7 +67,7 @@
 
 
     var babySitter_func = function (survey) {
-        if($('#Title').val()==='' ||$('#Content').val()==='' || $$('#Rate').val()==='' || $('#StartTime').val()==='' || $('#EndTime').val()==='' ) {
+        if($('#Title').val()==='' ||$('#Content').val()==='' || $('#Rate').val()==='' || $('#StartTime').val()==='' || $('#EndTime').val()==='' ) {
             alert("לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים");
             if($('#Title').val()==='')   
                 $("#Title").focus();
@@ -79,7 +85,7 @@
                                 $("#EndTime").focus();
         }
         else{
-            var PP= ($('#IdMessage').val()!=0?'PUT':'POST');
+            var PP= (($('#IdMessage').val()!==0) & ($('#IdMessage').val()!=="")?'PUT':'POST');
             $('#Form').css("display", "none");
             loading_it('show'); 
             $.ajax({
@@ -114,14 +120,14 @@
                             else
                                 alert("הבייביסיטר נוסף בהצלחה");
                             main_screen();
-                            update_data("survey");
+                            update_data("babysitter");
                             if (Debug_mode) {console.log(survey);}
                             break;
                     }
                 }
             });
         }
-    };
+    };  
 </script>
 
 

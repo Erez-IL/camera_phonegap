@@ -7445,10 +7445,41 @@ textarea {
 .scroll-to-top > img {
     font-size: 48px;
 }
+}
+
+/*##########################*/
+/*##########################*/
+/* End Scroll Top Top */
+/*##########################*/
+/*##########################*/
+
+
+
+/* Large desktop */
+@media (min-width: 1200px) { 
+    #container{
+    margin-right: 11em;
     }
-    
-    /*##########################*/
-/*##########################*/
- /* End Scroll Top Top */
- /*##########################*/
-/*##########################*/
+}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) { 
+
+    #container{
+    margin-right: 11em;
+    }
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) { 
+    #container{
+    margin-right: 0em;
+    }
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+    #container{
+    margin-right: 0em;
+    }
+}

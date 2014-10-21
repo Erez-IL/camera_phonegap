@@ -1,10 +1,6 @@
 {{#if this}}
 <div id="messages-tmp"> 
-    <div class="visible-desktop" style="text-align: center;"><button class="btn  btn-primary" type="button" 
-            onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
-        <br><br>
-    </div>
-    <div class="hidden-desktop" style="text-align: center;"><button class="btn  btn-primary" type="button" 
+    <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
             onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">הודעה חדשה</button> 
         <br><br>
     </div>
@@ -37,36 +33,36 @@
                                 <strong>{{Title}}</strong><br>
                                 <table class="table table-condensed table-responsive table-user-information">
                                     <tbody>
-                                        <tr>
+                                        <tr style="display: none;">
                                             <td>IdUser:</td>
                                             <td>{{IdUser}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Name:</td>
+                                            <td>שם:</td>
                                             <td>{{Name}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Phone:</td>
-                                            <td>{{Phone}}</td>
+                                            <td>טלפון:</td>
+                                            <td><a href="tel://{{Phone}}">{{Phone}}</a></td>
                                         </tr>
-                                        <tr>
+                                        <tr style="display: none;">
                                             <td>IdMessage:</td>
                                             <td>{{IdMessage}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Title:</td>
+                                            <td>נושא:</td>
                                             <td>{{Title}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Content:</td>
+                                            <td>תוכן:</td>
                                             <td>{{Content}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Description:</td>
+                                            <td>תאור:</td>
                                             <td>{{Description}}</td>
                                         </tr>
                                         <tr>
-                                            <td>תאור:</td>
+                                            <td>פרטים/תמונה:</td>
                                             <td>{{base64 Details}}</td>
                                         </tr>
                                     </tbody>
@@ -250,11 +246,7 @@
 </script>
 {{else}}
 <div class="well">
-    <div class="visible-desktop" style="text-align: center;"><button class="btn  btn-primary" type="button" 
-            onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">הודעה חדשה</button> 
-        <br><br>
-    </div>
-    <div class="hidden-desktop" style="text-align: center;"><button class="btn  btn-primary" type="button" 
+    <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
             onclick="clean_main_container();static_TemplateHBS('new_msg','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">הודעה חדשה</button> 
         <br><br>
     </div>
@@ -264,7 +256,7 @@
         </thead>
         <tbody></tbody>
     </table>
-    </div>
+</div>
 {{/if}}
 
 <div class='scroll-to-top' style='display: block;'>    <img src='img/ico/arrow-up.png' alt='לראש העמוד'></div>
