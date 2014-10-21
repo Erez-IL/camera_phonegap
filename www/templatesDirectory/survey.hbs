@@ -59,17 +59,12 @@
                         <button class="btn  btn-success" type="button"
                             onclick='votenow({{IdSurvey}},"{{Question}}",1);'
                             data-original-title="הצבעה"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;כן</button>
-
-
                         <button class="btn  btn-danger" type="button"
                             onclick='votenow({{IdSurvey}},"{{Question}}",2);'
                             data-original-title="הצבעה"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;לא</button>
-
-
                         <button class="btn  btn-info" type="button"
                             onclick='votenow({{IdSurvey}},"{{Question}}",3);'
                             data-original-title="הצבעה"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;נמנע</button>
-
                     </div>
                 </div>
                 <div class="panel-footer" {{isCurrentUser IdUser}}>
@@ -82,98 +77,6 @@
     </div>
 </div>
 {{/each}}
-
-
-<style>
-    /*//Reusing bootstrap 3 panel CSS*/
-    .panel {
-        background-color: #FFFFFF;
-        border: 1px solid rgba(0, 0, 0, 0);
-        border-radius: 4px 4px 4px 4px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-        margin-bottom: 20px;
-    }
-
-    .panel-primary {
-        border-color: #428BCA;
-    }
-
-    .panel-primary > .panel-heading {
-        background-color: #428BCA;
-        border-color: #428BCA;
-        color: #FFFFFF;
-    }
-
-    .panel-heading {
-        border-bottom: 1px solid rgba(0, 0, 0, 0);
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        padding: 10px 15px;
-    }
-
-    .panel-title {
-        font-size: 16px;
-        margin-bottom: 0;
-        margin-top: 0;
-    }
-
-    .panel-body:before, .panel-body:after {
-        content: " ";
-        display: table;
-    }
-
-    .panel-body:before, .panel-body:after {
-        content: " ";
-        display: table;
-    }
-
-    .panel-body:after {
-        clear: both;
-    }
-
-    .panel-body {
-        padding: 15px;
-    }
-
-    .panel-footer {
-        background-color: #F5F5F5;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-top: 1px solid #DDDDDD;
-        padding: 10px 15px;
-    }
-
-    /*//CSS from v3 snipp*/
-    .user-row {
-        margin-bottom: 14px;
-    }
-
-    .user-row:last-child {
-        margin-bottom: 0;
-    }
-
-    .dropdown-user {
-        margin: 13px 0;
-        padding: 5px;
-        height: 100%;
-    }
-
-    .dropdown-user:hover {
-        cursor: pointer;
-    }
-
-    .table-user-information > tbody > tr {
-        border-top: 1px solid rgb(221, 221, 221);
-    }
-
-    .table-user-information > tbody > tr:first-child {
-        border-top: 0;
-    }
-
-    .table-user-information > tbody > tr > td {
-        border-top: 0;
-    }
-</style>
 
 <script type="text/javascript">
     var panels = $('.user-infos');
@@ -204,7 +107,7 @@
             type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            url: "http://moshavit.somee.com/api/vote",
+            url: base_url+"vote",
             data: JSON.stringify({"IdSurvey":IdSurvey,"IdUser":IdUser,"Vote":answer}),
             success: function (data) {
                 // Do something....
@@ -214,20 +117,20 @@
                 if (Debug_mode) {console.log(xhr);}
                 switch (xhr.status) {
                     case 404:
-                        alert("404");
+                        try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                         break;
                     case 400:
-                        alert("הצבעת כבר");
+                        try {alert_moshavit('הצבעת כבר','הודעת מערכת','אישור');}catch(err){alert('הצבעת כבר');}
                         $('#container').css("display", "block");
                         loading_it('hide');
                         break;
                     case 500:
-                        alert("הצבעת כבר");
+                        try {alert_moshavit('הצבעת כבר','הודעת מערכת','אישור');}catch(err){alert('הצבעת כבר');}
                         $('#container').css("display", "block");
                         loading_it('hide'); 
                         break;
                     case 200:
-                        alert('ההצבעה נקלטה בהצלחה');
+                        try {alert_moshavit('ההצבעה נקלטה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('ההצבעה נקלטה בהצלחה');}
                         main_screen();
                         update_data("survey");
                         if (Debug_mode) {console.log(survey);}
@@ -244,7 +147,7 @@
                     type: "DELETE",
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    url: "http://moshavit.somee.com/api/Survey/"+IdSurvey,
+                    url: base_url+"Survey/"+IdSurvey,
                     data: JSON.stringify({"IdSurvey":IdSurvey}),
                     success: function (data) {
                         // Do something....
@@ -254,20 +157,20 @@
                         if (Debug_mode) {console.log(xhr);}
                         switch (xhr.status) {
                             case 404:
-                                alert("404");
+                                try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                                 break;
                             case 400:
-                                alert("לא ניתן למחוק סקר זה");
+                                try {alert_moshavit('לא ניתן למחוק סקר זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק סקר זה');}
                                 $('#container').css("display", "block");
                                 loading_it('hide');
                                 break;
                             case 500:
-                                alert("לא ניתן למחוק סקר זה");
+                                try {alert_moshavit('לא ניתן למחוק סקר זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק סקר זה');}
                                 $('#container').css("display", "block");
                                 loading_it('hide'); 
                                 break;
                             case 200:
-                                alert('הסקר נמחק בהצלחה');
+                                try {alert_moshavit('הסקר נמחק בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הסקר נמחק בהצלחה');}
                                 main_screen();
                                 update_data("survey");
                                 if (Debug_mode) {console.log(survey);}
@@ -277,7 +180,7 @@
                 })
         }
         else
-            alert("אין באפשרותך למחוק בסקרים,\nאנא פנה למנהל המערכת ");
+            try {alert_moshavit('אין באפשרותך למחוק בסקרים,\nאנא פנה למנהל המערכת','הודעת מערכת','אישור');}catch(err){alert('אין באפשרותך למחוק בסקרים,\nאנא פנה למנהל המערכת');}
     }
 
 </script>

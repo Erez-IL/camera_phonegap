@@ -1,6 +1,4 @@
-
 <div class="well " id="Form">
-
     <input type="text" id="IdMessage" value="{{IdMessage}}" style="display:none;width: 1%;">
     <input type="text" id="IdUser" value="0" style="display:none;width: 1%;">
 
@@ -65,10 +63,9 @@
         }
     });
 
-
     var babySitter_func = function (survey) {
         if($('#Title').val()==='' ||$('#Content').val()==='' || $('#Rate').val()==='' || $('#StartTime').val()==='' || $('#EndTime').val()==='' ) {
-            alert("לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים");
+            try {alert_moshavit('לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים','הודעת מערכת','אישור');}catch(err){alert('לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים');}
             if($('#Title').val()==='')   
                 $("#Title").focus();
             else
@@ -92,7 +89,7 @@
                 type: PP,
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                url: "http://moshavit.somee.com/api/Babysitter",
+                url: base_url+"Babysitter",
                 data: survey,
                 success: function (data) {
                     // Do something....
@@ -102,23 +99,23 @@
                     if (Debug_mode) {console.log(xhr);}
                     switch (xhr.status) {
                         case 404:
-                            alert("404");
+                            try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                             break;
                         case 400:
-                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                             $('#container').css("display", "block");
                             loading_it('hide');
                             break;
                         case 500:
-                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                             $('#container').css("display", "block");
                             loading_it('hide'); 
                             break;
                         case 200:
                             if(PP==='PUT')
-                                alert("הבייביסיטר עודכן בהצלחה");
+                                try {alert_moshavit('הבייביסיטר עודכן בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הבייביסיטר עודכן בהצלחה');}
                             else
-                                alert("הבייביסיטר נוסף בהצלחה");
+                                try {alert_moshavit('הבייביסיטר נוסף בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הבייביסיטר נוסף בהצלחה');}
                             main_screen();
                             update_data("babysitter");
                             if (Debug_mode) {console.log(survey);}

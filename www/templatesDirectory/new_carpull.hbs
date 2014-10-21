@@ -1,9 +1,6 @@
-
 <div class="well " id="Form">
-
     <input type="text" id="IdMessage" value="{{IdMessage}}" style="display:none;width: 1%;">
     <input type="text" id="IdUser" value="0" style="display:none;width: 1%;">
-
     <div class="input-prepend">
         <label for="Title">נושא</label>
         <input type="text" id="Title" value="{{Title}}" placeholder="הכנס את נושא" required="required" style="width: 100%;">
@@ -32,12 +29,11 @@
         <label for="ReturnTime">שעת חזרה</label>
         <input type="time" id="ReturnTime" value="{{getTime ReturnTime}}" placeholder="תאריך סיום" required="required" style="width: 100%;">
     </div> 
-    
+
     <button class="btn-large btn-block msg_func btn-success" onclick="carpull_func(stringifyUserJSON());" >שמור</button>
     <br>
     <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>  
 </div>
-
 <script type="text/javascript">
     $("#Question").focus();
     var stringifyUserJSON = function () {
@@ -71,11 +67,9 @@
             carpull_func(stringifyUserJSON());
         }
     });
-
-
     var carpull_func = function (survey) {
         if($('#Title').val()==='' ||$('#Content').val()==='' || $('#From').val()==='' || $('#To').val()==='' || $('#PickUp').val()==='' || $('#ReturnTime').val()==='' ) {
-            alert("לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים");
+            try {alert_moshavit('לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים','הודעת מערכת','אישור');}catch(err){alert('לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים');}
             if($('#Title').val()==='')   
                 $("#Title").focus();
             else
@@ -102,7 +96,7 @@
                 type: PP,
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                url: "http://moshavit.somee.com/api/Carpull",
+                url: base_url+"Carpull",
                 data: survey,
                 success: function (data) {
                     // Do something....
@@ -112,23 +106,23 @@
                     if (Debug_mode) {console.log(xhr);}
                     switch (xhr.status) {
                         case 404:
-                            alert("404");
+                            try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                             break;
                         case 400:
-                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                             $('#container').css("display", "block");
                             loading_it('hide');
                             break;
                         case 500:
-                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                             $('#container').css("display", "block");
                             loading_it('hide'); 
                             break;
                         case 200:
                             if(PP==='PUT')
-                                alert("קארפול עודכן בהצלחה");
+                                try {alert_moshavit('קארפול עודכן בהצלחה','הודעת מערכת','אישור');}catch(err){alert('קארפול עודכן בהצלחה');}
                             else
-                                alert("קארפול נוסף בהצלחה");
+                                try {alert_moshavit('קארפול נוסף בהצלחה','הודעת מערכת','אישור');}catch(err){alert('קארפול נוסף בהצלחה');}
                             main_screen();
                             update_data("carpull");
                             if (Debug_mode) {console.log(survey);}

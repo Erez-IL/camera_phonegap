@@ -1,9 +1,6 @@
-
 <div class="well " id="Form">
-
     <input type="text" id="IdMessage" value="{{IdMessage}}" style="display:none;width: 1%;">
     <input type="text" id="IdUser" value="1" style="display:none;width: 1%;">
-
     <div class="input-prepend">
         <label for="Title">נושא</label>
         <input type="text" id="Title" value="{{Title}}" placeholder="הכנס נושא" required="required" style="width: 100%;">
@@ -38,7 +35,6 @@
     <br>
     <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
 </div>
-
 <script type="text/javascript">
     $("#Title").focus();
     var stringifyUserJSON = function () {
@@ -90,7 +86,7 @@
 
     var giveandtake_func = function (giveandtake_func_details) {
         if($('#Content').val()==='' || $('#Title').val()==='' ) {
-            alert("לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים");
+            try {alert_moshavit('לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים','הודעת מערכת','אישור');}catch(err){alert('לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים');}
             if($('#Title').val()==='')   
                 $("#Title").focus();
             else
@@ -105,7 +101,7 @@
                 type: PP,
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                url: "http://moshavit.somee.com/api/giveandtake",
+                url: base_url+"giveandtake",
                 data: giveandtake_func_details,
                 success: function (data) {
                     // Do something....
@@ -115,23 +111,23 @@
                     if (Debug_mode) {console.log(xhr);}
                     switch (xhr.status) {
                         case 404:
-                            alert("404");
+                            try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                             break;
                         case 400:
-                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                             $('#container').css("display", "block");
                             loading_it('hide');
                             break;
                         case 500:
-                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                             $('#container').css("display", "block");
                             loading_it('hide'); 
                             break;
                         case 200:
                             if(PP==='PUT')
-                                alert("ההודעה עודכנה בהצלחה");
+                                try {alert_moshavit('ההודעה עודכנה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('ההודעה עודכנה בהצלחה');}
                             else
-                                alert("ההודעה נוספה בהצלחה");
+                                try {alert_moshavit('ההודעה נוספה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('ההודעה נוספה בהצלחה');}
                             main_screen();
                             update_data("giveandtake");
                             if (Debug_mode) {console.log(giveandtake_func_details);}
@@ -154,7 +150,7 @@
                 $('#image01').css("display", "block");
                 $('#image01').removeClass("hidden-desktop");
             }
-            function fail(message) { alert("הייתה שגיאה בטעינת התמונה, אנא נסה שנית"); }
+            function fail(message) { try {alert_moshavit('הייתה שגיאה בטעינת התמונה, אנא נסה שנית','הודעת מערכת','אישור');}catch(err){alert('הייתה שגיאה בטעינת התמונה, אנא נסה שנית');}}
         }
         function sendImage2(src) {
             // Set the image source [library || camera]
@@ -168,7 +164,7 @@
                 $('#image02').css("display", "block");
                 $('#image02').removeClass("hidden-desktop");
             }
-            function fail(message) { alert("הייתה שגיאה בטעינת התמונה, אנא נסה שנית"); }
+            function fail(message) { try {alert_moshavit('הייתה שגיאה בטעינת התמונה, אנא נסה שנית','הודעת מערכת','אישור');}catch(err){alert('הייתה שגיאה בטעינת התמונה, אנא נסה שנית');}}
         }
         function sendImage3(src) {
             // Set the image source [library || camera]
@@ -182,13 +178,11 @@
                 $('#image03').css("display", "block");
                 $('#image03').removeClass("hidden-desktop");
             }
-            function fail(message) { alert("הייתה שגיאה בטעינת התמונה, אנא נסה שנית"); }
+            function fail(message) { try {alert_moshavit('הייתה שגיאה בטעינת התמונה, אנא נסה שנית','הודעת מערכת','אישור');}catch(err){alert('הייתה שגיאה בטעינת התמונה, אנא נסה שנית');}}
         }
-
         $('.send-image1').click(function () { sendImage1($(this).val()); }); 
         $('.send-image2').click(function () { sendImage2($(this).val()); }); 
         $('.send-image3').click(function () { sendImage3($(this).val()); }); 
-
     });
 </script>
 

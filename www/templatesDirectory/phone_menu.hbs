@@ -10,17 +10,17 @@
             <a href="#" onclick="dynamic_t('carpull');"><img src="img/ico/4.png" style="max-height: 31%; max-width: 31%;"></a>
             <a href="#" onclick="dynamic_t('giveandtake');"><img src="img/ico/10.png" style="max-height: 31%; max-width: 31%;"></a>
 
-            <a href="#" onclick="alert('השרות תחת פיתוח');dynamic_t('invoice');"><img src="img/ico/8.png" style="max-height: 31%; max-width: 31%;"></a>            
+            <a href="#" onclick="try {alert_moshavit('השרות תחת פיתוח','הודעת מערכת','אישור');}catch(err){alert('השרות תחת פיתוח');};dynamic_t('invoice');"><img src="img/ico/8.png" style="max-height: 31%; max-width: 31%;"></a>            
             <a href="#" onclick=""><img src="img/ico/6.png" style="max-height: 31%; max-width: 31%;"></a>
 
-            <a href="#" style="{{isAdmin 1}}" onclick="alert('השרות תחת פיתוח');"><img src="img/ico/9.png" style="max-height: 31%; max-width: 31%;"></a>
+            <a href="#" style="{{isAdmin 1}}" onclick="try {alert_moshavit('השרות תחת פיתוח','הודעת מערכת','אישור');}catch(err){alert('השרות תחת פיתוח');}"><img src="img/ico/9.png" style="max-height: 31%; max-width: 31%;"></a>
             <a href="#" onclick="dynamic_t('about_us');"><img src="img/ico/11.png" style="max-height: 31%; max-width: 31%;"></a>
-            
 
-<!--            <a href="#" onclick="//new_msg();"><img src="http://c.dryicons.com/images/icon_sets/grey_moonlight_icons/png/128x128/news.png" style="max-height: 100px; max-width: 100px;" ></a>-->
+
+            <!--            <a href="#" onclick="//new_msg();"><img src="http://c.dryicons.com/images/icon_sets/grey_moonlight_icons/png/128x128/news.png" style="max-height: 100px; max-width: 100px;" ></a>-->
             <br>
             <br>
-            
+
             <a href="#" style="{{isAdmin 1}}" class="btn" onclick="phonegap();">PhoneGap</a>
 
         </div>
@@ -33,17 +33,9 @@
         $('#container').css({'margin-right': ''});
 
     }
-
-//    var new_msg =function(){
-//        clean_main_container();
-//        static_TemplateHBS('new_msg','container');
-//        setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);
-//        $('#container').css({'margin-right': ''});
-//    }
     var  phonegap=function(){
         clean_main_container();
         static_TemplateHBS('phonegap','container');
         $('#container').css({'margin-right': ''});
     }
-
 </script>

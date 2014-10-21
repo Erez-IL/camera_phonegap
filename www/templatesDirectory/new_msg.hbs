@@ -1,9 +1,6 @@
-
 <div class="well " id="Form">
-
     <input type="text" id="IdMessage" value="{{IdMessage}}" style="display:none;width: 1%;">
     <input type="text" id="IdUser" value="1" style="display:none;width: 1%;">
-
     <div class="input-prepend">
         <label for="Title">נושא</label>
         <input type="text" id="Title" value="{{Title}}" placeholder="הכנס נושא" required="required" style="width: 100%;">
@@ -23,7 +20,6 @@
         <input type="button" class="send-image hidden-desktop" value="מאלבום תמונות" />
         <img style="width:100px;height:100px;display: none;" class="hidden-desktop" id="image" />
     </div>
-
     <button class="btn-large btn-block msg_func btn-success" onclick="msg_func(stringifyUserJSON());">שמור</button>
     <br>
     <button class="btn clear btn-warning" onclick="clear_form();"><i class="icon-remove icon-white"></i>נקה</button>
@@ -73,7 +69,7 @@
 
     var msg_func = function (msg_func_details) {
         if($('#Description').val()==='' || $('#Content').val()==='' || $('#Title').val()==='' || $('#Details').val()==='') {
-            alert("לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים");
+            try {alert_moshavit('לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים','הודעת מערכת','אישור');}catch(err){alert('לצורך השלמת התהליך יש להזין את כל הנתונים הנדרשים');}
             if($('#Title').val()==='')   
                 $("#Title").focus();
             else
@@ -93,7 +89,7 @@
                 type: PP,
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                url: "http://moshavit.somee.com/api/bulletinboard",
+                url: base_url+"bulletinboard",
                 data: msg_func_details,
                 success: function (data) {
                     // Do something....
@@ -103,23 +99,23 @@
                     if (Debug_mode) {console.log(xhr);}
                     switch (xhr.status) {
                         case 404:
-                            alert("404");
+                            try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                             break;
                         case 400:
-                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                             $('#container').css("display", "block");
                             loading_it('hide');
                             break;
                         case 500:
-                            alert("חלק מהפרטים חסרים או לא תקינים");
+                            try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                             $('#container').css("display", "block");
                             loading_it('hide'); 
                             break;
                         case 200:
                             if(PP==='PUT')
-                                alert("ההודעה עודכנה בהצלחה");
+                                try {alert_moshavit('ההודעה עודכנה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('ההודעה עודכנה בהצלחה');}
                             else
-                                alert("ההודעה נוספה בהצלחה");
+                                try {alert_moshavit('ההודעה נוספה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('ההודעה נוספה בהצלחה');}
                             main_screen();
                             update_data("bulletinboard");
                             if (Debug_mode) {console.log(msg_func_details);}
@@ -143,11 +139,9 @@
                 $('#image').css("display", "block");
                 $('#image').removeClass("hidden-desktop");
             }
-            function fail(message) { alert("הייתה שגיאה בטעינת התמונה, אנא נסה שנית"); }
+            function fail(message) { try {alert_moshavit('הייתה שגיאה בטעינת התמונה, אנא נסה שנית','הודעת מערכת','אישור');}catch(err){alert('הייתה שגיאה בטעינת התמונה, אנא נסה שנית');}}
         }
-
         $('.send-image').click(function () { sendImage($(this).val()); }); 
-
     });
 </script>
 

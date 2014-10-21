@@ -2,7 +2,6 @@
     <div class="span1">
         <img src="img/ico/Android-userProfile-48.png" alt="User" style="width:100px;height: 100px;float: left;">
     </div>
-
     <div class="span8">
         <h3 >שם: {{FirstName}}, {{LastName}}</h3>
         <h6>דוא"ל: {{Email}}</h6>
@@ -12,10 +11,7 @@
         <h6>תאריך הצטרפות: {{fixDate StartTime}}</h6>
         <h6>סוג משתמש: {{memberType Type}}</h6>
     </div>
-
-    <div class="panel-footer">
-        <button class="btn  btn-primary" type="button"
-            data-toggle="tooltip" onclick="dynamic_TemplateHBS('register','container','');clean_main_container();setTimeout(function(){$('#email').prop('disabled', true);},1000);"
-            data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;ערוך</button>
-    </div>
+    <button class="btn  btn-primary" type="button"
+        data-toggle="tooltip" onclick="dynamic_TemplateHBS('register','container','');clean_main_container();setTimeout(function(){$('#email').prop('disabled', true);},1000);"
+        data-original-title="ערוך"><i class="icon-pencil icon-white"></i>&nbsp;&nbsp;&nbsp;ערוך</button>
 </div>

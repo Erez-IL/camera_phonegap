@@ -1,4 +1,3 @@
-
 {{#if this}}
 <div id="babysitter-tmp">
     <div style="text-align: center;"><button class="btn  btn-primary" type="button" 
@@ -89,109 +88,15 @@
     </div>
     {{/each}}
 </div>
-
-<style>
-    /*//Reusing bootstrap 3 panel CSS*/
-    .panel {
-        background-color: #FFFFFF;
-        border: 1px solid rgba(0, 0, 0, 0);
-        border-radius: 4px 4px 4px 4px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-        margin-bottom: 20px;
-    }
-
-    .panel-primary {
-        border-color: #428BCA;
-    }
-
-    .panel-primary > .panel-heading {
-        background-color: #428BCA;
-        border-color: #428BCA;
-        color: #FFFFFF;
-    }
-
-    .panel-heading {
-        border-bottom: 1px solid rgba(0, 0, 0, 0);
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        padding: 10px 15px;
-    }
-
-    .panel-title {
-        font-size: 16px;
-        margin-bottom: 0;
-        margin-top: 0;
-    }
-
-    .panel-body:before, .panel-body:after {
-        content: " ";
-        display: table;
-    }
-
-    .panel-body:before, .panel-body:after {
-        content: " ";
-        display: table;
-    }
-
-    .panel-body:after {
-        clear: both;
-    }
-
-    .panel-body {
-        padding: 15px;
-    }
-
-    .panel-footer {
-        background-color: #F5F5F5;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-top: 1px solid #DDDDDD;
-        padding: 10px 15px;
-    }
-
-    /*//CSS from v3 snipp*/
-    .user-row {
-        margin-bottom: 14px;
-    }
-
-    .user-row:last-child {
-        margin-bottom: 0;
-    }
-
-    .dropdown-user {
-        margin: 13px 0;
-        padding: 5px;
-        height: 100%;
-    }
-
-    .dropdown-user:hover {
-        cursor: pointer;
-    }
-
-    .table-user-information > tbody > tr {
-        border-top: 1px solid rgb(221, 221, 221);
-    }
-
-    .table-user-information > tbody > tr:first-child {
-        border-top: 0;
-    }
-
-    .table-user-information > tbody > tr > td {
-        border-top: 0;
-    }
-</style>
-
 <script type="text/javascript">
     var panels = $('.user-infos');
     var panelsButton = $('.dropdown-user');
     panels.hide();
-
     //Click dropdown
     panelsButton.click(function () {
         //get data-for attribute
         var dataFor = $(this).attr('data-for');
         var idFor = $(dataFor);
-
         //current button
         var currentButton = $(this);
         idFor.slideToggle(400, function () {
@@ -203,7 +108,6 @@
             }
         })
     });
-
     var DELETE_babysitter = function(IdMessage,IdUser){
         if(CurrentSessionUser.Type==1 || CurrentSessionUser.IdUser==IdUser) {
             if(confirm("לא ניתן לאחזר מידע לאחר המחיקה")) 
@@ -211,7 +115,7 @@
                     type: "DELETE",
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    url: "http://moshavit.somee.com/api/Babysitter/"+IdMessage,
+                    url: base_url+"Babysitter/"+IdMessage,
                     data: JSON.stringify({"IdMessage":IdMessage}),
                     success: function (data) {
                         // Do something....
@@ -221,20 +125,20 @@
                         if (Debug_mode) {console.log(xhr);}
                         switch (xhr.status) {
                             case 404:
-                                alert("404");
+                                try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                                 break;
                             case 400:
-                                alert("לא ניתן למחוק הודעה זה");
+                                try {alert_moshavit('לא ניתן למחוק הודעה זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק הודעה זה');}
                                 $('#container').css("display", "block");
                                 loading_it('hide');
                                 break;
                             case 500:
-                                alert("לא ניתן למחוק הודעה זה");
+                                try {alert_moshavit('לא ניתן למחוק הודעה זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק הודעה זה');}
                                 $('#container').css("display", "block");
                                 loading_it('hide'); 
                                 break;
                             case 200:
-                                alert('הודעה נמחקה בהצלחה');
+                                try {alert_moshavit('הודעה נמחקה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הודעה נמחקה בהצלחה');}
                                 main_screen();
                                 update_data("babysitter");
                                 break;
@@ -243,9 +147,8 @@
                 })
         }
         else
-            alert("אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת ");
+            try {alert_moshavit('אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת','הודעת מערכת','אישור');}catch(err){alert('אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת');}
     }
-
 </script>
 {{else}}
 <div class="well">

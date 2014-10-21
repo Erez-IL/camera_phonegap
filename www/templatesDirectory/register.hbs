@@ -82,19 +82,19 @@
             $('#email').val()==='' ||
             $('#password').val()===''){
             $("#email").focus();
-            alert('חסרים פרטים לצורכי רישום');
+            try {alert_moshavit('חסרים פרטים לצורכי רישום','הודעת מערכת','אישור');}catch(err){alert('חסרים פרטים לצורכי רישום');}
         }
         else{
             if(!validateEmail($('#email').val())){
                 $("#email").focus();
-                alert('כתובת הדוא"ל לא תקינה');
+                try {alert_moshavit('כתובת הדוא"ל לא תקינה','הודעת מערכת','אישור');}catch(err){alert('כתובת הדוא"ל לא תקינה');}
             }
             else{
                 if($('#password').val()!==$('#passwordConfirm').val()){
                     $("#password").focus();
                     $('#password').val('');
                     $('#passwordConfirm').val('');
-                    alert('סיסמאות לא תואמות');
+                    try {alert_moshavit('סיסמאות לא תואמות','הודעת מערכת','אישור');}catch(err){alert('סיסמאות לא תואמות');}
                 }  
                 else{
                     $('#Form').css("display", "none");
@@ -104,7 +104,7 @@
                         type: 'POST',
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: register_api,
+                        url: base_url+"register/",
                         data: register_details,
                         success: function (data) {
                             if (Debug_mode) {console.log(register_details);}
@@ -113,19 +113,19 @@
                             if (Debug_mode) {console.log(xhr);}
                             switch (xhr.status) {
                                 case 404:
-                                    alert("404");
+                                    try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                                     break;
                                 case 400:
-                                    alert(xhr.responseText);
+                                    try {alert_moshavit('400','הודעת מערכת','אישור');}catch(err){alert('400');}
                                     break;
                                 case 500:
-                                    alert("חלק מהפרטים חסרים או לא תקינים"); 
+                                    try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                                     break;
                                 case 200:
-                                    alert("הרישום בוצע בהצלחה,\nהנך מועבר למערכת");
+                                    try {alert_moshavit('הרישום בוצע בהצלחה,\nהנך מועבר למערכת','הודעת מערכת','אישור');}catch(err){alert('הרישום בוצע בהצלחה,\nהנך מועבר למערכת');}
                                     if (Debug_mode) {console.log(register_details);}
                                     CurrentSessionUser = JSON.parse(register_details);
-                                    $.post("http://moshavit.somee.com/api/login", {Email:CurrentSessionUser.Email,Password:CurrentSessionUser.Password}, function(data) {CurrentSessionUser=data});
+                                    $.post(base_url+"login", {Email:CurrentSessionUser.Email,Password:CurrentSessionUser.Password}, function(data) {CurrentSessionUser=data});
                                     clean_body();
                                     add_containers_to_body();
                                     static_TemplateHBS('desktop_menu', 'container-head');
@@ -149,22 +149,23 @@
             $('#phone').val()==='' ||
             $('#email').val()==='' ){
             $("#email").focus();
-            alert('חסרים פרטים לצורכי עדכון');
+            try {alert_moshavit('חסרים פרטים לצורכי עדכון','הודעת מערכת','אישור');}catch(err){alert('חסרים פרטים לצורכי עדכון');}
         }
         else{
             if(!validateEmail($('#email').val())){
                 $("#email").focus();
-                alert('כתובת הדוא"ל לא תקינה');
+               try {alert_moshavit('כתובת הדוא"ל לא תקינה','הודעת מערכת','אישור');}catch(err){alert('כתובת הדוא"ל לא תקינה');} 
             }
             else{
                 if($('#password').val()!==$('#passwordConfirm').val()){
                     $("#password").focus();
                     $('#password').val('');
                     $('#passwordConfirm').val('');
-                    alert('סיסמאות לא תואמות');
+                    try {alert_moshavit('סיסמאות לא תואמות','הודעת מערכת','אישור');}catch(err){alert('סיסמאות לא תואמות');}
+                    
                 }  
                 else{
-                    url="http://moshavit.somee.com/api/user";
+                    url=base_url+"user";
                     $('#Form').css("display", "none");
                     loading_it('show');
                     $.ajax({
@@ -175,7 +176,7 @@
                         data: register_details,
                         success: function (data) {
                             if (Debug_mode) {console.log(register_details);}
-                            alert("הפרטים עודכנו במערכת");
+                            try {alert_moshavit('הפרטים עודכנו במערכת','הודעת מערכת','אישור');}catch(err){alert('הפרטים עודכנו במערכת');}
                             update_data("users");
                             main_screen();
                         },
@@ -183,16 +184,16 @@
                             if (Debug_mode) {console.log(xhr);}
                             switch (xhr.status) {
                                 case 404:
-                                    alert("404");
+                                    try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                                     break;
                                 case 400:
-                                    alert(xhr.responseText);
+                                    try {alert_moshavit('400','הודעת מערכת','אישור');}catch(err){alert('400');}
                                     break;
                                 case 500:
-                                    alert("חלק מהפרטים חסרים או לא תקינים"); 
+                                    try {alert_moshavit('חלק מהפרטים חסרים או לא תקינים','הודעת מערכת','אישור');}catch(err){alert('חלק מהפרטים חסרים או לא תקינים');}
                                     break;
                                 case 200:
-                                    alert("הפרטים עודכנו במערכת");
+                                    try {alert_moshavit('הפרטים עודכנו במערכת','הודעת מערכת','אישור');}catch(err){alert('הפרטים עודכנו במערכת');}
                                     if (Debug_mode) {console.log(register_details);}
                                     update_data("users");
                                     break;

@@ -33,28 +33,28 @@
                                 <strong>{{Title}}</strong><br>
                                 <table class="table table-condensed table-responsive table-user-information">
                                     <tbody>
-                                        <tr>
+                                        <tr style="display: none;">
                                             <td>IdUser:</td>
                                             <td>{{IdUser}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Name:</td>
+                                            <td>שם:</td>
                                             <td>{{Name}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Phone:</td>
-                                            <td>{{Phone}}</td>
+                                            <td>טלפון:</td>
+                                            <td><a href="tel://{{Phone}}">{{Phone}}</a></td>
                                         </tr>
-                                        <tr>
+                                        <tr style="display: none;">
                                             <td>IdMessage:</td>
                                             <td>{{IdMessage}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Title:</td>
+                                            <td>נושא:</td>
                                             <td>{{Title}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Content:</td>
+                                            <td>תוכן:</td>
                                             <td>{{Content}}</td>
                                         </tr>
                                         {{#if Image1}}
@@ -95,164 +95,70 @@
     </div>
     {{/each}}
 </div>
-
-<style>
-    /*//Reusing bootstrap 3 panel CSS*/
-    .panel {
-        background-color: #FFFFFF;
-        border: 1px solid rgba(0, 0, 0, 0);
-        border-radius: 4px 4px 4px 4px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-        margin-bottom: 20px;
-    }
-
-    .panel-primary {
-        border-color: #428BCA;
-    }
-
-    .panel-primary > .panel-heading {
-        background-color: #428BCA;
-        border-color: #428BCA;
-        color: #FFFFFF;
-    }
-
-    .panel-heading {
-        border-bottom: 1px solid rgba(0, 0, 0, 0);
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        padding: 10px 15px;
-    }
-
-    .panel-title {
-        font-size: 16px;
-        margin-bottom: 0;
-        margin-top: 0;
-    }
-
-    .panel-body:before, .panel-body:after {
-        content: " ";
-        display: table;
-    }
-
-    .panel-body:before, .panel-body:after {
-        content: " ";
-        display: table;
-    }
-
-    .panel-body:after {
-        clear: both;
-    }
-
-    .panel-body {
-        padding: 15px;
-    }
-
-    .panel-footer {
-        background-color: #F5F5F5;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-top: 1px solid #DDDDDD;
-        padding: 10px 15px;
-    }
-
-    /*//CSS from v3 snipp*/
-    .user-row {
-        margin-bottom: 14px;
-    }
-
-    .user-row:last-child {
-        margin-bottom: 0;
-    }
-
-    .dropdown-user {
-        margin: 13px 0;
-        padding: 5px;
-        height: 100%;
-    }
-
-    .dropdown-user:hover {
-        cursor: pointer;
-    }
-
-    .table-user-information > tbody > tr {
-        border-top: 1px solid rgb(221, 221, 221);
-    }
-
-    .table-user-information > tbody > tr:first-child {
-        border-top: 0;
-    }
-
-    .table-user-information > tbody > tr > td {
-        border-top: 0;
-    }
-</style>
-
 <script type="text/javascript">
-    var panels = $('.user-infos');
-    var panelsButton = $('.dropdown-user');
-    panels.hide();
-
-    //Click dropdown
-    panelsButton.click(function () {
-        //get data-for attribute
-        var dataFor = $(this).attr('data-for');
-        var idFor = $(dataFor);
-
-        //current button
-        var currentButton = $(this);
-        idFor.slideToggle(400, function () {
-            //Completed slidetoggle
-            if (idFor.is(':visible')) {
-                currentButton.html('<i class="icon-chevron-up text-muted"></i>');
-            } else {
-                currentButton.html('<i class="icon-chevron-down text-muted"></i>');
-            }
-        })
-    });
-
-    var DELETE_msg = function(IdMessage,IdUser){
-        if(CurrentSessionUser.Type===1 || CurrentSessionUser.IdUser==IdUser) 
-        {
-            if(confirm("לא ניתן לאחזר מידע לאחר המחיקה")) 
-                $.ajax({
-                    type: "DELETE",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    url: "http://moshavit.somee.com/api/giveandtake/"+IdMessage,
-                    data: JSON.stringify({"IdMessage":IdMessage}),
-                    success: function (data) {
-                        // Do something....
-                        if (Debug_mode) {console.log(IdMessage);}
-                    },
-                    error: function (xhr, errorType, thrownError) {
-                        if (Debug_mode) {console.log(xhr);}
-                        switch (xhr.status) {
-                            case 404:
-                                alert("404");
-                                break;
-                            case 400:
-                                alert("לא ניתן למחוק הודעה זה");
-                                $('#container').css("display", "block");
-                                loading_it('hide');
-                                break;
-                            case 500:
-                                alert("לא ניתן למחוק הודעה זה");
-                                $('#container').css("display", "block");
-                                loading_it('hide'); 
-                                break;
-                            case 200:
-                                alert('הודעה נמחקה בהצלחה');
-                                main_screen();
-                                update_data("giveandtake");
-                                if (Debug_mode) {console.log(survey);}
-                                break;
-                        }
-                    }
-                })
+var panels = $('.user-infos');
+var panelsButton = $('.dropdown-user');
+panels.hide();
+//Click dropdown
+panelsButton.click(function () {
+    //get data-for attribute
+    var dataFor = $(this).attr('data-for');
+    var idFor = $(dataFor);
+    //current button
+    var currentButton = $(this);
+    idFor.slideToggle(400, function () {
+        //Completed slidetoggle
+        if (idFor.is(':visible')) {
+            currentButton.html('<i class="icon-chevron-up text-muted"></i>');
+        } else {
+            currentButton.html('<i class="icon-chevron-down text-muted"></i>');
         }
-        else
-            alert("אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת ");
+    })
+});
+
+var DELETE_msg = function(IdMessage,IdUser){
+    if(CurrentSessionUser.Type===1 || CurrentSessionUser.IdUser==IdUser) 
+    {
+        if(confirm("לא ניתן לאחזר מידע לאחר המחיקה")) 
+            $.ajax({
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                url: base_url+"giveandtake/"+IdMessage,
+                data: JSON.stringify({"IdMessage":IdMessage}),
+                success: function (data) {
+                    // Do something....
+                    if (Debug_mode) {console.log(IdMessage);}
+                },
+                error: function (xhr, errorType, thrownError) {
+                    if (Debug_mode) {console.log(xhr);}
+                    switch (xhr.status) {
+                        case 404:
+                            try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
+                            break;
+                        case 400:
+                            try {alert_moshavit('לא ניתן למחוק הודעה זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק הודעה זה');}
+                            $('#container').css("display", "block");
+                            loading_it('hide');
+                            break;
+                        case 500:
+                            try {alert_moshavit('לא ניתן למחוק הודעה זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק הודעה זה');}
+                            $('#container').css("display", "block");
+                            loading_it('hide'); 
+                            break;
+                        case 200:
+                            try {alert_moshavit('הודעה נמחקה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הודעה נמחקה בהצלחה');}
+                            main_screen();
+                            update_data("giveandtake");
+                            if (Debug_mode) {console.log(survey);}
+                            break;
+                    }
+                }
+            })
     }
+    else
+        try {alert_moshavit('אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת','הודעת מערכת','אישור');}catch(err){alert('אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת');}
+}
 </script>
 {{else}}
 <div class="well">

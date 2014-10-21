@@ -27,7 +27,6 @@
         <a href="http://moshavit.2fh.co/moshavit.apk" ><b>להורדת האפליקציה לחץ כאן</b></a>
     </div>
 </div>
-
 <script type="text/javascript">
     $("#email").focus();
     var stringifyUserJSON = function () {
@@ -54,7 +53,7 @@
 
     var login = function (login_details) {
         if($('#email').val()==='' || $('#password').val()==='') {
-            alert("חסרים נתונים עבור הכניסה");
+            try {alert_moshavit('חסרים נתונים עבור הכניסה','הודעת מערכת','אישור');}catch(err){alert('חסרים נתונים עבור הכניסה');}
         }
         else{
             $('#container').css("display", "none");
@@ -63,7 +62,7 @@
                 type: 'POST',
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                url: login_api,
+                url: base_url+"login/",
                 data: login_details,
                 success: function (data) {
                     if (Debug_mode) {
@@ -71,12 +70,12 @@
                         console.log(data);
                     }
                     CurrentSessionUser = data;
-                    $.get("http://moshavit.somee.com/api/user/", function (data) { Users=data;}); 
-                    $.get("http://moshavit.somee.com/api/BabySitter/", function (data) { BabySitter=data; }); 
-                    $.get("http://moshavit.somee.com/api/carpull/", function (data) { CarPull=data; }); 
-                    $.get("http://moshavit.somee.com/api/bulletinboard/", function (data) { BulletinBoard=data; }); 
-                    $.get("http://moshavit.somee.com/api/Survey/", function (data) { Survey=data; }); 
-                    $.get("http://moshavit.somee.com/api/GiveAndTake/", function (data) { GiveAndTake=data; }); 
+                    $.get(base_url+"user/", function (data) { Users=data;}); 
+                    $.get(base_url+"BabySitter/", function (data) { BabySitter=data; }); 
+                    $.get(base_url+"carpull/", function (data) { CarPull=data; }); 
+                    $.get(base_url+"bulletinboard/", function (data) { BulletinBoard=data; }); 
+                    $.get(base_url+"Survey/", function (data) { Survey=data; }); 
+                    $.get(base_url+"GiveAndTake/", function (data) { GiveAndTake=data; }); 
                     main_screen();
                     setCookie("Email", CurrentSessionUser.Email);
                     setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstName+" "+CurrentSessionUser.LastName);},1000);
@@ -85,10 +84,10 @@
                     if (Debug_mode) {console.log(xhr);}
                     switch (xhr.status) {
                         case 404:
-                            alert("404");
+                            try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                             break;
                         case 400:
-                            alert("שם משתמש או סיסמה לא נכונים");
+                            try {alert_moshavit('שם משתמש או סיסמה לא נכונים','הודעת מערכת','אישור');}catch(err){alert('שם משתמש או סיסמה לא נכונים');}
                             loading_it('hide');
                             $('#container').css("display", "block");
                             $('#password').val('');
@@ -102,7 +101,7 @@
 
     var forgotPassword =function(){
         if($('#email').val()==='' ) {
-            alert("לצורך שיחזור סיסמה אנא הכנס דוא'ל");
+            try {alert_moshavit("לצורך שיחזור סיסמה אנא הכנס דוא'ל",'הודעת מערכת','אישור');}catch(err){alert("לצורך שיחזור סיסמה אנא הכנס דוא'ל");}
             $("#email").focus();
         }
         else{
@@ -113,10 +112,10 @@
                 type: 'POST',
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                url: "http://moshavit.somee.com/api/forgotpassword",
+                url: base_url+"forgotpassword",
                 data:  email,
                 success: function (data) {
-                    alert("אנא בדוק כי קבלת דוא'ל שכולל את הסיסמה והתחבר שוב");
+                    try {alert_moshavit("אנא בדוק כי קבלת דוא'ל שכולל את הסיסמה והתחבר שוב",'הודעת מערכת','אישור');}catch(err){alert("אנא בדוק כי קבלת דוא'ל שכולל את הסיסמה והתחבר שוב");}
                     loading_it('hide');
                     $('#container').css("display", "block");
                     $('#password').val('');
@@ -126,24 +125,24 @@
                     if (Debug_mode) {console.log(xhr);}
                     switch (xhr.status) {
                         case 404:
-                            alert("404");
+                            try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
                             break;
                         case 400:
-                            alert("שם משתמש או סיסמה לא נכונים");
+                            try {alert_moshavit("דוא'ל או סיסמה לא נכונים",'הודעת מערכת','אישור');}catch(err){alert("דוא'ל או סיסמה לא נכונים");}
                             loading_it('hide');
                             $('#container').css("display", "block");
                             $('#email').val('');
                             $("#email").focus();
                             break;
                         case 500:
-                            alert("דוא'ל לא תקין");
+                            try {alert_moshavit("דוא'ל לא תקין",'הודעת מערכת','אישור');}catch(err){alert("דוא'ל לא תקין");}
                             loading_it('hide');
                             $('#container').css("display", "block");
                             $('#email').val('');
                             $("#email").focus();
                             break;
                         case 200:
-                            alert("אנא בדוק כי קבלת דוא'ל שכולל את הסיסמה והתחבר שוב");
+                            try {alert_moshavit("אנא בדוק כי קבלת דוא'ל שכולל את הסיסמה והתחבר שוב",'הודעת מערכת','אישור');}catch(err){alert("אנא בדוק כי קבלת דוא'ל שכולל את הסיסמה והתחבר שוב");}
                             loading_it('hide');
                             $('#container').css("display", "block");
                             $('#password').val('');
@@ -154,8 +153,6 @@
             }); 
         }
     }
-
-
 </script>
 
 
