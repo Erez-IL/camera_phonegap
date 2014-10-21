@@ -174,6 +174,8 @@ var dynamic_TemplateHBS = function (name, container, t) {
         container = '#' + container;
         loading_it("hide");
         $(container).append(templateWithData);
+//        $('body').append("<div class='scroll-to-top' style='display: block;'>    <img src='img/ico/arrow-up.png' alt='לראש העמוד'></div>");
+        
     });
 
 };
@@ -193,7 +195,25 @@ var getPicture = function () {
         }, function () {
     });
 };
+// Handles the go to top button at the footer
+var handleGoTop = function () {
+    var offset = 300;
+    var duration = 500;
 
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > offset) {
+            $('.scroll-to-top').fadeIn(duration);
+        } else {
+            $('.scroll-to-top').fadeOut(duration);
+        }
+    });
+
+    $('.scroll-to-top').click(function(e) {
+        e.preventDefault();
+        $('html, body').animate({scrollTop: 0}, duration);
+        return false;
+    });
+};
 var vibrate = function (ml) {
     navigator.notification.vibrate(ml);
 };
@@ -360,7 +380,7 @@ Handlebars.registerHelper('isAdmin', function (id) {
     if ( CurrentSessionUser.Type == 1) {
         return ""
     } else {
-        return "style=display:none;"
+        return "display:none;"
     }
 });
 

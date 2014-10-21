@@ -1,10 +1,10 @@
 {{#if this}}
-<div class="visible-desktop" {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
-        onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">משתמש חדש</button> 
+<div class="visible-desktop"  style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
+        style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">משתמש חדש</button> 
     <br><br>
 </div>
-<div class="hidden-desktop"  {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
-        onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">משתמש חדש</button> 
+<div class="hidden-desktop"   style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
+        style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">משתמש חדש</button> 
     <br><br>
 </div>    
 {{#each this}}
@@ -18,7 +18,7 @@
         <div class="span10">
             <strong>שם: {{FirstName}} {{LastName}}</strong><br>
             <span class="text-muted">דוא"ל: {{Email}}</span> <br>
-            <span class="text-muted">טלפון: {{Phone}}</span>
+            <span class="text-muted">טלפון: <a href="tel://{{Phone}}">{{Phone}}</a></span>
 
             <div class="span1 dropdown-user" data-for=".{{IdUser}}">   
                 <i class="icon-chevron-down text-muted"></i>
@@ -61,7 +61,7 @@
                                     </tr>
                                     <tr>
                                         <td>טלפון</td>
-                                        <td>{{Phone}}</td>
+                                        <td><a href="tel://{{Phone}}">{{Phone}}</a></td>
                                     </tr> 
                                     <tr>
                                         <td>סוג משתמש</td>
@@ -245,12 +245,12 @@
 </script> 
 {{else}}
 <div class="well" id="users-tmp">
-    <div class="visible-desktop" {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
-            onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">משתמש חדש</button> 
+    <div class="visible-desktop"  style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
+            style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': '11em'});">משתמש חדש</button> 
         <br><br>
     </div>
-    <div class="hidden-desktop"  {{isAdmin IdUser}} style="text-align: center;"><button class="btn  btn-primary" type="button" 
-            onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">משתמש חדש</button> 
+    <div class="hidden-desktop"   style="text-align: center;{{isAdmin IdUser}}"><button class="btn  btn-primary" type="button" 
+            style="{{isAdmin IdUser}}" onclick="clean_main_container();static_TemplateHBS('register','container');setTimeout(function(){$('#IdUser').val(CurrentSessionUser.IdUser).prop('readonly', true);},2000);$('#container').css({'margin-right': ''});">משתמש חדש</button> 
         <br><br>
     </div>
     <table id="UserTableList" class="users table table-hover tablesorter">
@@ -261,6 +261,12 @@
     </table>
 </div> 
 {{/if}}
+<div class='scroll-to-top' style='display: block;'>    <img src='img/ico/arrow-up.png' alt='לראש העמוד'></div>
+<script>
+    $(function() {
+        handleGoTop();
+    });
+</script>
 
 
 

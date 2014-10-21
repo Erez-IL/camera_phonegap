@@ -54,11 +54,11 @@
             <li><a href="#"  
                 onclick="alert('השרות תחת פיתוח');clean_main_container();dynamic_TemplateHBS('invoice','container','');$('#container').css({'margin-right': '11em'});"
                 ><i class="icon-shopping-cart"></i>&nbsp;חשבונית מים</a></li>
-            <li {{isAdmin 1}}><a href="#"  
+            <li style="{{isAdmin 1}}"><a href="#"  
                 onclick="alert('השרות תחת פיתוח');"
                 ><i class="icon-retweet"></i>&nbsp;גיבוי</a>
             </li> 
-            <li {{isAdmin 1}}><a href="#"  
+            <li style="{{isAdmin 1}}"><a href="#"  
                 onclick="alert('השרות תחת פיתוח');"
                 ><i class="icon-edit"></i>&nbsp;הודעות ועד</a>
             </li>
