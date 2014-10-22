@@ -42,7 +42,8 @@
         function onDeviceReady() {
             document.addEventListener("backbutton", function (e) {
                 e.preventDefault();
-                main_screen();
+                if(CurrentSessionUser["IdUser"]!==undefined)
+                    main_screen();
                 }, false );
         }
     </script>
