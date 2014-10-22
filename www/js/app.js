@@ -313,12 +313,13 @@ Handlebars.registerHelper("getTime", function (date) {
 
     return dateHHII[0]+":"+dateHHII[1];
 });
-Handlebars.registerHelper('base64', function (text,id) {
-    //get text data and check if in base64 -> if true append into img tag and return it else return plain textarea
+Handlebars.registerHelper('base64', function (text) {
+    //get text data and check if in base64 -> if true append into img tag and return it else return plain text
     if (base64Matcher.test(text) && text.length > 150) {
-        return new Handlebars.SafeString("<img id='" + id + "' style='width:150px;height:150px;' src='data:image/jpeg;base64," + text + "'/><br>");
+        text = "<img style='width:150px;height:150px;' src='data:image/jpeg;base64," + text + "'/>";
+        return new Handlebars.SafeString(text);
     } else {
-        return new Handlebars.SafeString("<textarea id='" + id + "' placeholder='הכנס פרטיי מודעה חדשה ...' required='required' style='width: 100%;height: 150px;'>" + text + "</textarea><br>");
+        return text;
     }
 });
 Handlebars.registerHelper('chr-gt', function (str, length, options) {
