@@ -27,8 +27,8 @@ var BulletinBoard = [];
 var Survey = [];
 var GiveAndTake = [];
 
-//var base_url = "http://moshavit.somee.com/api/";
-var base_url = "http://moshavit-001-site1.myasp.net/api/";
+var base_url = "http://moshavit.somee.com/api/";
+//var base_url = "http://moshavit-001-site1.myasp.net/api/";
 
 var loading_it = function (op) {
     if ($('#container-head1').val() === undefined) {
