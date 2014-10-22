@@ -512,17 +512,3 @@ $(document).ready(function () {
         }
     }
 });
-
-
-//var getPicture = function () {
-//    navigator.camera.getPicture(function () {
-//        }, function () {
-//    });
-//};
-//var vibrate = function (ml) {
-//    navigator.notification.vibrate(ml);
-//};
-//var beep_it = function (times) {
-//    navigator.notification.beep(times);
-//};
-
