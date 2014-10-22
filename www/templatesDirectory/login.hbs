@@ -75,6 +75,15 @@
                     main_screen();
                     setCookie("Email", CurrentSessionUser.Email);
                     setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstName+" "+CurrentSessionUser.LastName);},1000);
+                    document.addEventListener("deviceready", onDeviceReady, false);
+                    function onDeviceReady() {
+                        if(CurrentSessionUser["IdUser"]!==undefined){
+                            document.addEventListener("backbutton", function (e) {
+                                e.preventDefault();
+                                main_screen();
+                                }, false );
+                        }
+                    }
                 },
                 error: function (xhr, errorType, thrownError) {
                     if (Debug_mode) {console.log(xhr);}
@@ -149,19 +158,6 @@
             }); 
         }
     }
-    
-    <script type="text/javascript">
-        document.addEventListener("deviceready", onDeviceReady, false);
-        function onDeviceReady() {
-            if(CurrentSessionUser["IdUser"]!==undefined){
-                document.addEventListener("backbutton", function (e) {
-                    e.preventDefault();
-                    main_screen();
-                    }, false );
-            }
-        }
-    </script>
-    
 </script>
 
 
