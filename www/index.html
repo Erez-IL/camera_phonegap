@@ -40,12 +40,12 @@
     <script type="text/javascript">
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady() {
-            document.addEventListener("backbutton", function (e) {
-                if(CurrentSessionUser["IdUser"]!==undefined){
+            if(CurrentSessionUser["IdUser"]!==undefined){
+                document.addEventListener("backbutton", function (e) {
                     e.preventDefault();
                     main_screen();
-                }
-            }, false );
+                    }, false );
+            }
         }
     </script>
 
