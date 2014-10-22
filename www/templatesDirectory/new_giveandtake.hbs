@@ -10,21 +10,21 @@
         <input type="text" id="Content" value="{{Content}}" placeholder="הכנס תוכן" required="required" style="width: 100%;">
     </div>
     <div class="textarea-prepend">
-        <label for="Image1">תמונה/פרטים 1</label>
+        <label for="Image1">תמונה 1</label>
         {{base64 Image1 "Image1"}}
         <input type="button" class="send-image1 hidden-desktop" value="מצלמה" />
         <input type="button" class="send-image1 hidden-desktop" value="מאלבום תמונות" />
         <img style="width:100px;height:100px;display: none;" class="hidden-desktop" id="image01" />
     </div>
     <div class="textarea-prepend">
-        <label for="Image2">תמונה/פרטים 2</label>
+        <label for="Image2">תמונה 2</label>
         {{base64 Image2 "Image2"}}
         <input type="button" class="send-image2 hidden-desktop" value="מצלמה" />
         <input type="button" class="send-image2 hidden-desktop" value="מאלבום תמונות" />
         <img style="width:100px;height:100px;display: none;" class="hidden-desktop" id="image02" />
     </div>
     <div class="textarea-prepend">
-        <label for="Image3">תמונה/פרטים 3</label>
+        <label for="Image3">תמונה 3</label>
         {{base64 Image3 "Image3"}}
         <input type="button" class="send-image3 hidden-desktop" value="מצלמה" />
         <input type="button" class="send-image3 hidden-desktop" value="מאלבום תמונות" />
@@ -38,26 +38,11 @@
 <script type="text/javascript">
     $("#Title").focus();
     var stringifyUserJSON = function () {
-        var image1 =  $('#Image1').val();
-        var image2 =  $('#Image2').val();
-        var image3 =  $('#Image3').val();
-        if($('#Image1').prop('tagName')==="IMG"){
-            image1 = $('#Image1').prop('src').split("base64,");
-            image1 = image1[1];
-        }
-        if($('#Image2').prop('tagName')==="IMG"){
-            image2 = $('#Image2').prop('src').split("base64,");
-            image2 = image2[1];
-        }
-        if($('#Image3').prop('tagName')==="IMG"){
-            image3 = $('#Image2').prop('src').split("base64,");
-            image3 = image3[1];
-        }
         tjson={
             "Content": $('#Content').val(),
-            "Image1": image1,
-            "Image2": image2,
-            "Image3": image3,
+            "Image1": $('#Image1').val(),
+            "Image2": $('#Image2').val(),
+            "Image3": $('#Image3').val(),
             "IdUser": $('#IdUser').val(),
             "Title": $('#Title').val()
         };
