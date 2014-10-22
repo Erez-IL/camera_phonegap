@@ -27,7 +27,8 @@ var BulletinBoard = [];
 var Survey = [];
 var GiveAndTake = [];
 
-var base_url = "http://moshavit.somee.com/api/";
+//var base_url = "http://moshavit.somee.com/api/";
+var base_url = "http://moshavit-001-site1.myasp.net/api/";
 
 var loading_it = function (op) {
     if ($('#container-head1').val() === undefined) {
@@ -245,13 +246,20 @@ var confirm_moshavit_exit_callback = function (op) {
 };
 
 var getByID = function (arr, key, value) {
-
+    //get array,key,value return array contain result
     var result = [];
     arr.forEach(function (o) {
         if (o[key] == value) result.push(o);
     });
     return result ? result[0] : null; // or undefined
 
+};
+var DeleteByID = function (arr, key, value) {
+    //get array,key,value return true,false
+    for(i=0;i<arr.length;i++){
+        if (arr[i][key]==value) return arr.pop(i);
+    }
+    return false;
 };
 
 var base64Matcher = new RegExp("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$");
@@ -262,6 +270,7 @@ var validateEmail = function (email) {
 Handlebars.registerHelper("math", function (lvalue, operator, rvalue, options) {
     lvalue = parseFloat(lvalue);
     rvalue = parseFloat(rvalue);
+    if(lvalue==0 || rvalue==0)return 0;
 
     return {
         "t": Math.round(lvalue / Users.length * 10000) / 100,
@@ -304,13 +313,12 @@ Handlebars.registerHelper("getTime", function (date) {
 
     return dateHHII[0]+":"+dateHHII[1];
 });
-Handlebars.registerHelper('base64', function (text) {
-    //get text data and check if in base64 -> if true append into img tag and return it else return plain text
+Handlebars.registerHelper('base64', function (text,id) {
+    //get text data and check if in base64 -> if true append into img tag and return it else return plain textarea
     if (base64Matcher.test(text) && text.length > 150) {
-        text = "<img style='width:150px;height:150px;' src='data:image/jpeg;base64," + text + "'/>";
-        return new Handlebars.SafeString(text);
+        return new Handlebars.SafeString("<img id='" + id + "' style='width:150px;height:150px;' src='data:image/jpeg;base64," + text + "'/><br>");
     } else {
-        return text;
+        return new Handlebars.SafeString("<textarea id='" + id + "' placeholder='הכנס פרטיי מודעה חדשה ...' required='required' style='width: 100%;height: 150px;'>" + text + "</textarea><br>");
     }
 });
 Handlebars.registerHelper('chr-gt', function (str, length, options) {
@@ -391,6 +399,13 @@ Handlebars.registerHelper('isAdmin', function (id) {
         return ""
     } else {
         return "display:none;"
+    }
+});
+Handlebars.registerHelper('isSurveyActive', function (isActive) {
+    if ( isActive) {
+        return "active.png"
+    } else {
+        return "notactive.png"
     }
 });
 

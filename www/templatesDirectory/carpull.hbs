@@ -145,10 +145,10 @@
                                 loading_it('hide'); 
                                 break;
                             case 200:
+                                console.log(DeleteByID(CarPull,"IdMessage",IdMessage));
                                 try {alert_moshavit('הודעה נמחקה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הודעה נמחקה בהצלחה');}
                                 main_screen();
                                 update_data("carpull");
-                                if (Debug_mode) {console.log(survey);}
                                 break;
                         }
                     }

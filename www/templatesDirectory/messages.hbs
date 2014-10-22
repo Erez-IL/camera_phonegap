@@ -63,7 +63,7 @@
                                         </tr>
                                         <tr>
                                             <td>פרטים/תמונה:</td>
-                                            <td>{{base64 Details}}</td>
+                                            <td>{{#if Details}}{{base64 Details "Details"}}{{/if}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -136,10 +136,10 @@
                                 loading_it('hide'); 
                                 break;
                             case 200:
+                                console.log(DeleteByID(BulletinBoard,"IdMessage",IdMessage));
                                 try {alert_moshavit('הודעה נמחקה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הודעה נמחקה בהצלחה');}
                                 main_screen();
                                 update_data("bulletinboard");
-                                if (Debug_mode) {console.log(survey);}
                                 break;
                         }
                     }

@@ -12,6 +12,8 @@
                 alt="Survey" style="width:100px;height: 100px;float: left;">
         </div>
         <div class="span10">
+            <img src="/img/ico/{{isSurveyActive IsActive}}" border="0">
+            <span class="text-muted">סטטוס : {{memberType TypeMember}}ים</span><br>
             <span class="text-muted">עבור : {{memberType TypeMember}}ים</span><br>
             <span class="text-muted">נוצר ע"י : {{VadName}}</span><br>
             <span class="text-muted">השאלה: {{Question}}</span><br>
@@ -170,10 +172,10 @@
                                 loading_it('hide'); 
                                 break;
                             case 200:
+                                console.log(DeleteByID(Survey,"IdSurvey",IdSurvey));
                                 try {alert_moshavit('הסקר נמחק בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הסקר נמחק בהצלחה');}
                                 main_screen();
                                 update_data("survey");
-                                if (Debug_mode) {console.log(survey);}
                                 break;
                         }
                     }

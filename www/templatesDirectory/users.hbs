@@ -133,10 +133,10 @@
                                 loading_it('hide'); 
                                 break;
                             case 200:
+                                console.log(DeleteByID(Users,"IdUser",IdUser));
                                 try {alert_moshavit('המשתמש נמחק בהצלחה','הודעת מערכת','אישור');}catch(err){alert('המשתמש נמחק בהצלחה');}
                                 main_screen();
                                 update_data("users");
-                                if (Debug_mode) {console.log(survey);}
                                 break;
                         }
                     }

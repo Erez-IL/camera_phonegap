@@ -60,19 +60,19 @@
                                         {{#if Image1}}
                                         <tr>
                                             <td>תמונה 1:</td>
-                                            <td>{{base64 Image1}}</td>
+                                            <td>{{base64 Image1 "Image1"}}</td>
                                         </tr> 
                                         {{/if}}
                                         {{#if Image2}}
                                         <tr>
                                             <td>תמונה 2:</td>
-                                            <td>{{base64 Image2}}</td>
+                                            <td>{{base64 Image2 "Image2"}}</td>
                                         </tr>
                                         {{/if}}
                                         {{#if Image3}}
                                         <tr>
                                             <td>תמונה 3:</td>
-                                            <td>{{base64 Image3}}</td>
+                                            <td>{{base64 Image3 "Image3"}}</td>
                                         </tr>
                                         {{/if}}
 
@@ -96,69 +96,69 @@
     {{/each}}
 </div>
 <script type="text/javascript">
-var panels = $('.user-infos');
-var panelsButton = $('.dropdown-user');
-panels.hide();
-//Click dropdown
-panelsButton.click(function () {
-    //get data-for attribute
-    var dataFor = $(this).attr('data-for');
-    var idFor = $(dataFor);
-    //current button
-    var currentButton = $(this);
-    idFor.slideToggle(400, function () {
-        //Completed slidetoggle
-        if (idFor.is(':visible')) {
-            currentButton.html('<i class="icon-chevron-up text-muted"></i>');
-        } else {
-            currentButton.html('<i class="icon-chevron-down text-muted"></i>');
-        }
-    })
-});
+    var panels = $('.user-infos');
+    var panelsButton = $('.dropdown-user');
+    panels.hide();
+    //Click dropdown
+    panelsButton.click(function () {
+        //get data-for attribute
+        var dataFor = $(this).attr('data-for');
+        var idFor = $(dataFor);
+        //current button
+        var currentButton = $(this);
+        idFor.slideToggle(400, function () {
+            //Completed slidetoggle
+            if (idFor.is(':visible')) {
+                currentButton.html('<i class="icon-chevron-up text-muted"></i>');
+            } else {
+                currentButton.html('<i class="icon-chevron-down text-muted"></i>');
+            }
+        })
+    });
 
-var DELETE_msg = function(IdMessage,IdUser){
-    if(CurrentSessionUser.Type===1 || CurrentSessionUser.IdUser==IdUser) 
-    {
-        if(confirm("לא ניתן לאחזר מידע לאחר המחיקה")) 
-            $.ajax({
-                type: "DELETE",
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                url: base_url+"giveandtake/"+IdMessage,
-                data: JSON.stringify({"IdMessage":IdMessage}),
-                success: function (data) {
-                    // Do something....
-                    if (Debug_mode) {console.log(IdMessage);}
-                },
-                error: function (xhr, errorType, thrownError) {
-                    if (Debug_mode) {console.log(xhr);}
-                    switch (xhr.status) {
-                        case 404:
-                            try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
-                            break;
-                        case 400:
-                            try {alert_moshavit('לא ניתן למחוק הודעה זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק הודעה זה');}
-                            $('#container').css("display", "block");
-                            loading_it('hide');
-                            break;
-                        case 500:
-                            try {alert_moshavit('לא ניתן למחוק הודעה זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק הודעה זה');}
-                            $('#container').css("display", "block");
-                            loading_it('hide'); 
-                            break;
-                        case 200:
-                            try {alert_moshavit('הודעה נמחקה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הודעה נמחקה בהצלחה');}
-                            main_screen();
-                            update_data("giveandtake");
-                            if (Debug_mode) {console.log(survey);}
-                            break;
+    var DELETE_msg = function(IdMessage,IdUser){
+        if(CurrentSessionUser.Type===1 || CurrentSessionUser.IdUser==IdUser) 
+        {
+            if(confirm("לא ניתן לאחזר מידע לאחר המחיקה")) 
+                $.ajax({
+                    type: "DELETE",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    url: base_url+"giveandtake/"+IdMessage,
+                    data: JSON.stringify({"IdMessage":IdMessage}),
+                    success: function (data) {
+                        // Do something....
+                        if (Debug_mode) {console.log(IdMessage);}
+                    },
+                    error: function (xhr, errorType, thrownError) {
+                        if (Debug_mode) {console.log(xhr);}
+                        switch (xhr.status) {
+                            case 404:
+                                try {alert_moshavit('404','הודעת מערכת','אישור');}catch(err){alert('404');}
+                                break;
+                            case 400:
+                                try {alert_moshavit('לא ניתן למחוק הודעה זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק הודעה זה');}
+                                $('#container').css("display", "block");
+                                loading_it('hide');
+                                break;
+                            case 500:
+                                try {alert_moshavit('לא ניתן למחוק הודעה זה','הודעת מערכת','אישור');}catch(err){alert('לא ניתן למחוק הודעה זה');}
+                                $('#container').css("display", "block");
+                                loading_it('hide'); 
+                                break;
+                            case 200:
+                                console.log(DeleteByID(GiveAndTake,"IdMessage",IdMessage));
+                                try {alert_moshavit('הודעה נמחקה בהצלחה','הודעת מערכת','אישור');}catch(err){alert('הודעה נמחקה בהצלחה');}
+                                main_screen();
+                                update_data("giveandtake");
+                                break;
+                        }
                     }
-                }
-            })
+                })
+        }
+        else
+            try {alert_moshavit('אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת','הודעת מערכת','אישור');}catch(err){alert('אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת');}
     }
-    else
-        try {alert_moshavit('אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת','הודעת מערכת','אישור');}catch(err){alert('אין באפשרותך למחוק הודעות,\nאנא פנה למנהל המערכת');}
-}
 </script>
 {{else}}
 <div class="well">
