@@ -467,6 +467,7 @@ var latest_news = function () {
             var templateWithData = template(data);
             $(container).append(templateWithData);
             $(container).find('button').remove();
+            $('.dropdown-user').remove();
         });  
     };                             
     var container = '#container';

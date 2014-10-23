@@ -128,14 +128,16 @@
                                 case 200:
                                     try {alert_moshavit('הרישום בוצע בהצלחה,\nהנך מועבר למערכת','הודעת מערכת','אישור');}catch(err){alert('הרישום בוצע בהצלחה,\nהנך מועבר למערכת');}
                                     if (Debug_mode) {console.log(register_details);}
-                                    CurrentSessionUser = JSON.parse(register_details);
-                                    $.post(base_url+"login", {Email:CurrentSessionUser.Email,Password:CurrentSessionUser.Password}, function(data) {CurrentSessionUser=data});
+                                    if(CurrentSessionUser["Type"]===undefined){
+                                        CurrentSessionUser = JSON.parse(register_details);
+                                        $.post(base_url+"login", {Email:CurrentSessionUser.Email,Password:CurrentSessionUser.Password}, function(data) {CurrentSessionUser=data});                                        
+                                    }
                                     clean_body();
                                     add_containers_to_body();
                                     static_TemplateHBS('desktop_menu', 'container-head');
                                     static_TemplateHBS("phone_menu", 'container');
                                     update_data("users");
-                                    setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstNmae+" "+CurrentSessionUser.LastName)},3000);
+                                    setTimeout(function(){$('#sessionUsername').text('שלום '+CurrentSessionUser.FirstName+" "+CurrentSessionUser.LastName)},1000);
                                     break;
                             }
                         }
